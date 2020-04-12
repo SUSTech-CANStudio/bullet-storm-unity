@@ -4,22 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using ParticleStorm.Core;
+using Random = UnityEngine.Random;
 
 namespace ParticleStorm.Util
 {
-	public static class Filters
+	internal static class Filters
 	{
-		public enum OverlayMode
-		{
-			COVER,
-			ADD,
-			MINUS,
-			MULTIPLY,
-			DIVIDE,
-			AVERAGE
-		}
-
 		/// <summary>
 		/// The empty generator.<para/>
 		/// Create an empty emission parameters list.
@@ -106,6 +96,21 @@ namespace ParticleStorm.Util
 			{
 				@params[i].startSize = Operate(@params[i].startSize, fromSize + dsize * i, mode);
 			});
+			return @params;
+		}
+
+		/// <summary>
+		/// The random size filter.
+		/// </summary>
+		/// <param name="params"></param>
+		/// <param name="min">Random min.</param>
+		/// <param name="max">Random max.</param>
+		/// <param name="mode"></param>
+		/// <returns></returns>
+		public static List<EmitParams> RandomSize(List<EmitParams> @params, float min, float max, OverlayMode mode = OverlayMode.COVER)
+		{
+			for (int i = 0; i < @params.Count; i++)
+				@params[i].startSize = Operate(@params[i].startSize, Random.Range(min, max), mode);
 			return @params;
 		}
 

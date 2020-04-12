@@ -11,13 +11,14 @@ namespace ParticleStorm
 		[Tooltip("Use particle system to generate particle is faster.\nUse game object may have more options.")]
 		internal bool useParticleSystem = true;
 		[SerializeField]
-		internal BasicModule basicModule;
-
-		internal ParticlePrefeb(BasicModule basic) => basicModule = basic;
+		private BasicModule basicModule;
+		[SerializeField]
+		private ScriptModule scriptModule;
 
 		internal void Bind(IParticleSystem particleSystem)
 		{
-			particleSystem.AddModule(basicModule);
+			particleSystem.ApplicateModule(basicModule);
+			particleSystem.ApplicateModule(scriptModule);
 		}
 	}
 }

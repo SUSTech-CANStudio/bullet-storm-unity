@@ -13,12 +13,7 @@ namespace ParticleStorm.Core
 	/// </summary>
 	class GOParticleSystem : MonoBehaviour, IParticleSystem
 	{
-		public void AddModule(IParticleModule module)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void DeleteModule(IParticleModule module)
+		public void ApplicateModule(IParticleModule module)
 		{
 			throw new NotImplementedException();
 		}

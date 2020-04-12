@@ -9,15 +9,9 @@ namespace ParticleStorm.Core
 	interface IParticleSystem : IParticle
 	{
 		/// <summary>
-		/// Add a module to the particle system.
+		/// Applicate a module to the particle system.
 		/// </summary>
 		/// <param name="module"></param>
-		void AddModule(IParticleModule module);
-
-		/// <summary>
-		/// Delete a module from the particle system.
-		/// </summary>
-		/// <param name="module"></param>
-		void DeleteModule(IParticleModule module);
+		void ApplicateModule(IParticleModule module);
 	}
 }

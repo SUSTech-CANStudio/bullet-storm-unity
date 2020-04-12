@@ -2,96 +2,136 @@
 
 *粒子风暴* 中文帮助手册
 
-## 简介
+## 目录
 
-更好用的粒子系统，为三维情况下的弹幕游戏设计
-
-- 特性
-  - 可以为每个粒子单独编写脚本
-  - 极低的性能开销
-  - 方便的全局和局部粒子控制方法
-  - 可将编写好的粒子风暴存为文件（待实现）
-- 基本概念
-  - 粒子`Particle`：您可以创建一类粒子，它们具有同一个脚本定义的行为模式和相同的材质
-  - 风暴`Storm`：粒子的整体运动称为风暴，风暴是设置粒子行为的基本单位，一个风暴可以包含多种粒子和行为方式
-  - 风暴发生器`StormGenerator`：用于在游戏引擎中形成风暴的组件，同一个风暴可以在不同的发生器被生成，一个发生器可以生成多个风暴
-  - 发射参数`EmitParams`：和Unity引擎的`ParticleSystem.EmitParams`类似，`EmitParams`的列表用于表示一个发射行为需要的参数，但您不必亲自创建这个列表，有写好的过滤器`Filters`来替您创建
+[toc]
 
 ## 命名空间
 
-- [`ParticleStorm`](./)：经常需要用到的基本类型放在这个命名空间中
-  - [`ParticleStorm.Factories`](./Factories)：工厂类的存放位置，`Particle`必须从工厂被创建
+- 可能会用到的命名空间
+  - [`ParticleStorm`](./)：经常需要用到的基本类型放在这个命名空间中
+  - [`ParticleStorm.Script`](./Script)：为粒子创建脚本需要用到的类
   - [`ParticleStorm.Util`](./Util)：设置和一些实用工具
-  - [`ParticleStorm.Core`](./Core)：核心代码，您一般不会用到
 
 ## API文档
 
 ### `ParticleStorm` 命名空间
 
-#### `APParticle` 类
+#### `Particle` 类
 
-基于`ParticleSystem`的粒子抽象类，粒子脚本可以继承这个类
-
-注意：没有构造器，必须从`ParticleFactory`创建实例
+粒子可以用于发射。粒子可以添加各种模块，包括脚本。
 
 ##### 属性
 
-- `updateMode`：枚举类型，脚本调用方式，根据Unity的刷新方式有三种选择：`Update`，`FixedUpdate`，和`LateUpdate`
-  - get，set
-- `materials`：粒子材质数组
-  - get，set
-- `material`：粒子材质，有多个材质时指第一个
-  - get，set
-- `trigger`：与粒子trigger有关的设置，详见[TriggerModule](https://docs.unity3d.com/ScriptReference/ParticleSystem.TriggerModule.html)
+- `name`：粒子的名字
   - get
-- `main`：粒子系统的基本设置，详见[MainModule](https://docs.unity3d.com/ScriptReference/ParticleSystem.MainModule.html)
+  - set
+
+##### 方法
+
+- `Particle()`：创建一个空的粒子
+- `Particle(string name)`：创建一个空的粒子
+  - `name`：粒子名字
+- `Particle(ParticlePrefeb prefeb)`：根据预设创建一个粒子，并默认以预设名字作为粒子名字
+  - `prefeb`：粒子的预设
+- `Particle(string name, ParticlePrefeb prefeb)`：根据预设创建一个粒子，但使用自定义的名字
+  - `name`：粒子名字
+  - `prefeb`：粒子的预设
+- `Find(string name)`：根据名字获取粒子
+  - 静态方法
+  - `name`：粒子名字
+  - 返回`Particle`：获取到的粒子
+- `SetPrefeb(ParticlePrefeb prefeb, bool destroy = true)`：设置粒子的预设
+  - `prefeb`：粒子的预设
+  - `destroy`：是否销毁之前的预设对象。默认为true，如果之前的预设对象还将被其它粒子使用，请改为false
+- `Emit(EmitParams emitParams, int num)`：发射该粒子
+  - `emitParams`：粒子的初始参数
+  - `num`：发射的数量
+
+#### `ParticlePrefeb` 类
+
+粒子预设
+
+提供图形界面，在项目资源管理器中单击右键→创建→`ParticlePrefeb`
+
+#### `EmitList` 类
+
+发射参数`EmitParams`的列表，用于创建和调整粒子发射参数
+
+##### 属性
+
+- `List<EmitParams> list`：发射参数的列表
+  - get
+- `EmitParams this[int index]`：列表项
+  - get
+  - set
+- `int Count`：参数数量
   - get
 
 ##### 方法
 
-- `ParticleStart()`：在粒子系统初始化时被调用，可以进行初始设定
-  - 抽象方法，必须被重写
-- `ParticleUpdate()`：粒子更新时被调用，具体调用时间取决于`updateMode`
-  - 抽象方法，必须被重写
-  - `self`：代表粒子的参数，可使用脚本获取和修改属性，详见[ParticleModule](https://docs.unity3d.com/ScriptReference/ParticleSystem.Particle.html)
-  - 注意：此方法中使用`MonoBehavior`相关函数无效
-- `OnEnter()`：粒子进入碰撞体时调用
-  - 可重写
-- `OnExit()`：粒子离开碰撞体时调用
-  - 可重写
-- `OnInside()`：粒子在碰撞体内时调用
-  - 可重写
-- `OnOutside()`：粒子在碰撞体外时调用
-  - 可重写
+- `EmitList(int num)`：创建指定长度的发射参数列表
+  - `num`：发射粒子的数量
+- `Cone(int num, float radius, float theta, float speed)`：圆锥生成器
+  - 静态方法
+  - `radius`：生成点与原点距离（圆锥母线长）
+  - `theta`：圆锥半顶角（角度制）
+  - `speed`：粒子初始速度
+  - 返回`EmitList`：生成的参数列表
+- `ConeFilter(float radius, float theta, float speed, OverlayMode mode = OverlayMode.COVER)`：圆锥过滤器
+  - `radius`：生成点与原点距离（圆锥母线长）
+  - `theta`：圆锥半顶角（角度制）
+  - `speed`：粒子初始速度
+  - `mode`：叠加方式
+  - 返回`EmitList`：自身
+- `SizeFilter(float size, OverlayMode mode = OverlayMode.COVER)`：尺寸过滤器
+  - `size`：粒子大小
+  - `mode`：叠加方式
+  - 返回`EmitList`：自身
+- `SizeFilter(float fromSize, float toSize, OverlayMode mode = OverlayMode.COVER)`：渐变尺寸过滤器
+  - `fromSize`：起始大小
+  - `toSize`：末尾大小
+  - `mode`：叠加方式
+  - 返回`EmitList`：自身
+- `RandomSizeFilter(float min, float max, OverlayMode mode = OverlayMode.COVER)`：随机尺寸过滤器
+  - `min`：最小尺寸
+  - `max`：最大尺寸
+  - `mode`：叠加方式
+  - 返回`EmitList`：自身
+- 重载运算符：（所有运算结果均为浅拷贝）
+  - 与自身类型：+
+  - 与`int`类型：*
 
-#### `AOParticle` 类
-
-基于`GameObject`的粒子抽象类，粒子脚本可以继承这个类，效率较低
-
-（待实现）
 
 #### `Storm` 类
 
-风暴类，粒子行为的基本单位
+风暴类，描述粒子行为
 
 ##### 属性
 
-- `name`：风暴的名字
+- `string name`：风暴的名字
+  - get
+  - set
+- `bool sorted`：风暴行为是否已经排序完毕
   - get
 
 ##### 方法
 
-- `Storm(string name)`：构造器，创建一个空的`Storm`对象
+- `Storm()`：创建一个空的`Storm`对象
+
+- `Storm(string name)`：创建一个空的`Storm`对象
   - `name`：风暴的名字
 - `Find(string name)`：根据名字获取一个已有的风暴
   - 静态方法
   - `name`：要获取的风暴名字
-  - 返回：获取到的风暴对象，若不存在，抛出异常并返回`null`
-- `AddBehavior(float startTime, List<EmitParams> emitParams, IParticle particle, float gap = 0)`：为风暴添加一个行为
+  - 返回`Storm`：获取到的风暴对象
+- `AddBehavior(float startTime, EmitList emitList, Particle particle, float gap = 0)`：为风暴添加一个行为
   - `startTime`：行为开始时间，相对于风暴开始时间计算，单位秒
-  - `emitParams`：发射参数，常通过`ParticleStorm.Util.Filters`获取
-  - `particle`：被发射的粒子种类
-  - `gap`：单个粒子发射间隔，可选，0为同时发射
+  - `emitList`：发射参数列表
+  - `particle`：被发射的粒子
+  - `gap`：单个粒子发射间隔，可选，默认0为同时发射所有粒子
+  - 返回`Storm`：该风暴本身
+- `Sort()`：排序风暴中的行为，为风暴的生成做好准备，即使不调用这个方法，风暴也会在生成前自动排序。如果希望不受到排序消耗时间影响，在调用`StormGenerator:Generate()`的瞬间开始生成风暴，您可以提前手动调用这个方法。
 
 #### `StormGenerator` 类
 
@@ -100,66 +140,74 @@
 - `Generate(Storm storm)`：生成风暴
   - `storm`：要生成的风暴
 
-### `ParticleSystm.Factories` 命名空间
+### `ParticleStorm.Script` 命名空间
 
-#### `ParticleFactory` 类
+#### `ParticleScript` 静态类
 
-粒子工厂，所有`Particle`应该在这里创建
+用于将方法注册为粒子脚本
+
+##### 定义
+
+- `delegate void Script(ParticleStatus particle)`：脚本代理
+  - `particle`：储存粒子参数，用于脚本操作的对象
+
+##### 方法
+
+- `AddUpdateScript(Script script)`：注册一个每帧调用的脚本
+  - `script`：用作脚本的函数
+- `AddTrigger(Script script)`：注册一个作为触发的脚本
+  - `script`：用作脚本的函数
+
+#### `ParticleStatus` 类
+
+表示粒子状态，用于脚本操作
 
 ##### 属性
 
-- `particleTag`：创建粒子游戏物体时使用的Tag
+- `Vector3 position`：粒子的坐标
   - get
+  - set
+- `Vector3 velocity`：粒子的速度
+  - get
+  - set
+- `Vector3 rotation`：粒子的旋转
+  - get
+  - set
+- `Vector3 angularVelocity`：粒子的旋转速度
+  - get
+  - set
+- `float remainingLifetime`：粒子剩余存在时间
+  - get
+  - set
+- `float startLifetime`：粒子初始存在时间
+  - get
+  - set
+- `Color32 color`：粒子颜色
+  - get
+- `Color32 startColor`：粒子初始颜色
+  - get
+  - set
+- `float size`：粒子尺寸
+  - get
+- `float startSize`：粒子初始尺寸
+  - get
+  - set
+- `float meshIndex`：粒子使用模型序号
+  - get
+  - set
 
-##### 方法
+### `ParticleStorm.Util` 命名空间
 
-- `GetParticle(string name)`：获取一个粒子
-  - `name`：要获取的粒子名字
-  - 返回：得到的粒子对象，若不存在，抛出异常并返回`null`
-- `NewParticle<T>(string name)`：根据类型创建一个粒子
-  - `T`：粒子的类型
-  - `name`：粒子名字
-  - 返回：创建的粒子，若粒子已存在，抛出异常并返回`null`
-- `NewParticle(GameObject prefeb)`：从`prefeb`创建一个粒子
-  - `prefeb`：带有粒子组件的`GameObject`
-  - 返回：创建的粒子，若创建失败，抛出异常并返回`null`
-  - **注意**：由于Unity的特性，从`prefeb`创建的粒子名称会带有`(copy)`后缀，并非`prefeb`中游戏物体的名称
+#### `OverlayMode` 枚举类
 
-### `ParticleSystm.Util` 命名空间
+`EmitList`中过滤器的叠加模式
 
-#### `Filters` 类
-
-静态工具类，过滤器，用于产生和修改`emitParams`
-
-##### 枚举类型
-
-- `OverlayMode`：叠加方式
-  - `COVER`：覆盖
-  - `ADD`：叠加
-  - `MINUS`：消去
-  - `MULTIPLY`：求积
-  - `DIVIDE`：求商
-  - `AVERGE`：平均
-
-##### 方法
-
-所有方法返回值均为`emitParams`列表。
-
-所有生成器第一个参数都是粒子数量。所有过滤器第一个参数都是被修改的`emitParams`列表，最后一个参数都是过滤器叠加方式。这两个参数文档中将不再赘述。
-
-- `Empty(int num)`：空生成器
-
-- `Cone(int num, float radius, float theta, float speed)`：圆锥生成器
-  - `radius`：生成点与原点距离（圆锥母线长）
-  - `theta`：圆锥半顶角（角度制）
-  - `speed`：粒子初始速度
-- `Cone(List<EmitParams> @params, float radius, float theta, float speed, OverlayMode mode = OverlayMode.COVER)`：圆锥过滤器
-  - 参数与圆锥生成器相同
-- `Size(List<EmitParams> @params, float size, OverlayMode mode = OverlayMode.COVER)`：尺寸过滤器
-  - `size`：粒子大小
-- `Size(List<EmitParams> @params, float fromSize, float toSize, OverlayMode mode = OverlayMode.COVER)`：渐变尺寸过滤器
-  - `fromSize`：起始大小
-  - `toSize`：末尾大小
+- COVER：覆盖
+- ADD：数值相加
+- MINUS：数值相减
+- MULTIPLY：乘算
+- DIVIDE：除算
+- AVERAGE：数值平均
 
 #### `Sphere` 类
 

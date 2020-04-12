@@ -15,10 +15,10 @@ namespace ParticleStorm
 	{
 		public string name { get => m_Name; set { Register(value); } }
 
-		public Particle(bool use_ps = true) { InitParticleSystem(); }
+		public Particle() { InitParticleSystem(); }
 
-		public Particle(string name, bool use_ps = true) { Register(name); InitParticleSystem(); }
-
+		public Particle(string name) { Register(name); InitParticleSystem(); }
+		
 		public Particle(ParticlePrefeb prefeb)
 		{
 			InitParticleSystem();
@@ -44,15 +44,13 @@ namespace ParticleStorm
 		/// </summary>
 		/// <param name="name">Particle name.</param>
 		/// <returns></returns>
+		/// <exception cref="KeyNotFoundException"/>
 		public static Particle Find(string name)
 		{
 			if (dict.TryGetValue(name, out Particle particle))
 				return particle;
 			else
-			{
-				Debug.LogError("Can't find particle " + name);
-				return default;
-			}
+				throw new KeyNotFoundException("Can't find particle " + name);
 		}
 
 		/// <summary>
@@ -60,8 +58,11 @@ namespace ParticleStorm
 		/// </summary>
 		/// <param name="prefeb">The particle prefeb.</param>
 		/// <param name="destroy">If the particle already have a prefeb, destroy the former prefeb when setting new prefeb.</param>
+		/// <exception cref="ArgumentNullException"/>
 		public void SetPrefeb(ParticlePrefeb prefeb, bool destroy = true)
 		{
+			if (prefeb is null || prefeb == default)
+				throw new ArgumentNullException(nameof(prefeb), "Particle prefeb can not be null.");
 			if (m_ParticlePrefeb != null && destroy)
 				ParticlePrefeb.Destroy(m_ParticlePrefeb);
 			m_ParticlePrefeb = prefeb;

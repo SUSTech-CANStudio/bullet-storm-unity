@@ -1,10 +1,9 @@
-﻿using System;
+﻿using ParticleStorm.Util;
+using ParticleStorm.Modules;
+using ParticleStorm.Script;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using ParticleStorm.Util;
 
 namespace ParticleStorm.Core
 {
@@ -18,14 +17,12 @@ namespace ParticleStorm.Core
 		/// </summary>
 		public ParticleSystem.MainModule main { get => ps.main; }
 
-		public void Awake()
-		{
-			InitializeIfNeeded();
-		}
+		#region modules
+		public ScriptModule scriptModule;
+		#endregion
 
 		public void Emit(EmitParams emitParams, int num) => ps.Emit(emitParams.full, num);
-		public void AddModule(IParticleModule module) => module.AddOn(this);
-		public void DeleteModule(IParticleModule module) => module.DeleteFrom(this);
+		public void ApplicateModule(IParticleModule module) => module.ApplicateOn(this);
 
 		private void InitializeIfNeeded()
 		{
@@ -48,6 +45,81 @@ namespace ParticleStorm.Core
 
 			if (m_Particles == null || m_Particles.Length < ps.main.maxParticles)
 				m_Particles = new ParticleSystem.Particle[ps.main.maxParticles];
+		}
+
+		private void InvokeScript(ParticleScript.Script script, List<ParticleStatus> particles, bool parallel)
+		{
+			if (parallel)
+				Parallel.ForEach(particles, (particle) => { script(particle); });
+			else
+				foreach (ParticleStatus particle in particles) script(particle);
+		}
+
+		private void Awake()
+		{
+			InitializeIfNeeded();
+		}
+
+		private void Update()
+		{
+			if (scriptModule != null && scriptModule.enabled && scriptModule.updateScript != null)
+			{
+				InitializeIfNeeded();
+				// Get particles
+				List<ParticleStatus> particles = new List<ParticleStatus>();
+				int num = ps.GetParticles(m_Particles);
+				for (int i = 0; i < num; i++)
+					particles.Add(new ParticleStatus(m_Particles[i], ps));
+				// Invoke
+				InvokeScript(scriptModule.updateScript, particles, scriptModule.parallelUpdate);
+				// Set particles
+				for (int i = 0; i < num; i++)
+					particles[i].ToParticle(ref m_Particles[i]);
+				ps.SetParticles(m_Particles);
+			}
+		}
+
+		private void FixedUpdate()
+		{
+			if (scriptModule != null && scriptModule.enabled && scriptModule.fixedUpdateScript != null)
+			{
+				InitializeIfNeeded();
+				// Get particles
+				List<ParticleStatus> particles = new List<ParticleStatus>();
+				int num = ps.GetParticles(m_Particles);
+				for (int i = 0; i < num; i++)
+					particles.Add(new ParticleStatus(m_Particles[i], ps));
+				// Invoke
+				InvokeScript(scriptModule.fixedUpdateScript, particles, scriptModule.parallelFixedUpdate);
+				// Set particles
+				for (int i = 0; i < num; i++)
+					particles[i].ToParticle(ref m_Particles[i]);
+				ps.SetParticles(m_Particles);
+			}
+		}
+
+		private void LateUpdate()
+		{
+			if (scriptModule != null && scriptModule.enabled && scriptModule.lateUpdateScript != null)
+			{
+				InitializeIfNeeded();
+				// Get particles
+				List<ParticleStatus> particles = new List<ParticleStatus>();
+				int num = ps.GetParticles(m_Particles);
+				for (int i = 0; i < num; i++)
+					particles.Add(new ParticleStatus(m_Particles[i], ps));
+				// Invoke
+				InvokeScript(scriptModule.lateUpdateScript, particles, scriptModule.parallelLateUpdate);
+				// Set particles
+				for (int i = 0; i < num; i++)
+					particles[i].ToParticle(ref m_Particles[i]);
+				ps.SetParticles(m_Particles);
+			}
+		}
+
+		private void OnParticleTrigger()
+		{
+			
 		}
 
 		private ParticleSystem ps;

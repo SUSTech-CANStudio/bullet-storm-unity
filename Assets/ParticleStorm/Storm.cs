@@ -1,15 +1,18 @@
-﻿using System;
+﻿using ParticleStorm.Core;
+using ParticleStorm.Util;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using ParticleStorm.Core;
-using ParticleStorm.Util;
 
 namespace ParticleStorm
 {
+	/// <summary>
+	/// Storm is a series behaviors of particle.
+	/// A storm is consist of multiple <see cref="StormBehavior"/>s,
+	/// and each behavior can emit a series of <see cref="Particle"/>s,
+	/// whose initial parameters described by <see cref="EmitList"/>.
+	/// </summary>
 	public class Storm
 	{
 		/// <summary>
@@ -48,13 +51,33 @@ namespace ParticleStorm
 		/// </summary>
 		/// <param name="name"></param>
 		/// <returns></returns>
+		/// <exception cref="KeyNotFoundException"/>
 		public static Storm Find(string name)
 		{
 			if (dict.TryGetValue(name, out Storm storm))
 				return storm;
 			else
-				Debug.LogError("No storm named " + name);
-			return default;
+				throw new KeyNotFoundException("No storm named " + name);
+		}
+
+		/// <summary>
+		/// Add a new behavior for the storm.
+		/// </summary>
+		/// <param name="startTime">Behavior start time.</param>
+		/// <param name="emitList">Particles' status when emitting.</param>
+		/// <param name="particle">The partical to emit.</param>
+		/// <param name="gap">Time between two emissions.</param>
+		/// <returns></returns>
+		public Storm AddBehavior(float startTime, EmitList emitList, Particle particle, float gap = 0)
+		{
+			StormBehavior behavior = new StormBehavior(emitList.list, particle, startTime);
+			if (gap > 0)
+			{
+				behavior.emitGap = gap;
+			}
+			behaviors.Add(behavior);
+			sorted = false;
+			return this;
 		}
 
 		/// <summary>
@@ -65,6 +88,7 @@ namespace ParticleStorm
 		/// <param name="particle">The partical to emit.</param>
 		/// <param name="gap">Time between two emissions.</param>
 		/// <returns>The storm itself.</returns>
+		[Obsolete]
 		public Storm AddBehavior(float startTime, List<EmitParams> emitParams, IParticle particle, float gap = 0)
 		{
 			StormBehavior behavior = new StormBehavior(emitParams, particle, startTime);
@@ -90,10 +114,9 @@ namespace ParticleStorm
 			}
 		}
 
-		public IEnumerator Generate(Transform transform, CoroutineStarter coroutineStarter)
+		internal IEnumerator Generate(Transform transform, CoroutineStarter coroutineStarter)
 		{
 			Sort();
-			Debug.Log("Storm '" + name + "' begin");
 			float startTime = Time.time;
 			int i = 0;
 			// Generate.

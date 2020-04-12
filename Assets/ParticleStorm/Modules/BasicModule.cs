@@ -11,42 +11,16 @@ namespace ParticleStorm.Modules
 	internal sealed class BasicModule : IParticleModule
 	{
 		public ParticleSystemRenderMode renderMode;
+		public float lifetime = 10;
 		public Material material;
 		public Material[] materials;
 		public Mesh mesh;
 
-		public BasicModule(ParticleSystemRenderMode renderMode, Material material)
+		public void ApplicateOn(PSParticleSystem ps)
 		{
-			this.renderMode = renderMode;
-			this.material = material;
-		}
-
-		public BasicModule(ParticleSystemRenderMode renderMode, Material material, Mesh mesh, Material[] materials = null)
-		{
-			this.renderMode = renderMode;
-			this.material = material;
-			this.mesh = mesh;
-			this.materials = materials;
-		}
-
-		public BasicModule(ParticleSystemRenderMode renderMode, Material material, Material[] materials)
-		{
-			this.renderMode = renderMode;
-			this.material = material;
-			this.materials = materials;
-		}
-
-		public BasicModule(Material material, Mesh mesh, Material[] materials = null)
-		{
-			this.renderMode = ParticleSystemRenderMode.Mesh;
-			this.material = material;
-			this.mesh = mesh;
-			this.materials = materials;
-		}
-
-		public void AddOn(PSParticleSystem psp)
-		{
-			var psr = psp.GetComponent<ParticleSystemRenderer>();
+			var psr = ps.GetComponent<ParticleSystemRenderer>();
+			var main = ps.main;
+			main.startLifetime = lifetime;
 			psr.renderMode = renderMode;
 			if (material == null)
 				Debug.LogWarning("Material is null");
@@ -62,14 +36,7 @@ namespace ParticleStorm.Modules
 			}
 		}
 
-		public void AddOn(GOParticleSystem go)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void DeleteFrom(PSParticleSystem psp) { }
-
-		public void DeleteFrom(GOParticleSystem go)
+		public void ApplicateOn(GOParticleSystem go)
 		{
 			throw new NotImplementedException();
 		}
