@@ -1,4 +1,6 @@
-﻿using ParticleStorm.Core;
+﻿#pragma warning disable 0649
+
+using ParticleStorm.Core;
 using System;
 using UnityEngine;
 
@@ -8,20 +10,35 @@ namespace ParticleStorm.Modules
 	/// Basic attributes of particle.
 	/// </summary>
 	[Serializable]
-	internal sealed class BasicModule : IParticleModule
+	internal struct BasicModule : IParticleModule
 	{
+		[Serializable]
+		public struct Parameters
+		{
+			public float startLifeTime;
+			public ParticleSystem.MinMaxGradient startColor;
+			public ParticleSystem.MinMaxCurve startSize;
+		}
+
+		[Tooltip("Render mode of particles.")]
 		public ParticleSystemRenderMode renderMode;
-		public float lifetime = 10;
+		[Tooltip("Material of particles.")]
 		public Material material;
+		[Tooltip("Materials of particles, material 0 is the default material.")]
 		public Material[] materials;
+		[Tooltip("Mesh of particles.")]
 		public Mesh mesh;
+		[Tooltip("Default parameters of the particle.")]
+		public Parameters defaultParams;
 
 		public void ApplicateOn(PSParticleSystem ps)
 		{
 			var psr = ps.GetComponent<ParticleSystemRenderer>();
-			var main = ps.main;
-			main.startLifetime = lifetime;
+			var main = ps.Main;
 			psr.renderMode = renderMode;
+			main.startColor = defaultParams.startColor;
+			main.startLifetime = defaultParams.startLifeTime;
+			main.startSize = defaultParams.startSize;
 			if (material == null)
 				Debug.LogWarning("Material is null");
 			else

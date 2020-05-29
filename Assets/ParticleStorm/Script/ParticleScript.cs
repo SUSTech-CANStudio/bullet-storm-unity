@@ -3,25 +3,35 @@ using System.Collections.Generic;
 
 namespace ParticleStorm.Script
 {
-	public static class ParticleScript
+	/// <summary>
+	/// Manages all scripts about particle.
+	/// </summary>
+	internal static class ParticleScript
 	{
 		/// <summary>
-		/// Script for particles.
+		/// Add a event for update.
 		/// </summary>
-		/// <param name="particle">The particle status, you can get and modify it in your script.</param>
-		public delegate void Script(ParticleStatus particle);
-
-		/// <summary>
-		/// Add a script as update script.
-		/// </summary>
-		/// <param name="script"></param>
+		/// <param name="event"></param>
 		/// <exception cref="ArgumentException"/>
-		public static void AddUpdateScript(Script script)
+		public static void AddUpdateScript(UpdateEvent @event)
 		{
-			try { updateScripts.Add(script.Method.Name, script); }
+			try { UpdateScripts.Add(@event.Name, @event); }
 			catch (ArgumentException)
 			{
-				throw new ArgumentException("Update script " + script.Method.Name + " already exists.", script.ToString());
+				throw new ArgumentException("Update script " + @event.Name + " already exists.", @event.ToString());
+			}
+		}
+
+		/// <summary>
+		/// Add a event for collision.
+		/// </summary>
+		/// <param name="event">The collision event</param>
+		public static void AddCollisionScript(CollisionEvent @event)
+		{
+			try { CollisionScripts.Add(@event.Name, @event); }
+			catch (ArgumentException)
+			{
+				throw new ArgumentException("Update script " + @event.Name + " already exists.", @event.ToString());
 			}
 		}
 
@@ -30,9 +40,10 @@ namespace ParticleStorm.Script
 		/// </summary>
 		/// <param name="script"></param>
 		/// <exception cref="ArgumentException"/>
-		public static void AddTrigger(Script script)
+		[Obsolete("TriggerModule is abandoned, use CollisionModule instead.")]
+		public static void AddTrigger(ParticleUpdateScript script)
 		{
-			try { triggers.Add(script.Method.Name, script); }
+			try { Triggers.Add(script.Method.Name, script); }
 			catch (ArgumentException)
 			{
 				throw new ArgumentException("Trigger " + script.Method.Name + " already exists.", script.ToString());
@@ -40,43 +51,64 @@ namespace ParticleStorm.Script
 		}
 
 		/// <summary>
-		/// Get a script by name.
+		/// Get an update script by name.
 		/// </summary>
 		/// <param name="name"></param>
-		/// <param name="isTrigger">Get an update script or a trigger.</param>
 		/// <returns></returns>
 		/// <exception cref="ScriptNotFoundException"/>
-		internal static Script GetScript(string name, bool isTrigger = false)
+		internal static UpdateEvent GetUpdateScript(string name)
 		{
 			try
 			{
-				if (isTrigger)
-					return triggers[name];
-				else
-					return updateScripts[name];
+				return UpdateScripts[name];
 			}
 			catch (KeyNotFoundException)
 			{
-				throw new ScriptNotFoundException(name, isTrigger ? "trigger" : "update script");
+				throw new ScriptNotFoundException(name, "update script");
 			}
 		}
 
 		/// <summary>
-		/// Try get a script by name.
+		/// Get an collision script by name.
 		/// </summary>
 		/// <param name="name"></param>
-		/// <param name="script"></param>
-		/// <param name="isTrigger">Get an update script or a trigger.</param>
-		/// <returns>Succeeded or not.</returns>
-		internal static bool TryGetScript(string name, out Script script, bool isTrigger = false)
+		/// <returns></returns>
+		internal static CollisionEvent GetCollisionScript(string name)
 		{
-			if (isTrigger)
-				return triggers.TryGetValue(name, out script);
-			else
-				return updateScripts.TryGetValue(name, out script);
+			try
+			{
+				return CollisionScripts[name];
+			}
+			catch (KeyNotFoundException)
+			{
+				throw new ScriptNotFoundException(name, "collision script");
+			}
 		}
-		
-		private static readonly Dictionary<string, Script> updateScripts = new Dictionary<string, Script>();
-		private static readonly Dictionary<string, Script> triggers = new Dictionary<string, Script>();
+
+		/// <summary>
+		/// Try get an update event by name.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="event"></param>
+		/// <returns>Succeeded or not.</returns>
+		internal static bool TryGetUpdateScript(string name, out UpdateEvent @event)
+			=> UpdateScripts.TryGetValue(name, out @event);
+
+		/// <summary>
+		/// Try get a colllision event by name.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="event"></param>
+		/// <returns></returns>
+		internal static bool TryGetCollisionScript(string name, out CollisionEvent @event)
+			=> CollisionScripts.TryGetValue(name, out @event);
+
+		private static readonly Dictionary<string, UpdateEvent> UpdateScripts
+			= new Dictionary<string, UpdateEvent>();
+		private static readonly Dictionary<string, CollisionEvent> CollisionScripts
+			= new Dictionary<string, CollisionEvent>();
+		[Obsolete("Triggers are abandoned.")]
+		private static readonly Dictionary<string, ParticleUpdateScript> Triggers
+			= new Dictionary<string, ParticleUpdateScript>();
 	}
 }

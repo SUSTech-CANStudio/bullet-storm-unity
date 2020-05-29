@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 867232682ab9d61479fc1061702c10d1, type: 3}
-  m_Name: MyParticle
+  m_Name: ParticleWithScript
   m_EditorClassIdentifier: 
   useParticleSystem: 1
   basicModule:
-    renderMode: 3
-    material: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
+    renderMode: 4
+    material: {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
     materials: []
-    mesh: {fileID: 0}
+    mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
     defaultParams:
       startLifeTime: 10
       startColor:
@@ -81,7 +81,7 @@ MonoBehaviour:
           m_NumColorKeys: 2
           m_NumAlphaKeys: 2
         m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-        m_ColorMax: {r: 1, g: 1, b: 1, a: 1}
+        m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
       startSize:
         m_Mode: 0
         m_CurveMultiplier: 0
@@ -102,7 +102,7 @@ MonoBehaviour:
   colorBySpeedModule:
     enabled: 0
     color:
-      m_Mode: 1
+      m_Mode: 0
       m_GradientMin:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -165,9 +165,9 @@ MonoBehaviour:
       m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
     range: {x: 0, y: 0}
   colorOverLifetimeModule:
-    enabled: 1
+    enabled: 0
     color:
-      m_Mode: 1
+      m_Mode: 0
       m_GradientMin:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -199,7 +199,7 @@ MonoBehaviour:
         m_NumAlphaKeys: 2
       m_GradientMax:
         serializedVersion: 2
-        key0: {r: 1, g: 0, b: 0, a: 1}
+        key0: {r: 1, g: 1, b: 1, a: 1}
         key1: {r: 1, g: 1, b: 1, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
@@ -227,7 +227,7 @@ MonoBehaviour:
         m_NumColorKeys: 2
         m_NumAlphaKeys: 2
       m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-      m_ColorMax: {r: 0.5849056, g: 0.2896938, b: 0.2896938, a: 0}
+      m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
   rotationBySpeedModule:
     enabled: 0
     range: {x: 0, y: 0}
@@ -342,18 +342,18 @@ MonoBehaviour:
       m_ConstantMax: 0
     zMultiplier: 1
   scriptModule:
-    enabled: 0
-    update: 
+    enabled: 1
+    update: MyScript
     fixedUpdate: 
     lateUpdate: 
-    parallelUpdate: 0
+    parallelUpdate: 1
     parallelFixedUpdate: 0
     parallelLateUpdate: 0
   sizeBySpeedModule:
     enabled: 0
     size:
-      m_Mode: 1
-      m_CurveMultiplier: 1
+      m_Mode: 0
+      m_CurveMultiplier: 0
       m_CurveMin:
         serializedVersion: 2
         m_Curve: []
@@ -362,25 +362,7 @@ MonoBehaviour:
         m_RotationOrder: 4
       m_CurveMax:
         serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: -0.012500763
-          value: 0.9894409
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 0.9750061
-          value: 1.0086975
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
+        m_Curve: []
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
@@ -392,7 +374,7 @@ MonoBehaviour:
     enabled: 0
     size:
       m_Mode: 0
-      m_CurveMultiplier: 1
+      m_CurveMultiplier: 0
       m_CurveMin:
         serializedVersion: 2
         m_Curve: []
@@ -401,30 +383,12 @@ MonoBehaviour:
         m_RotationOrder: 4
       m_CurveMax:
         serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0.024757385
-          value: 0.97452545
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1.051003
-          value: 1.5189158
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
+        m_Curve: []
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
       m_ConstantMin: 0
-      m_ConstantMax: 1
+      m_ConstantMax: 0
     sizeMultiplier: 1
   triggerModule:
     enabled: 0

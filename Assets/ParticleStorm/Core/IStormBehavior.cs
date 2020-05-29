@@ -9,7 +9,7 @@ namespace ParticleStorm.Core
 {
 	interface IStormBehavior : IComparable<IStormBehavior>
 	{
-		float GetStartTime();
+		float StartTime { get; }
 		IEnumerator Execute(Transform transform, float stormStartTime);
 	}
 }

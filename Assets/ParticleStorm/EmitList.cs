@@ -1,4 +1,5 @@
 ﻿using ParticleStorm.Util;
+using System;
 using System.Collections.Generic;
 
 namespace ParticleStorm
@@ -12,13 +13,13 @@ namespace ParticleStorm
 		/// <summary>
 		/// List of emission parameters.
 		/// </summary>
-		public List<EmitParams> list { get; private set; }
+		public List<EmitParams> List { get; private set; }
 
-		public EmitParams this[int index] { get => list[index]; set => list[index] = value; }
+		public EmitParams this[int index] { get => List[index]; set => List[index] = value; }
 
-		public int Count => list.Count;
+		public int Count => List.Count;
 
-		private EmitList(List<EmitParams> list) => this.list = list;
+		private EmitList(List<EmitParams> list) => this.List = list;
 
 		/// <summary>
 		/// Create an empty emit list.
@@ -26,7 +27,7 @@ namespace ParticleStorm
 		/// <param name="num">Number of emissions.</param>
 		public EmitList(int num)
 		{
-			list = Filters.Empty(num);
+			List = Filters.Empty(num);
 		}
 
 		/// <summary>
@@ -52,7 +53,7 @@ namespace ParticleStorm
 		/// <returns></returns>
 		public EmitList ConeFilter(float radius, float theta, float speed, OverlayMode mode = OverlayMode.COVER)
 		{
-			Filters.Cone(list, radius, theta, speed, mode);
+			Filters.Cone(List, radius, theta, speed, mode);
 			return this;
 		}
 
@@ -64,7 +65,7 @@ namespace ParticleStorm
 		/// <returns></returns>
 		public EmitList SizeFilter(float size, OverlayMode mode = OverlayMode.COVER)
 		{
-			Filters.Size(list, size, mode);
+			Filters.Size(List, size, mode);
 			return this;
 		}
 
@@ -77,7 +78,7 @@ namespace ParticleStorm
 		/// <returns></returns>
 		public EmitList SizeFilter(float fromSize, float toSize, OverlayMode mode = OverlayMode.COVER)
 		{
-			Filters.Size(list, fromSize, toSize, mode);
+			Filters.Size(List, fromSize, toSize, mode);
 			return this;
 		}
 
@@ -90,31 +91,55 @@ namespace ParticleStorm
 		/// <returns></returns>
 		public EmitList RandomSizeFilter(float min, float max, OverlayMode mode = OverlayMode.COVER)
 		{
-			Filters.RandomSize(list, min, max, mode);
+			Filters.RandomSize(List, min, max, mode);
 			return this;
 		}
 
 		public static EmitList operator +(EmitList a, EmitList b)
 		{
-			var result = new List<EmitParams>(a.list);
-			result.AddRange(b.list);
+			if (a == null)
+			{
+				throw new ArgumentNullException(nameof(a));
+			}
+			if (b == null)
+			{
+				throw new ArgumentNullException(nameof(b));
+			}
+			var result = new List<EmitParams>(a.List);
+			result.AddRange(b.List);
 			return new EmitList(result);
 		}
 
 		public static EmitList operator *(EmitList a, int b)
 		{
+			if (a == null)
+			{
+				throw new ArgumentNullException(nameof(a));
+			}
 			var result = new List<EmitParams>();
-			var item = new List<EmitParams>(a.list);
+			var item = new List<EmitParams>(a.List);
 			if (b < 0)
 			{
 				b = -b;
 				item.Reverse();
 			}
 			for (int i = 0; i < b; i++)
+			{
 				result.AddRange(item);
+			}
 			return new EmitList(result);
 		}
 
 		public static EmitList operator *(int a, EmitList b) => b * a;
+
+		public static EmitList Add(EmitList left, EmitList right)
+		{
+			return left + right;
+		}
+
+		public static EmitList Multiply(EmitList left, int right)
+		{
+			return left * right;
+		}
 	}
 }

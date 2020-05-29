@@ -1,23 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿#pragma warning disable 0649
+
 using ParticleStorm.Core;
+using System;
 using UnityEngine;
 
 namespace ParticleStorm.Modules
 {
-	internal sealed class RotationBySpeedModule : IParticleModule
+	[Serializable]
+	internal struct RotationBySpeedModule : IParticleModule
 	{
+		[Tooltip("Enable rotation change according to speed.")]
 		public bool enabled;
+		[Tooltip("Set the minimum and maximum speeds that this module applies the rotation curve between.")]
 		public Vector2 range;
+		[Tooltip("Rotation by speed curve for the x-axis.")]
 		public ParticleSystem.MinMaxCurve x;
-		public float xMultiplier = 1;
+		[Tooltip("Speed multiplier along the x-axis.")]
+		public float xMultiplier;
+		[Tooltip("Rotation by speed curve for the y-axis.")]
 		public ParticleSystem.MinMaxCurve y;
-		public float yMultiplier = 1;
+		[Tooltip("Speed multiplier along the y-axis.")]
+		public float yMultiplier;
+		[Tooltip("Rotation by speed curve for the z-axis.")]
 		public ParticleSystem.MinMaxCurve z;
-		public float zMultiplier = 1;
+		[Tooltip("Speed multiplier along the z-axis.")]
+		public float zMultiplier;
 
 		public void ApplicateOn(PSParticleSystem ps)
 		{

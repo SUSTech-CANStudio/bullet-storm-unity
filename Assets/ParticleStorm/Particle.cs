@@ -13,7 +13,7 @@ namespace ParticleStorm
 	/// </summary>
 	public class Particle : IParticle
 	{
-		public string name { get => m_Name; set { Register(value); } }
+		public string Name { get => name; set { Register(value); } }
 
 		public Particle() { InitParticleSystem(); }
 
@@ -35,8 +35,8 @@ namespace ParticleStorm
 
 		~Particle()
 		{
-			if (name != null) dict.Remove(m_Name);
-			if (m_ParticlePrefeb != null) ParticlePrefeb.Destroy(m_ParticlePrefeb);
+			if (Name != null) { Dict.Remove(name); }
+			if (particlePrefeb != null) { ParticlePrefeb.Destroy(particlePrefeb); }
 		}
 
 		/// <summary>
@@ -47,7 +47,7 @@ namespace ParticleStorm
 		/// <exception cref="KeyNotFoundException"/>
 		public static Particle Find(string name)
 		{
-			if (dict.TryGetValue(name, out Particle particle))
+			if (Dict.TryGetValue(name, out Particle particle))
 				return particle;
 			else
 				throw new KeyNotFoundException("Can't find particle " + name);
@@ -62,11 +62,56 @@ namespace ParticleStorm
 		public void SetPrefeb(ParticlePrefeb prefeb, bool destroy = true)
 		{
 			if (prefeb is null || prefeb == default)
+			{
 				throw new ArgumentNullException(nameof(prefeb), "Particle prefeb can not be null.");
-			if (m_ParticlePrefeb != null && destroy)
-				ParticlePrefeb.Destroy(m_ParticlePrefeb);
-			m_ParticlePrefeb = prefeb;
-			m_ParticlePrefeb.Bind(m_ParticleSystem);
+			}
+			if (particlePrefeb != null && destroy)
+			{
+				ParticlePrefeb.Destroy(particlePrefeb);
+			}
+			particlePrefeb = prefeb;
+			particlePrefeb.Bind(particleSystem);
+		}
+
+		/// <summary>
+		/// Set trigger collider for the particle.<para/>
+		/// Only when you enabled `useParticleSystem` in <see cref="particlePrefeb"/>,
+		/// you need to call this function to add trigger colliders for particles.<para/>
+		/// For particle based on <see cref="GameObject"/>, all colliders in the sence are
+		/// able to collide.
+		/// </summary>
+		/// <param name="index">Collider index.</param>
+		/// <param name="collider"></param>
+		public void SetTriggerCollider(int index, Collider collider)
+		{
+			if (particlePrefeb.useParticleSystem)
+			{
+				((PSParticleSystem)particleSystem).SetTriggerCollider(index, collider);
+			}
+			else
+			{
+				throw new InvalidOperationException("Only particle system based particle need setting colloders.");
+			}
+		}
+
+		/// <summary>
+		/// Get trigger collider of the particle.<para/>
+		/// Only when you enabled `useParticleSystem` in <see cref="particlePrefeb"/>,
+		/// you can call this function to get trigger colliders for particles.<para/>
+		/// For particle based on <see cref="GameObject"/>, all colliders in the sence are
+		/// able to collide.
+		/// </summary>
+		/// <param name="index">Collider index.</param>
+		public void GetTriggerColloder(int index)
+		{
+			if (particlePrefeb.useParticleSystem)
+			{
+				((PSParticleSystem)particleSystem).GetTriggerCollider(index);
+			}
+			else
+			{
+				throw new InvalidOperationException("Only particle system based particle can get colloders.");
+			}
 		}
 
 		/// <summary>
@@ -74,24 +119,28 @@ namespace ParticleStorm
 		/// </summary>
 		/// <param name="emitParams">Initial parameters of the emitted particle.</param>
 		/// <param name="num">Emit number.</param>
-		public void Emit(EmitParams emitParams, int num) => m_ParticleSystem.Emit(emitParams, num);
+		public void Emit(EmitParams emitParams, int num) => particleSystem.Emit(emitParams, num);
 
 		/// <summary>
-		/// Name the particle and register itself into <see cref="dict"/>.
+		/// Name the particle and register itself into <see cref="Dict"/>.
 		/// </summary>
 		/// <param name="name">Particle name.</param>
 		private void Register(string name)
 		{
 			if (name == null)
+			{
 				Debug.LogError("Particle name can't be null");
-			else if (dict.ContainsKey(name))
+			}
+			else if (Dict.ContainsKey(name))
+			{
 				Debug.LogError("Particle " + name + " already exists.");
+			}
 			else
 			{
-				if (m_Name != null)
-					dict.Remove(m_Name);
-				dict.Add(name, this);
-				m_Name = name;
+				if (this.name != null)
+					Dict.Remove(this.name);
+				Dict.Add(name, this);
+				this.name = name;
 			}
 		}
 
@@ -100,23 +149,26 @@ namespace ParticleStorm
 		/// </summary>
 		private void InitParticleSystem()
 		{
-			if (m_ParticlePrefeb == null || m_ParticlePrefeb.useParticleSystem)
-				m_ParticleSystem = ParticleSystemFactory.PSParticleSystem();
+			if (particlePrefeb == null || particlePrefeb.useParticleSystem)
+			{
+				particleSystem = ParticleSystemFactory.PSParticleSystem();
+			}
 			else
+			{
 				throw new NotImplementedException("Game object particle not implemented yet.");
-
+			}
 		}
 
 		/// <summary>
 		/// Dictionary for all named particles.
 		/// </summary>
-		private static readonly Dictionary<string, Particle> dict = new Dictionary<string, Particle>();
+		private static readonly Dictionary<string, Particle> Dict = new Dictionary<string, Particle>();
 		
 		/// <summary>
 		/// Particle system object, can be realized with <see cref="ParticleSystem"/> or <see cref="GameObject"/>.
 		/// </summary>
-		private IParticleSystem m_ParticleSystem;
-		private ParticlePrefeb m_ParticlePrefeb;
-		private string m_Name;
+		private IParticleSystem particleSystem;
+		private ParticlePrefeb particlePrefeb;
+		private string name;
 	}
 }

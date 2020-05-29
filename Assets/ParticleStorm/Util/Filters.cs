@@ -42,10 +42,10 @@ namespace ParticleStorm.Util
 			{
 				float phi = i * dphi;
 
-				@params[i].position = Operate(@params[i].position, new Sphere(radius, theta, phi).vector3, mode);
-				@params[i].velocity = Operate(@params[i].velocity, new Sphere(speed, theta, phi).vector3, mode);
-				@params[i].rotation3D = (Quaternion.LookRotation(@params[i].velocity)
-						  * Quaternion.Euler(@params[i].rotation3D)).eulerAngles;
+				@params[i].Position = Operate(@params[i].Position, new Sphere(radius, theta, phi).Vector3, mode);
+				@params[i].Velocity = Operate(@params[i].Velocity, new Sphere(speed, theta, phi).Vector3, mode);
+				@params[i].Rotation3D = (Quaternion.LookRotation(@params[i].Velocity)
+						  * Quaternion.Euler(@params[i].Rotation3D)).eulerAngles;
 			});
 			return @params;
 		}
@@ -76,7 +76,7 @@ namespace ParticleStorm.Util
 		{
 			Parallel.For(0, @params.Count, i =>
 			{
-				@params[i].startSize = Operate(@params[i].startSize, size, mode);
+				@params[i].StartSize = Operate(@params[i].StartSize, size, mode);
 			});
 			return @params;
 		}
@@ -94,7 +94,7 @@ namespace ParticleStorm.Util
 			float dsize = (toSize - fromSize) / @params.Count;
 			Parallel.For(0, @params.Count, i =>
 			{
-				@params[i].startSize = Operate(@params[i].startSize, fromSize + dsize * i, mode);
+				@params[i].StartSize = Operate(@params[i].StartSize, fromSize + dsize * i, mode);
 			});
 			return @params;
 		}
@@ -110,7 +110,7 @@ namespace ParticleStorm.Util
 		public static List<EmitParams> RandomSize(List<EmitParams> @params, float min, float max, OverlayMode mode = OverlayMode.COVER)
 		{
 			for (int i = 0; i < @params.Count; i++)
-				@params[i].startSize = Operate(@params[i].startSize, Random.Range(min, max), mode);
+				@params[i].StartSize = Operate(@params[i].StartSize, Random.Range(min, max), mode);
 			return @params;
 		}
 

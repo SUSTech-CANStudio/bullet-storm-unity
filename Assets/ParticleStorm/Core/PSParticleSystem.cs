@@ -1,8 +1,7 @@
-﻿using ParticleStorm.Util;
-using ParticleStorm.Modules;
+﻿using ParticleStorm.Modules;
 using ParticleStorm.Script;
+using ParticleStorm.Util;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace ParticleStorm.Core
@@ -15,115 +14,88 @@ namespace ParticleStorm.Core
 		/// <summary>
 		/// Main particle system settings.
 		/// </summary>
-		public ParticleSystem.MainModule main { get => ps.main; }
+		public ParticleSystem.MainModule Main { get => ps.main; }
 
 		#region modules
-		public ScriptModule scriptModule;
+		internal ScriptModule scriptModule;
+		internal CollisionModule collisionModule;
 		#endregion
 
-		public void Emit(EmitParams emitParams, int num) => ps.Emit(emitParams.full, num);
+		public void Emit(EmitParams emitParams, int num) => ps.Emit(emitParams.Full, num);
 		public void ApplicateModule(IParticleModule module) => module.ApplicateOn(this);
-
-		private void InitializeIfNeeded()
-		{
-			if (ps == null)
-			{
-				if (!TryGetComponent(out ps))
-					ps = gameObject.AddComponent<ParticleSystem>();
-
-				psr = ps.GetComponent<ParticleSystemRenderer>();
-
-				// Disable auto generate
-				ps.Stop();
-				// Enable GPU
-				psr.enableGPUInstancing = true;
-				// Lock location
-				ps.transform.position = Vector3.zero;
-				ps.transform.rotation = Quaternion.identity;
-				ps.gameObject.isStatic = true;
-			}
-
-			if (m_Particles == null || m_Particles.Length < ps.main.maxParticles)
-				m_Particles = new ParticleSystem.Particle[ps.main.maxParticles];
-		}
-
-		private void InvokeScript(ParticleScript.Script script, List<ParticleStatus> particles, bool parallel)
-		{
-			if (parallel)
-				Parallel.ForEach(particles, (particle) => { script(particle); });
-			else
-				foreach (ParticleStatus particle in particles) script(particle);
-		}
+		public void SetTriggerCollider(int index, Collider collider) => ps.trigger.SetCollider(index, collider);
+		public Component GetTriggerCollider(int index) => ps.trigger.GetCollider(index);
 
 		private void Awake()
 		{
-			InitializeIfNeeded();
+			// Add component
+			if (!TryGetComponent(out ps))
+				ps = gameObject.AddComponent<ParticleSystem>();
+			// Disable auto generate
+			ps.Stop();
+			// Enable GPU
+			var psr = ps.GetComponent<ParticleSystemRenderer>();
+			psr.enableGPUInstancing = true;
+			// Lock location
+			ps.transform.position = Vector3.zero;
+			ps.transform.rotation = Quaternion.identity;
+			ps.gameObject.isStatic = true;
+			// Init particle list
+			particles = new ParticleStatusList(ps);
 		}
 
 		private void Update()
 		{
-			if (scriptModule != null && scriptModule.enabled && scriptModule.updateScript != null)
+			if (scriptModule.enabled && scriptModule.updateScript != null)
 			{
-				InitializeIfNeeded();
-				// Get particles
-				List<ParticleStatus> particles = new List<ParticleStatus>();
-				int num = ps.GetParticles(m_Particles);
-				for (int i = 0; i < num; i++)
-					particles.Add(new ParticleStatus(m_Particles[i], ps));
-				// Invoke
-				InvokeScript(scriptModule.updateScript, particles, scriptModule.parallelUpdate);
-				// Set particles
-				for (int i = 0; i < num; i++)
-					particles[i].ToParticle(ref m_Particles[i]);
-				ps.SetParticles(m_Particles);
+				particles.Update(scriptModule.updateScript, scriptModule.parallelUpdate);
 			}
 		}
 
 		private void FixedUpdate()
 		{
-			if (scriptModule != null && scriptModule.enabled && scriptModule.fixedUpdateScript != null)
+			if (scriptModule.enabled && scriptModule.fixedUpdateScript != null)
 			{
-				InitializeIfNeeded();
-				// Get particles
-				List<ParticleStatus> particles = new List<ParticleStatus>();
-				int num = ps.GetParticles(m_Particles);
-				for (int i = 0; i < num; i++)
-					particles.Add(new ParticleStatus(m_Particles[i], ps));
-				// Invoke
-				InvokeScript(scriptModule.fixedUpdateScript, particles, scriptModule.parallelFixedUpdate);
-				// Set particles
-				for (int i = 0; i < num; i++)
-					particles[i].ToParticle(ref m_Particles[i]);
-				ps.SetParticles(m_Particles);
+				particles.Update(scriptModule.fixedUpdateScript, scriptModule.parallelFixedUpdate);
 			}
 		}
 
 		private void LateUpdate()
 		{
-			if (scriptModule != null && scriptModule.enabled && scriptModule.lateUpdateScript != null)
+			if (scriptModule.enabled && scriptModule.lateUpdateScript != null)
 			{
-				InitializeIfNeeded();
-				// Get particles
-				List<ParticleStatus> particles = new List<ParticleStatus>();
-				int num = ps.GetParticles(m_Particles);
-				for (int i = 0; i < num; i++)
-					particles.Add(new ParticleStatus(m_Particles[i], ps));
-				// Invoke
-				InvokeScript(scriptModule.lateUpdateScript, particles, scriptModule.parallelLateUpdate);
-				// Set particles
-				for (int i = 0; i < num; i++)
-					particles[i].ToParticle(ref m_Particles[i]);
-				ps.SetParticles(m_Particles);
+				particles.Update(scriptModule.lateUpdateScript, scriptModule.parallelLateUpdate);
+			}
+		}
+
+		private void OnParticleCollision(GameObject other)
+		{
+			if (collisionModule.enabled)
+			{
+				// Set trigger colliders
+				ps.trigger.SetCollider(nextColliderIndex, other.GetComponent<Collider>());
+				nextColliderIndex = (nextColliderIndex + 1) % ps.trigger.maxColliderCount;
+				// Collider script
+				CollisionEvent collisionScript = collisionModule.onCollision;
+				if (collisionScript.OnGameObjectCollision != null)
+				{
+					ps.GetCollisionEvents(other, collisionEvents);
+					collisionScript.OnGameObjectCollision(other, collisionEvents);
+				}
 			}
 		}
 
 		private void OnParticleTrigger()
 		{
-			
+			if (collisionModule.enabled && collisionModule.onCollision.OnParticleCollision != null)
+			{
+				particles.Trigger(collisionModule.onCollision.OnParticleCollision, collisionModule.triggerType);
+			}
 		}
 
 		private ParticleSystem ps;
-		private ParticleSystemRenderer psr;
-		private ParticleSystem.Particle[] m_Particles;
+		private ParticleStatusList particles;
+		private int nextColliderIndex;
+		private readonly List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
 	}
 }

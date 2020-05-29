@@ -1,0 +1,10 @@
+﻿[*.cs]
+
+# CA1051: 不要声明可见实例字段
+dotnet_diagnostic.CA1051.severity = silent
+
+# CA1303: 请不要将文本作为本地化参数传递
+dotnet_diagnostic.CA1303.severity = suggestion
+
+# CA1812: 避免未实例化的内部类
+dotnet_diagnostic.CA1812.severity = silent

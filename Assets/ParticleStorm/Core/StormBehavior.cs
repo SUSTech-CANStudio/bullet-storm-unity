@@ -1,11 +1,7 @@
-﻿using System;
+﻿using ParticleStorm.Util;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using ParticleStorm.Util;
 
 namespace ParticleStorm.Core
 {
@@ -14,19 +10,19 @@ namespace ParticleStorm.Core
 		/// <summary>
 		/// Behavior start time relative to storm time.
 		/// </summary>
-		public float startTime { get => duration.start; }
+		public float StartTime { get => duration.Start; }
 		/// <summary>
 		/// Behavior end time relative to storm time.
 		/// </summary>
-		public float endTime { get => duration.end; set => duration.end = value; }
+		public float EndTime { get => duration.End; set => duration.End = value; }
 		/// <summary>
 		/// Behavior total time.
 		/// </summary>
-		public float totalTime { get => duration.total; set => duration.total = value; }
+		public float TotalTime { get => duration.Total; set => duration.Total = value; }
 		/// <summary>
 		/// Time between two emissions.
 		/// </summary>
-		public float emitGap { get => duration.gap; set => duration.gap = value; }
+		public float EmitGap { get => duration.Gap; set => duration.Gap = value; }
 
 		private readonly List<EmitParams> emitParams;
 		private readonly IParticle particle;
@@ -54,9 +50,9 @@ namespace ParticleStorm.Core
 		public IEnumerator Execute(Transform transform, float stormStartTime)
 		{
 			Duration duration = new Duration(this.duration);
-			while (!duration.finished)
+			while (!duration.Finished)
 			{
-				int begin = duration.pastEventCount;
+				int begin = duration.PastEventCount;
 				int end = duration.GetHappenedEventCount(Time.time - stormStartTime);
 				for (int i = begin; i < end; i++)
 				{
@@ -66,11 +62,9 @@ namespace ParticleStorm.Core
 			}
 		}
 
-		public float GetStartTime() => duration.start;
-
 		public int CompareTo(IStormBehavior other)
 		{
-			if (startTime < other.GetStartTime())
+			if (StartTime < other.StartTime)
 				return -1;
 			else
 				return 1;

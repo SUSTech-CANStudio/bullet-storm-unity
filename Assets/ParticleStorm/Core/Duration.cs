@@ -15,37 +15,37 @@ namespace ParticleStorm.Core
 		/// <summary>
 		/// Start time.
 		/// </summary>
-		public float start { get; private set; }
+		public float Start { get; private set; }
 
 		/// <summary>
 		/// Total time.
 		/// </summary>
-		public float total { get; set; }
+		public float Total { get; set; }
 
 		/// <summary>
 		/// Events number during the duration.
 		/// </summary>
-		public int eventCount { get; set; }
+		public int EventCount { get; set; }
 
 		/// <summary>
 		/// End time.
 		/// </summary>
-		public float end { get => start + total; set => total = value - start; }
+		public float End { get => Start + Total; set => Total = value - Start; }
 
 		/// <summary>
 		/// Time between two events.
 		/// </summary>
-		public float gap { get => total / eventCount; set => total = eventCount * value; }
+		public float Gap { get => Total / EventCount; set => Total = EventCount * value; }
 
 		/// <summary>
 		/// Already past event number after last <see cref="GetHappenedEventCount"/>.
 		/// </summary>
-		public int pastEventCount { get; private set; }
+		public int PastEventCount { get; private set; }
 
 		/// <summary>
 		/// True if the duration finished.
 		/// </summary>
-		public bool finished { get => pastEventCount >= eventCount; }
+		public bool Finished { get => PastEventCount >= EventCount; }
 
 		/// <summary>
 		/// Create a duration.
@@ -54,18 +54,20 @@ namespace ParticleStorm.Core
 		/// <param name="eventCount">Events number during the duration.</param>
 		public Duration(float start, int eventCount)
 		{
-			this.start = start;
-			this.total = 0;
-			this.eventCount = eventCount;
-			this.pastEventCount = 0;
+			this.Start = start;
+			this.Total = 0;
+			this.EventCount = eventCount;
+			this.PastEventCount = 0;
 		}
 
 		public Duration(Duration duration)
 		{
-			start = duration.start;
-			total = duration.total;
-			eventCount = duration.eventCount;
-			pastEventCount = 0;
+			if (duration == null)
+				throw new ArgumentNullException(nameof(duration));
+			Start = duration.Start;
+			Total = duration.Total;
+			EventCount = duration.EventCount;
+			PastEventCount = 0;
 		}
 
 		/// <summary>
@@ -77,17 +79,17 @@ namespace ParticleStorm.Core
 		{
 			int result;
 
-			if (currentTime >= end)
+			if (currentTime >= End)
 			{
-				result = eventCount;
+				result = EventCount;
 			}
 			else
 			{
-				result = Mathf.CeilToInt((currentTime - start) / gap);
-				if (result > eventCount)
-					result = eventCount;
+				result = Mathf.CeilToInt((currentTime - Start) / Gap);
+				if (result > EventCount)
+					result = EventCount;
 			}
-			pastEventCount = result;
+			PastEventCount = result;
 			return result;
 		}
 	}

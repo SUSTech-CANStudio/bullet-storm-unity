@@ -10,6 +10,11 @@ namespace ParticleStorm.Core
 {
 	public interface IParticle
 	{
+		/// <summary>
+		/// Emit the particle.
+		/// </summary>
+		/// <param name="emitParams">Parameters for emission.</param>
+		/// <param name="num">Particle number.</param>
 		void Emit(EmitParams emitParams, int num);
 	}
 }

@@ -18,11 +18,11 @@ namespace ParticleStorm
 		/// <summary>
 		/// Name of the storm.
 		/// </summary>
-		public string name { get => m_Name; set => Register(value); }
+		public string Name { get => name; set => Register(value); }
 		/// <summary>
 		/// True if the behaviors of the storm already sorted.
 		/// </summary>
-		public bool sorted { get; private set; }
+		public bool Sorted { get; private set; }
 
 		/// <summary>
 		/// Create a storm without name.
@@ -30,7 +30,7 @@ namespace ParticleStorm
 		public Storm()
 		{
 			behaviors = new List<IStormBehavior>();
-			sorted = false;
+			Sorted = false;
 		}
 
 		/// <summary>
@@ -40,11 +40,11 @@ namespace ParticleStorm
 		public Storm(string name)
 		{
 			behaviors = new List<IStormBehavior>();
-			sorted = false;
+			Sorted = false;
 			Register(name);
 		}
 
-		~Storm() { if (name != null) dict.Remove(name); }
+		~Storm() { if (Name != null) Dict.Remove(Name); }
 
 		/// <summary>
 		/// Find a storm by name.
@@ -54,7 +54,7 @@ namespace ParticleStorm
 		/// <exception cref="KeyNotFoundException"/>
 		public static Storm Find(string name)
 		{
-			if (dict.TryGetValue(name, out Storm storm))
+			if (Dict.TryGetValue(name, out Storm storm))
 				return storm;
 			else
 				throw new KeyNotFoundException("No storm named " + name);
@@ -70,13 +70,15 @@ namespace ParticleStorm
 		/// <returns></returns>
 		public Storm AddBehavior(float startTime, EmitList emitList, Particle particle, float gap = 0)
 		{
-			StormBehavior behavior = new StormBehavior(emitList.list, particle, startTime);
+			if (emitList == null)
+				throw new ArgumentNullException(nameof(emitList));
+			StormBehavior behavior = new StormBehavior(emitList.List, particle, startTime);
 			if (gap > 0)
 			{
-				behavior.emitGap = gap;
+				behavior.EmitGap = gap;
 			}
 			behaviors.Add(behavior);
-			sorted = false;
+			Sorted = false;
 			return this;
 		}
 
@@ -88,16 +90,18 @@ namespace ParticleStorm
 		/// <param name="particle">The partical to emit.</param>
 		/// <param name="gap">Time between two emissions.</param>
 		/// <returns>The storm itself.</returns>
-		[Obsolete]
+		[Obsolete("Use EmitList instead of List<EmitParams>")]
 		public Storm AddBehavior(float startTime, List<EmitParams> emitParams, IParticle particle, float gap = 0)
 		{
+			if (emitParams == null)
+				throw new ArgumentNullException(nameof(emitParams));
 			StormBehavior behavior = new StormBehavior(emitParams, particle, startTime);
 			if (gap > 0)
 			{
-				behavior.emitGap = gap;
+				behavior.EmitGap = gap;
 			}
 			behaviors.Add(behavior);
-			sorted = false;
+			Sorted = false;
 			return this;
 		}
 
@@ -107,10 +111,10 @@ namespace ParticleStorm
 		/// </summary>
 		public void Sort()
 		{
-			if (!sorted)
+			if (!Sorted)
 			{
 				behaviors.Sort();
-				sorted = true;
+				Sorted = true;
 			}
 		}
 
@@ -122,7 +126,7 @@ namespace ParticleStorm
 			// Generate.
 			while (i < behaviors.Count)
 			{
-				if (Time.time - startTime >= behaviors[i].GetStartTime())
+				if (Time.time - startTime >= behaviors[i].StartTime)
 				{
 					coroutineStarter(behaviors[i].Execute(transform, startTime));
 					i++;
@@ -140,19 +144,19 @@ namespace ParticleStorm
 		{
 			if (name == null)
 				Debug.LogError("Storm name can't be null");
-			else if (dict.ContainsKey(name))
+			else if (Dict.ContainsKey(name))
 				Debug.LogError("Storm " + name + " already exists.");
 			else
 			{
-				if (m_Name != null)
-					dict.Remove(m_Name);
-				dict.Add(name, this);
-				m_Name = name;
+				if (this.name != null)
+					Dict.Remove(this.name);
+				Dict.Add(name, this);
+				this.name = name;
 			}
 		}
 		
 		private readonly List<IStormBehavior> behaviors;
-		private string m_Name;
-		private static readonly Dictionary<string, Storm> dict = new Dictionary<string, Storm>();
+		private string name;
+		private static readonly Dictionary<string, Storm> Dict = new Dictionary<string, Storm>();
 	}
 }

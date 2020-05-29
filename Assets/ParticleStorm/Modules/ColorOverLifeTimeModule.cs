@@ -1,12 +1,15 @@
-﻿using ParticleStorm.Core;
+﻿#pragma warning disable 0649
+
+using ParticleStorm.Core;
 using System;
 using UnityEngine;
 
 namespace ParticleStorm.Modules
 {
 	[Serializable]
-	internal sealed class ColorOverLifeTimeModule : IParticleModule
+	internal struct ColorOverLifetimeModule : IParticleModule
 	{
+		[Tooltip("Enable color change according to lifetime.")]
 		public bool enabled;
 		public ParticleSystem.MinMaxGradient color;
 

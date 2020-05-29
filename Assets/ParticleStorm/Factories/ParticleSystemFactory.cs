@@ -14,7 +14,7 @@ namespace ParticleStorm.Factories
 		/// <summary>
 		/// Tag of particle storm game objects.
 		/// </summary>
-		public static string particleTag { get => Settings.particleTag; }
+		public static string ParticleTag { get => Settings.ParticleTag; }
 
 		/// <summary>
 		/// Create particle system particle.
@@ -24,8 +24,8 @@ namespace ParticleStorm.Factories
 		{
 			var go = new GameObject();
 			var p = go.AddComponent<PSParticleSystem>();
-			if (particleTag != null && particleTag != "")
-				go.tag = particleTag;
+			if (ParticleTag != null && ParticleTag != "")
+				go.tag = ParticleTag;
 			return p;
 		}
 
