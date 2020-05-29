@@ -390,16 +390,12 @@ MonoBehaviour:
       m_ConstantMin: 0
       m_ConstantMax: 0
     sizeMultiplier: 1
-  triggerModule:
+  collisionModule:
     enabled: 1
-    enter: 2
-    enterTrigger: Enter
-    exit: 2
-    exitTrigger: Exit
-    inside: 0
-    insideTrigger: 
-    outside: 0
-    outsideTrigger: 
+    kill: 0
+    triggerType: 2
+    collisionScript: Collision
+    quality: 0
   velocityOverLifetimeModule:
     enabled: 0
     speed:

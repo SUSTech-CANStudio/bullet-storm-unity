@@ -28,7 +28,7 @@ public class ParticleScriptDemo : MonoBehaviour
         var generator = GetComponent<StormGenerator>();
         var storm = new Storm();
         var particle = new Particle(particlePrefeb);
-        storm.AddBehavior(0.5f, EmitList.Cone(10, 2, 90, speed), particle, gap);
+        storm.AddBehavior(0.5f, EmitList.Sphere(100, 3, speed), particle, gap);
         generator.Generate(storm);
     }
 }

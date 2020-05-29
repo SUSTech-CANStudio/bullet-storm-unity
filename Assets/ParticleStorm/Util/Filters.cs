@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -34,8 +32,7 @@ namespace ParticleStorm.Util
 		/// <param name="theta">Half vertex angle.</param>
 		/// <param name="speed">Particle speed.</param>
 		/// <param name="mode"></param>
-		/// <returns></returns>
-		public static List<EmitParams> Cone(List<EmitParams> @params, float radius, float theta, float speed, OverlayMode mode = OverlayMode.COVER)
+		public static void Cone(List<EmitParams> @params, float radius, float theta, float speed, OverlayMode mode = OverlayMode.COVER)
 		{
 			float dphi = 360.0f / @params.Count;
 			Parallel.For(0, @params.Count, i =>
@@ -47,22 +44,53 @@ namespace ParticleStorm.Util
 				@params[i].Rotation3D = (Quaternion.LookRotation(@params[i].Velocity)
 						  * Quaternion.Euler(@params[i].Rotation3D)).eulerAngles;
 			});
-			return @params;
 		}
 
 		/// <summary>
-		/// The cone generator.
+		/// Use Fibonacci sphere algorithm to generate a simillar equal-distance point sphere.
 		/// </summary>
-		/// <param name="num">Number of particles.</param>
-		/// <param name="radius">Particle distance from origin point.</param>
-		/// <param name="theta">Half vertex angle.</param>
-		/// <param name="speed">Particle speed.</param>
-		/// <returns></returns>
-		public static List<EmitParams> Cone(int num, float radius, float theta, float speed)
+		/// <param name="params"></param>
+		/// <param name="radius">Radius of the sphere</param>
+		/// <param name="speed">Particle start speed</param>
+		/// <param name="mode"></param>
+		public static void FibonacciSphere(List<EmitParams> @params, float radius, float speed, OverlayMode mode = OverlayMode.COVER)
 		{
-			var @params = Empty(num);
-			Cone(@params, radius, theta, speed);
-			return @params;
+			const float ga = 2.39996322972865332f;  // golden angle = 2.39996322972865332
+			Vector3 vector;
+
+			for (int i = 0; i < @params.Count; i++)
+			{
+				float lat = Mathf.Asin(-1.0f + 2.0f * i / (@params.Count + 1));
+				float lon = ga * i;
+
+				vector.x = Mathf.Cos(lon) * Mathf.Cos(lat);
+				vector.y = Mathf.Sin(lon) * Mathf.Cos(lat);
+				vector.z = Mathf.Sin(lat);
+
+				@params[i].Position = Operate(@params[i].Position, vector * radius, mode);
+				@params[i].Velocity = Operate(@params[i].Velocity, vector * speed, mode);
+				@params[i].Rotation3D = (Quaternion.LookRotation(@params[i].Velocity)
+						  * Quaternion.Euler(@params[i].Rotation3D)).eulerAngles;
+			}
+		}
+
+		/// <summary>
+		/// Random points on a sphere
+		/// </summary>
+		/// <param name="params"></param>
+		/// <param name="radius">Radius of the sphere</param>
+		/// <param name="speed">Particle start speed</param>
+		/// <param name="mode"></param>
+		public static void RandomSphere(List<EmitParams> @params, float radius, float speed, OverlayMode mode = OverlayMode.COVER)
+		{
+			Vector3 vector;
+			foreach (var param in @params)
+			{
+				vector = Random.onUnitSphere;
+				param.Position = Operate(param.Position, vector * radius, mode);
+				param.Velocity = Operate(param.Velocity, vector * speed, mode);
+				param.Rotation3D = (Quaternion.LookRotation(param.Velocity) * Quaternion.Euler(param.Rotation3D)).eulerAngles;
+			}
 		}
 
 		/// <summary>
@@ -71,14 +99,12 @@ namespace ParticleStorm.Util
 		/// <param name="params"></param>
 		/// <param name="size">Particle start size.</param>
 		/// <param name="mode"></param>
-		/// <returns></returns>
-		public static List<EmitParams> Size(List<EmitParams> @params, float size, OverlayMode mode = OverlayMode.COVER)
+		public static void Size(List<EmitParams> @params, float size, OverlayMode mode = OverlayMode.COVER)
 		{
 			Parallel.For(0, @params.Count, i =>
 			{
 				@params[i].StartSize = Operate(@params[i].StartSize, size, mode);
 			});
-			return @params;
 		}
 
 		/// <summary>
@@ -89,14 +115,13 @@ namespace ParticleStorm.Util
 		/// <param name="toSize">Size gradually change to.</param>
 		/// <param name="mode"></param>
 		/// <returns></returns>
-		public static List<EmitParams> Size(List<EmitParams> @params, float fromSize, float toSize, OverlayMode mode = OverlayMode.COVER)
+		public static void Size(List<EmitParams> @params, float fromSize, float toSize, OverlayMode mode = OverlayMode.COVER)
 		{
 			float dsize = (toSize - fromSize) / @params.Count;
 			Parallel.For(0, @params.Count, i =>
 			{
 				@params[i].StartSize = Operate(@params[i].StartSize, fromSize + dsize * i, mode);
 			});
-			return @params;
 		}
 
 		/// <summary>
@@ -107,11 +132,10 @@ namespace ParticleStorm.Util
 		/// <param name="max">Random max.</param>
 		/// <param name="mode"></param>
 		/// <returns></returns>
-		public static List<EmitParams> RandomSize(List<EmitParams> @params, float min, float max, OverlayMode mode = OverlayMode.COVER)
+		public static void RandomSize(List<EmitParams> @params, float min, float max, OverlayMode mode = OverlayMode.COVER)
 		{
 			for (int i = 0; i < @params.Count; i++)
 				@params[i].StartSize = Operate(@params[i].StartSize, Random.Range(min, max), mode);
-			return @params;
 		}
 
 		private static float Operate(float a, float b, OverlayMode mode)

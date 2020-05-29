@@ -13,34 +13,61 @@ namespace ParticleStorm
 		/// <summary>
 		/// List of emission parameters.
 		/// </summary>
-		public List<EmitParams> List { get; private set; }
+		internal List<EmitParams> List { get; private set; }
 
 		public EmitParams this[int index] { get => List[index]; set => List[index] = value; }
 
 		public int Count => List.Count;
 
-		private EmitList(List<EmitParams> list) => this.List = list;
+		private EmitList(List<EmitParams> list) => List = list;
 
 		/// <summary>
 		/// Create an empty emit list.
 		/// </summary>
-		/// <param name="num">Number of emissions.</param>
-		public EmitList(int num)
-		{
-			List = Filters.Empty(num);
-		}
+		/// <param name="num">Number of emissions</param>
+		public EmitList(int num) => List = Filters.Empty(num);
 
 		/// <summary>
 		/// Create a cone emit list.
 		/// </summary>
-		/// <param name="num">Number of particles.</param>
-		/// <param name="radius">Particle distance from origin point.</param>
-		/// <param name="theta">Half vertex angle.</param>
-		/// <param name="speed">Particle speed.</param>
+		/// <param name="num">Number of particles</param>
+		/// <param name="radius">Particle distance from origin point</param>
+		/// <param name="theta">Half vertex angle</param>
+		/// <param name="speed">Particle speed</param>
 		/// <returns></returns>
 		public static EmitList Cone(int num, float radius, float theta, float speed)
 		{
-			return new EmitList(Filters.Cone(num, radius, theta, speed));
+			var emitList = new EmitList(num);
+			Filters.Cone(emitList.List, radius, theta, speed);
+			return emitList;
+		}
+
+		/// <summary>
+		/// Create a sphere emit list using Fibonacci sphere algorithm.
+		/// </summary>
+		/// <param name="num">Number of particles</param>
+		/// <param name="radius">Radius of the sphere</param>
+		/// <param name="speed">Particle speed</param>
+		/// <returns></returns>
+		public static EmitList Sphere(int num, float radius, float speed)
+		{
+			var emitList = new EmitList(num);
+			Filters.FibonacciSphere(emitList.List, radius, speed);
+			return emitList;
+		}
+
+		/// <summary>
+		/// Create a sphere emit list using random points.
+		/// </summary>
+		/// <param name="num">Number of particles</param>
+		/// <param name="radius">Radius of the sphere</param>
+		/// <param name="speed">Particle speed</param>
+		/// <returns></returns>
+		public static EmitList RandomSphere(int num, float radius, float speed)
+		{
+			var emitList = new EmitList(num);
+			Filters.RandomSphere(emitList.List, radius, speed);
+			return emitList;
 		}
 
 		/// <summary>
