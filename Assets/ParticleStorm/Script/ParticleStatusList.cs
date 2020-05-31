@@ -26,7 +26,7 @@ namespace ParticleStorm.Script
 			}
 			else
 			{
-				foreach (ParticleStatus particle in particleStatuses) script(particle);
+				foreach (ParticleStatus particle in particleStatuses) { script(particle); }
 			}
 			WriteParticles(readNum);
 		}
@@ -55,21 +55,24 @@ namespace ParticleStorm.Script
 			int num = ParticleSystem.GetParticles(particles);
 			particleStatuses.Clear();
 			for (int i = 0; i < num; i++)
+			{
 				particleStatuses.Add(new ParticleStatus(ref particles[i], this));
+			}
 			return num;
 		}
 
 		private void WriteParticles(int num)
 		{
-			for (int i = 0; i < num; i++)
-				particleStatuses[i].ToParticle(ref particles[i]);
+			for (int i = 0; i < num; i++) { particleStatuses[i].ToParticle(ref particles[i]); }
 			ParticleSystem.SetParticles(particles, num);
 		}
 
 		private void UpdateBufferSize()
 		{
 			if (particles == null || particles.Length < ParticleSystem.main.maxParticles)
+			{
 				particles = new ParticleSystem.Particle[ParticleSystem.main.maxParticles];
+			}
 		}
 
 		private readonly List<ParticleStatus> particleStatuses;

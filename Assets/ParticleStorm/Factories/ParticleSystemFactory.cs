@@ -24,8 +24,7 @@ namespace ParticleStorm.Factories
 		{
 			var go = new GameObject();
 			var p = go.AddComponent<PSParticleSystem>();
-			if (ParticleTag != null && ParticleTag != "")
-				go.tag = ParticleTag;
+			if (ParticleTag != null && ParticleTag != "") { go.tag = ParticleTag; }
 			return p;
 		}
 

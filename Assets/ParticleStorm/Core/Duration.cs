@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace ParticleStorm.Core
@@ -54,16 +50,15 @@ namespace ParticleStorm.Core
 		/// <param name="eventCount">Events number during the duration.</param>
 		public Duration(float start, int eventCount)
 		{
-			this.Start = start;
-			this.Total = 0;
-			this.EventCount = eventCount;
-			this.PastEventCount = 0;
+			Start = start;
+			Total = 0;
+			EventCount = eventCount;
+			PastEventCount = 0;
 		}
 
 		public Duration(Duration duration)
 		{
-			if (duration == null)
-				throw new ArgumentNullException(nameof(duration));
+			if (duration == null) { throw new ArgumentNullException(nameof(duration)); }
 			Start = duration.Start;
 			Total = duration.Total;
 			EventCount = duration.EventCount;

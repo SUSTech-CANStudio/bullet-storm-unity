@@ -36,14 +36,10 @@ namespace ParticleStorm.Util
 				result.position = Position;
 				result.velocity = Velocity;
 				result.rotation3D = Rotation3D;
-				if (colorChanged)
-					result.startColor = StartColor;
-				if (StartSize > 0)
-					result.startSize = StartSize;
-				if (StartLifetime > 0)
-					result.startLifetime = StartLifetime;
-				if (MeshIndex >= 0)
-					result.meshIndex = MeshIndex;
+				if (colorChanged) { result.startColor = StartColor; }
+				if (StartSize > 0) { result.startSize = StartSize; }
+				if (StartLifetime > 0) { result.startLifetime = StartLifetime; }
+				if (MeshIndex >= 0) { result.meshIndex = MeshIndex; }
 				return result;
 			}
 		}

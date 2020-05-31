@@ -53,10 +53,8 @@ namespace ParticleStorm.Util
 			radTheta = Mathf.Acos(z/ R);
 			radPhi = Mathf.Atan(y / vector3.x);
 
-			if (float.IsNaN(radTheta))
-				radTheta = 0;
-			if (float.IsNaN(radPhi))
-				radPhi = 0;
+			if (float.IsNaN(radTheta)) { radTheta = 0; }
+			if (float.IsNaN(radPhi)) { radPhi = 0; }
 		}
 
 		/// <summary>
@@ -72,17 +70,15 @@ namespace ParticleStorm.Util
 
 		public Vector3 ToVecor3()
 		{
-			if (R == 0) return Vector3.zero;
+			if (R == 0) { return Vector3.zero; }
 			float rstheta = R * Mathf.Sin(radTheta);
 
 			var x = rstheta * Mathf.Cos(radPhi);
 			var y = rstheta * Mathf.Sin(radPhi);
 			var z = R * Mathf.Cos(radTheta);
 
-			if (Settings.UseRightHandedCoordinateSystem)
-				return new Vector3(x, z, y);
-			else
-				return new Vector3(x, y, z);
+			if (Settings.UseRightHandedCoordinateSystem) { return new Vector3(x, z, y); }
+			else { return new Vector3(x, y, z); }
 		}
 
 		public static Sphere operator +(Sphere a, Sphere b) => new Sphere(a.Vector3 + b.Vector3);

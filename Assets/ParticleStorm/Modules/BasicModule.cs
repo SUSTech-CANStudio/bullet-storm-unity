@@ -39,16 +39,15 @@ namespace ParticleStorm.Modules
 			main.startColor = defaultParams.startColor;
 			main.startLifetime = defaultParams.startLifeTime;
 			main.startSize = defaultParams.startSize;
-			if (material == null)
-				Debug.LogWarning("Material is null");
-			else
-				psr.material = material;
-			if (materials != null && materials.Length > 0)
-				psr.materials = materials;
+
+			if (material == null) { Debug.LogWarning("Material is null"); }
+			else { psr.material = material; }
+
+			if (materials != null && materials.Length > 0) { psr.materials = materials; }
+
 			if (psr.renderMode == ParticleSystemRenderMode.Mesh)
 			{
-				if (mesh == null)
-					Debug.LogWarning("Mesh is null");
+				if (mesh == null) { Debug.LogWarning("Mesh is null"); }
 				psr.mesh = mesh;
 			}
 		}

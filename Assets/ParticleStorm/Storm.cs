@@ -50,13 +50,10 @@ namespace ParticleStorm
 		/// <returns></returns>
 		public Storm AddBehavior(float startTime, EmitList emitList, Particle particle, float gap = 0)
 		{
-			if (emitList == null)
-				throw new ArgumentNullException(nameof(emitList));
+			if (emitList == null) { throw new ArgumentNullException(nameof(emitList)); }
+
 			StormBehavior behavior = new StormBehavior(emitList.List, particle, startTime);
-			if (gap > 0)
-			{
-				behavior.EmitGap = gap;
-			}
+			if (gap > 0) { behavior.EmitGap = gap; }
 			behaviors.Add(behavior);
 			Sorted = false;
 			return this;
@@ -73,13 +70,10 @@ namespace ParticleStorm
 		[Obsolete("Use EmitList instead of List<EmitParams>")]
 		public Storm AddBehavior(float startTime, List<EmitParams> emitParams, IParticle particle, float gap = 0)
 		{
-			if (emitParams == null)
-				throw new ArgumentNullException(nameof(emitParams));
+			if (emitParams == null) { throw new ArgumentNullException(nameof(emitParams)); }
+
 			StormBehavior behavior = new StormBehavior(emitParams, particle, startTime);
-			if (gap > 0)
-			{
-				behavior.EmitGap = gap;
-			}
+			if (gap > 0) { behavior.EmitGap = gap; }
 			behaviors.Add(behavior);
 			Sorted = false;
 			return this;
@@ -111,8 +105,7 @@ namespace ParticleStorm
 					coroutineStarter(behaviors[i].Execute(transform, startTime));
 					i++;
 				}
-				else
-					yield return null;
+				else { yield return null; }
 			}
 		}
 		
