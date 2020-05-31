@@ -13,12 +13,8 @@ namespace ParticleStorm
 	/// and each behavior can emit a series of <see cref="Particle"/>s,
 	/// whose initial parameters described by <see cref="EmitList"/>.
 	/// </summary>
-	public class Storm
+	public class Storm : Named<Storm>
 	{
-		/// <summary>
-		/// Name of the storm.
-		/// </summary>
-		public string Name { get => name; set => Register(value); }
 		/// <summary>
 		/// True if the behaviors of the storm already sorted.
 		/// </summary>
@@ -41,23 +37,7 @@ namespace ParticleStorm
 		{
 			behaviors = new List<IStormBehavior>();
 			Sorted = false;
-			Register(name);
-		}
-
-		~Storm() { if (Name != null) Dict.Remove(Name); }
-
-		/// <summary>
-		/// Find a storm by name.
-		/// </summary>
-		/// <param name="name"></param>
-		/// <returns></returns>
-		/// <exception cref="KeyNotFoundException"/>
-		public static Storm Find(string name)
-		{
-			if (Dict.TryGetValue(name, out Storm storm))
-				return storm;
-			else
-				throw new KeyNotFoundException("No storm named " + name);
+			Name = name;
 		}
 
 		/// <summary>
@@ -135,28 +115,7 @@ namespace ParticleStorm
 					yield return null;
 			}
 		}
-
-		/// <summary>
-		/// Set and register name.
-		/// </summary>
-		/// <param name="name"></param>
-		private void Register(string name)
-		{
-			if (name == null)
-				Debug.LogError("Storm name can't be null");
-			else if (Dict.ContainsKey(name))
-				Debug.LogError("Storm " + name + " already exists.");
-			else
-			{
-				if (this.name != null)
-					Dict.Remove(this.name);
-				Dict.Add(name, this);
-				this.name = name;
-			}
-		}
 		
 		private readonly List<IStormBehavior> behaviors;
-		private string name;
-		private static readonly Dictionary<string, Storm> Dict = new Dictionary<string, Storm>();
 	}
 }

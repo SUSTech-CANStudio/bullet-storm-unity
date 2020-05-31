@@ -2,7 +2,6 @@
 using ParticleStorm.Factories;
 using ParticleStorm.Util;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ParticleStorm
@@ -11,46 +10,29 @@ namespace ParticleStorm
 	/// <para>Particle is the bisic class of particle storm.</para>
 	/// <para>A particle can be emitted, controlled, and add modules.</para>
 	/// </summary>
-	public class Particle : IParticle
+	public class Particle : Named<Particle>, IParticle
 	{
-		public string Name { get => name; set { Register(value); } }
-
 		public Particle() { InitParticleSystem(); }
 
-		public Particle(string name) { Register(name); InitParticleSystem(); }
+		public Particle(string name) { Name = name; InitParticleSystem(); }
 		
 		public Particle(ParticlePrefeb prefeb)
 		{
 			InitParticleSystem();
 			SetPrefeb(prefeb);
-			Register(prefeb.name);
+			Name = prefeb.name;
 		}
 
 		public Particle(string name, ParticlePrefeb prefeb)
 		{
 			InitParticleSystem();
 			SetPrefeb(prefeb);
-			Register(name);
+			Name = name;
 		}
 
 		~Particle()
 		{
-			if (Name != null) { Dict.Remove(name); }
 			if (particlePrefeb != null) { ParticlePrefeb.Destroy(particlePrefeb); }
-		}
-
-		/// <summary>
-		/// Find a particle by name.
-		/// </summary>
-		/// <param name="name">Particle name.</param>
-		/// <returns></returns>
-		/// <exception cref="KeyNotFoundException"/>
-		public static Particle Find(string name)
-		{
-			if (Dict.TryGetValue(name, out Particle particle))
-				return particle;
-			else
-				throw new KeyNotFoundException("Can't find particle " + name);
 		}
 
 		/// <summary>
@@ -122,29 +104,6 @@ namespace ParticleStorm
 		public void Emit(EmitParams emitParams, int num) => particleSystem.Emit(emitParams, num);
 
 		/// <summary>
-		/// Name the particle and register itself into <see cref="Dict"/>.
-		/// </summary>
-		/// <param name="name">Particle name.</param>
-		private void Register(string name)
-		{
-			if (name == null)
-			{
-				Debug.LogError("Particle name can't be null");
-			}
-			else if (Dict.ContainsKey(name))
-			{
-				Debug.LogError("Particle " + name + " already exists.");
-			}
-			else
-			{
-				if (this.name != null)
-					Dict.Remove(this.name);
-				Dict.Add(name, this);
-				this.name = name;
-			}
-		}
-
-		/// <summary>
 		/// Initialize the particle.
 		/// </summary>
 		private void InitParticleSystem()
@@ -158,17 +117,11 @@ namespace ParticleStorm
 				throw new NotImplementedException("Game object particle not implemented yet.");
 			}
 		}
-
-		/// <summary>
-		/// Dictionary for all named particles.
-		/// </summary>
-		private static readonly Dictionary<string, Particle> Dict = new Dictionary<string, Particle>();
 		
 		/// <summary>
 		/// Particle system object, can be realized with <see cref="ParticleSystem"/> or <see cref="GameObject"/>.
 		/// </summary>
 		private IParticleSystem particleSystem;
 		private ParticlePrefeb particlePrefeb;
-		private string name;
 	}
 }
