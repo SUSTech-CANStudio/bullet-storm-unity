@@ -6,7 +6,7 @@ namespace ParticleStorm.Script
 	/// <summary>
 	/// Manages all scripts about particle.
 	/// </summary>
-	internal static class ParticleScript
+	static class ParticleScript
 	{
 		/// <summary>
 		/// Add a event for update.
@@ -32,21 +32,6 @@ namespace ParticleStorm.Script
 			catch (ArgumentException)
 			{
 				throw new ArgumentException("Update script " + @event.Name + " already exists.", @event.ToString());
-			}
-		}
-
-		/// <summary>
-		/// Add a script as trigger.
-		/// </summary>
-		/// <param name="script"></param>
-		/// <exception cref="ArgumentException"/>
-		[Obsolete("TriggerModule is abandoned, use CollisionModule instead.")]
-		public static void AddTrigger(ParticleUpdateScript script)
-		{
-			try { Triggers.Add(script.Method.Name, script); }
-			catch (ArgumentException)
-			{
-				throw new ArgumentException("Trigger " + script.Method.Name + " already exists.", script.ToString());
 			}
 		}
 
@@ -107,8 +92,5 @@ namespace ParticleStorm.Script
 			= new Dictionary<string, UpdateEvent>();
 		private static readonly Dictionary<string, CollisionEvent> CollisionScripts
 			= new Dictionary<string, CollisionEvent>();
-		[Obsolete("Triggers are abandoned.")]
-		private static readonly Dictionary<string, ParticleUpdateScript> Triggers
-			= new Dictionary<string, ParticleUpdateScript>();
 	}
 }
