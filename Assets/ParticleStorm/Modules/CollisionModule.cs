@@ -16,8 +16,8 @@ namespace ParticleStorm.Modules
 		public bool kill;
 		[Tooltip("Occation to call the script for particle")]
 		public ParticleSystemTriggerEventType triggerType;
-		[Tooltip("Name of the collision script for this particle")]
-		public string collisionScript;
+		[Tooltip("Name of the collision event for this particle")]
+		public string collisionEvent;
 		[Tooltip("The collision quality of this particle")]
 		public ParticleSystemCollisionQuality quality;
 
@@ -38,7 +38,11 @@ namespace ParticleStorm.Modules
 				{
 					module.maxKillSpeed = 0;
 				}
-				onCollision = ParticleScript.GetCollisionScript(collisionScript);
+				onCollision = CollisionEvent.Find(collisionEvent);
+				if (onCollision == null)
+				{
+					Debug.LogWarning("No collision event named " + collisionEvent);
+				}
 				ps.collisionModule = this;
 			}
 		}

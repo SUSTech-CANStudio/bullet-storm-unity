@@ -23,7 +23,6 @@ public class ParticleScriptDemo : MonoBehaviour
         // Regester function 'MyScript' as a script
         // To use the script, fill the function name in particle prefeb script module
         UpdateEvent myScript = new UpdateEvent("MyScript", MyScript);
-        ParticleScript.AddUpdateScript(myScript);
         // Create particle and generate storm
         var generator = GetComponent<StormGenerator>();
         var storm = new Storm();

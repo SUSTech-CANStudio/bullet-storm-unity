@@ -23,8 +23,8 @@ public class TriggerDemo : MonoBehaviour
 
     void Start()
     {
-        ParticleScript.AddUpdateScript(new UpdateEvent("TurnToBox", TurnToBox));
-        ParticleScript.AddCollisionScript(new CollisionEvent("Collision",
+        new UpdateEvent("TurnToBox", TurnToBox);
+        new CollisionEvent("Collision",
             (go, collisions) =>
             {
                 for (int i = 0; i < collisions.Count; i++)
@@ -32,7 +32,7 @@ public class TriggerDemo : MonoBehaviour
                     Debug.Log(go.name + " collided");
                 }
             }
-        ));
+        );
         var generator = GetComponent<StormGenerator>();
         var storm = new Storm();
         var particle = new Particle(prefeb);

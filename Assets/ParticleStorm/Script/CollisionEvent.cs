@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ParticleStorm.Util;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,12 +24,8 @@ namespace ParticleStorm.Script
 	/// <summary>
 	/// On collision event for particle collision module.
 	/// </summary>
-	public class CollisionEvent
+	public class CollisionEvent : Named<CollisionEvent>
 	{
-		/// <summary>
-		/// Name of the CollisionEvent.
-		/// </summary>
-		public string Name { get; set; }
 		/// <summary>
 		/// Script for the game object in collision.
 		/// </summary>

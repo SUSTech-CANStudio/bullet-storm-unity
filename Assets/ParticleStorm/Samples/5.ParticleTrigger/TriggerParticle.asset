@@ -392,9 +392,9 @@ MonoBehaviour:
     sizeMultiplier: 1
   collisionModule:
     enabled: 1
-    kill: 0
+    kill: 1
     triggerType: 2
-    collisionScript: Collision
+    collisionEvent: Collision
     quality: 0
   velocityOverLifetimeModule:
     enabled: 0

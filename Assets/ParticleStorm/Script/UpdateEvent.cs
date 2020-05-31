@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ParticleStorm.Util;
 
 namespace ParticleStorm.Script
 {
@@ -15,13 +16,8 @@ namespace ParticleStorm.Script
 	/// <summary>
 	/// On update event for particle collision module.
 	/// </summary>
-	public class UpdateEvent
+	public class UpdateEvent : Named<UpdateEvent>
 	{
-		/// <summary>
-		/// Name of the update event.
-		/// </summary>
-		public string Name { get; set; }
-
 		/// <summary>
 		/// Script for the particle on update.
 		/// </summary>

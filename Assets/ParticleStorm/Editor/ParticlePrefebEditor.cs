@@ -129,7 +129,7 @@ namespace UnityEditor
 			{
 				EditorGUILayout.PropertyField(collisionModule.FindPropertyRelative("kill"));
 				EditorGUILayout.PropertyField(collisionModule.FindPropertyRelative("triggerType"));
-				EditorGUILayout.PropertyField(collisionModule.FindPropertyRelative("collisionScript"));
+				EditorGUILayout.PropertyField(collisionModule.FindPropertyRelative("collisionEvent"));
 				EditorGUILayout.PropertyField(collisionModule.FindPropertyRelative("quality"));
 			}
 			EditorGUILayout.EndVertical();

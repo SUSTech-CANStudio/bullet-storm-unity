@@ -34,21 +34,9 @@ namespace ParticleStorm.Modules
 
 		public void ApplicateOn(PSParticleSystem ps)
 		{
-			if (update != null && update != "")
-				updateScript = ParticleScript.GetUpdateScript(update).OnParticleUpdate;
-			else
-				updateScript = null;
-
-			if (fixedUpdate != null && fixedUpdate != "")
-				fixedUpdateScript = ParticleScript.GetUpdateScript(fixedUpdate).OnParticleUpdate;
-			else
-				fixedUpdateScript = null;
-
-			if (lateUpdate != null && lateUpdate != "")
-				lateUpdateScript = ParticleScript.GetUpdateScript(lateUpdate).OnParticleUpdate;
-			else
-				lateUpdateScript = null;
-
+			updateScript = UpdateEvent.Find(update)?.OnParticleUpdate;
+			fixedUpdateScript = UpdateEvent.Find(fixedUpdate)?.OnParticleUpdate;
+			lateUpdateScript = UpdateEvent.Find(lateUpdate)?.OnParticleUpdate;
 			ps.scriptModule = this;
 		}
 
