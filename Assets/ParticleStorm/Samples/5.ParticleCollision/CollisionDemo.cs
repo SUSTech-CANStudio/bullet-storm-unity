@@ -4,7 +4,7 @@ using UnityEngine;
 using ParticleStorm;
 using ParticleStorm.Script;
 
-public class TriggerDemo : MonoBehaviour
+public class CollisionDemo : MonoBehaviour
 {
     public ParticlePrefeb prefeb;
     public Collider box;
