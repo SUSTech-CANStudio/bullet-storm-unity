@@ -32,7 +32,7 @@ namespace ParticleStorm.Util
 		/// <param name="theta">Half vertex angle.</param>
 		/// <param name="speed">Particle speed.</param>
 		/// <param name="mode"></param>
-		public static void Cone(List<EmitParams> @params, float radius, float theta, float speed, OverlayMode mode = OverlayMode.COVER)
+		public static void Cone(List<EmitParams> @params, float radius, float theta, float speed, OverlayMode mode)
 		{
 			float dphi = 360.0f / @params.Count;
 			Parallel.For(0, @params.Count, i =>
@@ -55,7 +55,7 @@ namespace ParticleStorm.Util
 		/// <param name="distance">Distance from the ring center to the origin point.</param>
 		/// <param name="velocityAngle">Angle from axis to velocity.</param>
 		/// <param name="speed">Particle speed.</param>
-		public static void Ring(List<EmitParams> @params, float radius, Vector3 axis, float distance, float velocityAngle, float speed, OverlayMode mode = OverlayMode.COVER)
+		public static void Ring(List<EmitParams> @params, float radius, Vector3 axis, float distance, float velocityAngle, float speed, OverlayMode mode)
 		{
 			axis = axis.normalized;
 			float dangle = 2 * Mathf.PI / @params.Count;
@@ -91,7 +91,7 @@ namespace ParticleStorm.Util
 		/// <param name="radius">Radius of the sphere</param>
 		/// <param name="speed">Particle start speed</param>
 		/// <param name="mode"></param>
-		public static void FibonacciSphere(List<EmitParams> @params, float radius, float speed, OverlayMode mode = OverlayMode.COVER)
+		public static void FibonacciSphere(List<EmitParams> @params, float radius, float speed, OverlayMode mode)
 		{
 			const float ga = 2.39996322972865332f;  // golden angle = 2.39996322972865332
 			Vector3 vector;
@@ -119,7 +119,7 @@ namespace ParticleStorm.Util
 		/// <param name="radius">Radius of the sphere</param>
 		/// <param name="speed">Particle start speed</param>
 		/// <param name="mode"></param>
-		public static void RandomSphere(List<EmitParams> @params, float radius, float speed, OverlayMode mode = OverlayMode.COVER)
+		public static void RandomSphere(List<EmitParams> @params, float radius, float speed, OverlayMode mode)
 		{
 			Vector3 vector;
 			foreach (var param in @params)
@@ -137,7 +137,7 @@ namespace ParticleStorm.Util
 		/// <param name="params"></param>
 		/// <param name="size">Particle start size.</param>
 		/// <param name="mode"></param>
-		public static void Size(List<EmitParams> @params, float size, OverlayMode mode = OverlayMode.COVER)
+		public static void Size(List<EmitParams> @params, float size, OverlayMode mode)
 		{
 			Parallel.For(0, @params.Count, i =>
 			{
@@ -153,7 +153,7 @@ namespace ParticleStorm.Util
 		/// <param name="toSize">Size gradually change to.</param>
 		/// <param name="mode"></param>
 		/// <returns></returns>
-		public static void Size(List<EmitParams> @params, float fromSize, float toSize, OverlayMode mode = OverlayMode.COVER)
+		public static void Size(List<EmitParams> @params, float fromSize, float toSize, OverlayMode mode)
 		{
 			float dsize = (toSize - fromSize) / @params.Count;
 			Parallel.For(0, @params.Count, i =>
@@ -170,7 +170,7 @@ namespace ParticleStorm.Util
 		/// <param name="max">Random max.</param>
 		/// <param name="mode"></param>
 		/// <returns></returns>
-		public static void RandomSize(List<EmitParams> @params, float min, float max, OverlayMode mode = OverlayMode.COVER)
+		public static void RandomSize(List<EmitParams> @params, float min, float max, OverlayMode mode)
 		{
 			for (int i = 0; i < @params.Count; i++)
 				@params[i].StartSize = Operate(@params[i].StartSize, Random.Range(min, max), mode);

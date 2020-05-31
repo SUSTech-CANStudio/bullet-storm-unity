@@ -39,14 +39,14 @@ namespace ParticleStorm
 		public static EmitList Cone(int num, float radius, float theta, float speed)
 		{
 			var emitList = new EmitList(num);
-			Filters.Cone(emitList.List, radius, theta, speed);
+			Filters.Cone(emitList.List, radius, theta, speed, OverlayMode.COVER);
 			return emitList;
 		}
 
 		public static EmitList Ring(int num, float radius, Vector3 axis, float distance, float velocityAngle, float speed)
 		{
 			var emitList = new EmitList(num);
-			Filters.Ring(emitList, radius, axis, distance, velocityAngle, speed);
+			Filters.Ring(emitList.List, radius, axis, distance, velocityAngle, speed, OverlayMode.COVER);
 			return emitList;
 		}
 
@@ -60,7 +60,7 @@ namespace ParticleStorm
 		public static EmitList Sphere(int num, float radius, float speed)
 		{
 			var emitList = new EmitList(num);
-			Filters.FibonacciSphere(emitList.List, radius, speed);
+			Filters.FibonacciSphere(emitList.List, radius, speed, OverlayMode.COVER);
 			return emitList;
 		}
 
@@ -74,7 +74,7 @@ namespace ParticleStorm
 		public static EmitList RandomSphere(int num, float radius, float speed)
 		{
 			var emitList = new EmitList(num);
-			Filters.RandomSphere(emitList.List, radius, speed);
+			Filters.RandomSphere(emitList.List, radius, speed, OverlayMode.COVER);
 			return emitList;
 		}
 
