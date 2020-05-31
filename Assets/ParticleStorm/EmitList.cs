@@ -1,6 +1,7 @@
 ﻿using ParticleStorm.Util;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace ParticleStorm
 {
@@ -39,6 +40,13 @@ namespace ParticleStorm
 		{
 			var emitList = new EmitList(num);
 			Filters.Cone(emitList.List, radius, theta, speed);
+			return emitList;
+		}
+
+		public static EmitList Ring(int num, float radius, Vector3 axis, float distance, float velocityAngle, float speed)
+		{
+			var emitList = new EmitList(num);
+			Filters.Ring(emitList, radius, axis, distance, velocityAngle, speed);
 			return emitList;
 		}
 

@@ -47,6 +47,44 @@ namespace ParticleStorm.Util
 		}
 
 		/// <summary>
+		/// Ring filter.
+		/// </summary>
+		/// <param name="params"></param>
+		/// <param name="radius">Radius of the ring.</param>
+		/// <param name="axis">Axis of the ring.</param>
+		/// <param name="distance">Distance from the ring center to the origin point.</param>
+		/// <param name="velocityAngle">Angle from axis to velocity.</param>
+		/// <param name="speed">Particle speed.</param>
+		public static void Ring(List<EmitParams> @params, float radius, Vector3 axis, float distance, float velocityAngle, float speed, OverlayMode mode = OverlayMode.COVER)
+		{
+			axis = axis.normalized;
+			float dangle = 2 * Mathf.PI / @params.Count;
+			Parallel.For(0, @params.Count, i =>
+			{
+				float angle = i * dangle;
+				// a unit ring in xy plain
+				Vector3 direction = new Vector3(Mathf.Sin(angle), Mathf.Cos(angle), 0);
+				// rotate the ring
+				direction = Quaternion.LookRotation(axis) * direction;
+				// calculate points
+				Vector3 point = direction * radius + axis * distance;
+
+				@params[i].Position = Operate(@params[i].Position, point, mode);
+				@params[i].Velocity = Operate(
+					@params[i].Velocity,
+					Quaternion.SlerpUnclamped(
+						Quaternion.identity,
+						Quaternion.FromToRotation(axis, direction),
+						velocityAngle / 90
+					) * axis * speed
+					, mode);
+				@params[i].Rotation3D = (Quaternion.LookRotation(@params[i].Velocity)
+						* Quaternion.Euler(@params[i].Rotation3D)).eulerAngles;
+			});
+		}
+
+
+		/// <summary>
 		/// Use Fibonacci sphere algorithm to generate a simillar equal-distance point sphere.
 		/// </summary>
 		/// <param name="params"></param>
