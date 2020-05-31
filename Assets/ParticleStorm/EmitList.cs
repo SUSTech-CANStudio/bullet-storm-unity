@@ -43,6 +43,16 @@ namespace ParticleStorm
 			return emitList;
 		}
 
+		/// <summary>
+		/// Create a ring emit list.
+		/// </summary>
+		/// <param name="num">Number of particles</param>
+		/// <param name="radius">Radius of the ring.</param>
+		/// <param name="axis">Axis of the ring.</param>
+		/// <param name="distance">Distance from the ring center to the origin point.</param>
+		/// <param name="velocityAngle">Angle from axis to velocity.</param>
+		/// <param name="speed">Particle speed.</param>
+		/// <returns></returns>
 		public static EmitList Ring(int num, float radius, Vector3 axis, float distance, float velocityAngle, float speed)
 		{
 			var emitList = new EmitList(num);
