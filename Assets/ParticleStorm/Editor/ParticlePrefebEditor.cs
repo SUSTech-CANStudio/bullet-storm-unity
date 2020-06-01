@@ -6,7 +6,6 @@ namespace UnityEditor
 	[CustomEditor(typeof(ParticlePrefeb))]
 	class ParticlePrefebEditor : Editor
 	{
-		SerializedProperty useParticleSystem;
 		// basic module
 		SerializedProperty basicModule;
 		SerializedProperty renderMode;
@@ -31,7 +30,6 @@ namespace UnityEditor
 
 		private void OnEnable()
 		{
-			useParticleSystem = serializedObject.FindProperty("useParticleSystem");
 			// basic module
 			basicModule = serializedObject.FindProperty("basicModule");
 			renderMode = basicModule.FindPropertyRelative("renderMode");
@@ -63,13 +61,8 @@ namespace UnityEditor
 				EditorGUILayout.PropertyField(material);
 			}
 			EditorGUILayout.PropertyField(materials);
-			if (useParticleSystem.boolValue)
-			{
-				EditorGUILayout.PropertyField(renderMode);
-				if (renderMode.enumValueIndex == (int)ParticleSystemRenderMode.Mesh)
-					EditorGUILayout.PropertyField(mesh);
-			}
-			else
+			EditorGUILayout.PropertyField(renderMode);
+			if (renderMode.enumValueIndex == (int)ParticleSystemRenderMode.Mesh)
 			{
 				EditorGUILayout.PropertyField(mesh);
 			}
@@ -140,8 +133,6 @@ namespace UnityEditor
 		{
 			serializedObject.Update();
 
-			EditorGUILayout.PropertyField(useParticleSystem);
-			EditorGUILayout.Space();
 			DrawBasicModule();
 			DrawModule(colorBySpeedModule, 3);
 			DrawModule(colorOverLifetimeModule, 2);
