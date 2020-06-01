@@ -23,8 +23,6 @@ namespace ParticleStorm.Core
 
 		public void Emit(EmitParams emitParams, int num) => ps.Emit(emitParams.Full, num);
 		public void ApplicateModule(IParticleModule module) => module.ApplicateOn(this);
-		public void SetTriggerCollider(int index, Collider collider) => ps.trigger.SetCollider(index, collider);
-		public Component GetTriggerCollider(int index) => ps.trigger.GetCollider(index);
 
 		private void Awake()
 		{

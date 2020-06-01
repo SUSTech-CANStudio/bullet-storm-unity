@@ -56,33 +56,6 @@ namespace ParticleStorm
 		}
 
 		/// <summary>
-		/// Set trigger collider for the particle.<para/>
-		/// Only when you enabled `useParticleSystem` in <see cref="particlePrefeb"/>,
-		/// you need to call this function to add trigger colliders for particles.<para/>
-		/// For particle based on <see cref="GameObject"/>, all colliders in the sence are
-		/// able to collide.
-		/// </summary>
-		/// <param name="index">Collider index.</param>
-		/// <param name="collider"></param>
-		public void SetTriggerCollider(int index, Collider collider)
-		{
-			((ParticleGenerator)particleSystem).SetTriggerCollider(index, collider);
-		}
-
-		/// <summary>
-		/// Get trigger collider of the particle.<para/>
-		/// Only when you enabled `useParticleSystem` in <see cref="particlePrefeb"/>,
-		/// you can call this function to get trigger colliders for particles.<para/>
-		/// For particle based on <see cref="GameObject"/>, all colliders in the sence are
-		/// able to collide.
-		/// </summary>
-		/// <param name="index">Collider index.</param>
-		public void GetTriggerColloder(int index)
-		{
-			((ParticleGenerator)particleSystem).GetTriggerCollider(index);
-		}
-
-		/// <summary>
 		/// Emit particles.
 		/// </summary>
 		/// <param name="emitParams">Initial parameters of the emitted particle.</param>

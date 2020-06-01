@@ -36,7 +36,6 @@ public class CollisionDemo : MonoBehaviour
         var generator = GetComponent<StormGenerator>();
         var storm = new Storm();
         var particle = new Particle(prefeb);
-        particle.SetTriggerCollider(0, box);
         storm.AddBehavior(0, EmitList.Cone(100, 2, 90, 0.5f), particle, 1);
         generator.Generate(storm);
     }
