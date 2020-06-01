@@ -26,10 +26,5 @@ namespace ParticleStorm.Modules
 				module.speedModifierMultiplier = speedMultiplier;
 			}
 		}
-
-		public void ApplicateOn(GOParticleSystem go)
-		{
-			throw new NotImplementedException();
-		}
 	}
 }

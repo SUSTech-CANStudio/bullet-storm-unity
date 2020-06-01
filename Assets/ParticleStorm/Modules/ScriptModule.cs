@@ -39,10 +39,5 @@ namespace ParticleStorm.Modules
 			lateUpdateScript = UpdateEvent.Find(lateUpdate)?.OnParticleUpdate;
 			ps.scriptModule = this;
 		}
-
-		public void ApplicateOn(GOParticleSystem go)
-		{
-			throw new NotImplementedException();
-		}
 	}
 }

@@ -66,14 +66,7 @@ namespace ParticleStorm
 		/// <param name="collider"></param>
 		public void SetTriggerCollider(int index, Collider collider)
 		{
-			if (particlePrefeb.useParticleSystem)
-			{
-				((PSParticleSystem)particleSystem).SetTriggerCollider(index, collider);
-			}
-			else
-			{
-				throw new InvalidOperationException("Only particle system based particle need setting colloders.");
-			}
+			((PSParticleSystem)particleSystem).SetTriggerCollider(index, collider);
 		}
 
 		/// <summary>
@@ -86,14 +79,7 @@ namespace ParticleStorm
 		/// <param name="index">Collider index.</param>
 		public void GetTriggerColloder(int index)
 		{
-			if (particlePrefeb.useParticleSystem)
-			{
-				((PSParticleSystem)particleSystem).GetTriggerCollider(index);
-			}
-			else
-			{
-				throw new InvalidOperationException("Only particle system based particle can get colloders.");
-			}
+			((PSParticleSystem)particleSystem).GetTriggerCollider(index);
 		}
 
 		/// <summary>
@@ -108,14 +94,7 @@ namespace ParticleStorm
 		/// </summary>
 		private void InitParticleSystem()
 		{
-			if (particlePrefeb == null || particlePrefeb.useParticleSystem)
-			{
-				particleSystem = ParticleSystemFactory.PSParticleSystem();
-			}
-			else
-			{
-				throw new NotImplementedException("Game object particle not implemented yet.");
-			}
+			particleSystem = ParticleSystemFactory.PSParticleSystem();
 		}
 		
 		/// <summary>

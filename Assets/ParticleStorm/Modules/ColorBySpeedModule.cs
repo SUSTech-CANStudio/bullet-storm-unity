@@ -23,10 +23,5 @@ namespace ParticleStorm.Modules
 			module.color = color;
 			module.range = range;
 		}
-
-		public void ApplicateOn(GOParticleSystem go)
-		{
-			throw new NotImplementedException();
-		}
 	}
 }

@@ -46,10 +46,5 @@ namespace ParticleStorm.Modules
 				ps.collisionModule = this;
 			}
 		}
-
-		public void ApplicateOn(GOParticleSystem go)
-		{
-			throw new NotImplementedException();
-		}
 	}
 }

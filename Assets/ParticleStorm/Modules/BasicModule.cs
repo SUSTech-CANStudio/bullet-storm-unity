@@ -51,10 +51,5 @@ namespace ParticleStorm.Modules
 				psr.mesh = mesh;
 			}
 		}
-
-		public void ApplicateOn(GOParticleSystem go)
-		{
-			throw new NotImplementedException();
-		}
 	}
 }

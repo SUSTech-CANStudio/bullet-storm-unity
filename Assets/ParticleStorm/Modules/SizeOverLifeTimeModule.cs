@@ -26,10 +26,5 @@ namespace ParticleStorm.Modules
 				module.sizeMultiplier = sizeMultiplier;
 			}
 		}
-
-		public void ApplicateOn(GOParticleSystem go)
-		{
-			throw new NotImplementedException();
-		}
 	}
 }

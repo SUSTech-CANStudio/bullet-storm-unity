@@ -13,10 +13,5 @@ namespace ParticleStorm.Modules
 		{
 			throw new NotImplementedException();
 		}
-
-		public void ApplicateOn(GOParticleSystem go)
-		{
-			throw new NotImplementedException();
-		}
 	}
 }

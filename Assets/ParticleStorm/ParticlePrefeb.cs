@@ -10,9 +10,6 @@ namespace ParticleStorm
 	public class ParticlePrefeb : ScriptableObject
 	{
 		[SerializeField]
-		[Tooltip("Use particle system to generate particle is faster.\nUse game object may have more options.")]
-		internal bool useParticleSystem = true;
-		[SerializeField]
 		private BasicModule basicModule = new BasicModule() { 
 			defaultParams = new BasicModule.Parameters() {
 				startLifeTime = 10,

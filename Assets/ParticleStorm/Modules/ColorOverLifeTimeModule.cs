@@ -19,10 +19,5 @@ namespace ParticleStorm.Modules
 			module.enabled = enabled;
 			module.color = color;
 		}
-
-		public void ApplicateOn(GOParticleSystem go)
-		{
-			throw new NotImplementedException();
-		}
 	}
 }

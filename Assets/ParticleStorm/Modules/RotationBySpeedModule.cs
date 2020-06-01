@@ -41,10 +41,5 @@ namespace ParticleStorm.Modules
 				module.zMultiplier = zMultiplier;
 			}
 		}
-
-		public void ApplicateOn(GOParticleSystem go)
-		{
-			throw new NotImplementedException();
-		}
 	}
 }
