@@ -23,7 +23,7 @@ namespace ParticleStorm.Modules
 
 		internal CollisionEvent onCollision;
 
-		public void ApplicateOn(PSParticleSystem ps)
+		public void ApplicateOn(ParticleGenerator ps)
 		{
 			var module = ps.GetComponent<ParticleSystem>().collision;
 			module.enabled = enabled;

@@ -20,10 +20,10 @@ namespace ParticleStorm.Factories
 		/// Create particle system particle.
 		/// </summary>
 		/// <returns></returns>
-		public static PSParticleSystem PSParticleSystem()
+		public static ParticleGenerator PSParticleSystem()
 		{
 			var go = new GameObject();
-			var p = go.AddComponent<PSParticleSystem>();
+			var p = go.AddComponent<ParticleGenerator>();
 			if (ParticleTag != null && ParticleTag != "") { go.tag = ParticleTag; }
 			return p;
 		}

@@ -66,7 +66,7 @@ namespace ParticleStorm
 		/// <param name="collider"></param>
 		public void SetTriggerCollider(int index, Collider collider)
 		{
-			((PSParticleSystem)particleSystem).SetTriggerCollider(index, collider);
+			((ParticleGenerator)particleSystem).SetTriggerCollider(index, collider);
 		}
 
 		/// <summary>
@@ -79,7 +79,7 @@ namespace ParticleStorm
 		/// <param name="index">Collider index.</param>
 		public void GetTriggerColloder(int index)
 		{
-			((PSParticleSystem)particleSystem).GetTriggerCollider(index);
+			((ParticleGenerator)particleSystem).GetTriggerCollider(index);
 		}
 
 		/// <summary>
@@ -100,7 +100,7 @@ namespace ParticleStorm
 		/// <summary>
 		/// Particle system object, can be realized with <see cref="ParticleSystem"/> or <see cref="GameObject"/>.
 		/// </summary>
-		private IParticleSystem particleSystem;
+		private ParticleGenerator particleSystem;
 		private ParticlePrefeb particlePrefeb;
 	}
 }

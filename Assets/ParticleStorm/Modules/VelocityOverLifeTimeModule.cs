@@ -16,7 +16,7 @@ namespace ParticleStorm.Modules
 		[Tooltip("Multiplier of speed.")]
 		public float speedMultiplier;
 
-		public void ApplicateOn(PSParticleSystem ps)
+		public void ApplicateOn(ParticleGenerator ps)
 		{
 			var module = ps.GetComponent<ParticleSystem>().velocityOverLifetime;
 			module.enabled = enabled;

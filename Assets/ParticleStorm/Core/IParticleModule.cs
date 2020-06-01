@@ -6,6 +6,6 @@
 		/// Add the module on a <see cref="PSParticleSystem"/>.
 		/// </summary>
 		/// <param name="ps"></param>
-		void ApplicateOn(PSParticleSystem ps);
+		void ApplicateOn(ParticleGenerator ps);
 	}
 }

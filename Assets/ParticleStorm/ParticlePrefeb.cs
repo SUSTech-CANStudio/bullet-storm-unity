@@ -56,7 +56,7 @@ namespace ParticleStorm
 			speedMultiplier = 1
 		};
 
-		internal void Bind(IParticleSystem particleSystem)
+		internal void Bind(ParticleGenerator particleSystem)
 		{
 			particleSystem.ApplicateModule(basicModule);
 			particleSystem.ApplicateModule(colorBySpeedModule);

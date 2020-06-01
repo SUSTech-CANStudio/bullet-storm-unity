@@ -16,7 +16,7 @@ namespace ParticleStorm.Modules
 		[Tooltip("Multiplier for size.")]
 		public float sizeMultiplier;
 
-		public void ApplicateOn(PSParticleSystem ps)
+		public void ApplicateOn(ParticleGenerator ps)
 		{
 			var module = ps.GetComponent<ParticleSystem>().sizeOverLifetime;
 			module.enabled = enabled;

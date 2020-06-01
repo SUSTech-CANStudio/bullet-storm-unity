@@ -7,9 +7,9 @@ using UnityEngine;
 namespace ParticleStorm.Core
 {
 	/// <summary>
-	/// Particle system based on <see cref="ParticleSystem"/>.
+	/// Creates <see cref="ParticleSystem"/> and generate particles.
 	/// </summary>
-	internal class PSParticleSystem : MonoBehaviour, IParticleSystem
+	internal class ParticleGenerator : MonoBehaviour
 	{
 		/// <summary>
 		/// Main particle system settings.

@@ -26,7 +26,7 @@ namespace ParticleStorm.Modules
 		[Tooltip("Speed multiplier along the z-axis.")]
 		public float zMultiplier;
 
-		public void ApplicateOn(PSParticleSystem ps)
+		public void ApplicateOn(ParticleGenerator ps)
 		{
 			var module = ps.GetComponent<ParticleSystem>().rotationBySpeed;
 			module.enabled = enabled;

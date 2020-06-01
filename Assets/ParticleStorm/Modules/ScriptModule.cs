@@ -32,7 +32,7 @@ namespace ParticleStorm.Modules
 		internal ParticleUpdateScript fixedUpdateScript;
 		internal ParticleUpdateScript lateUpdateScript;
 
-		public void ApplicateOn(PSParticleSystem ps)
+		public void ApplicateOn(ParticleGenerator ps)
 		{
 			updateScript = UpdateEvent.Find(update)?.OnParticleUpdate;
 			fixedUpdateScript = UpdateEvent.Find(fixedUpdate)?.OnParticleUpdate;

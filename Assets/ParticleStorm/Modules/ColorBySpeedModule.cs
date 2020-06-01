@@ -16,7 +16,7 @@ namespace ParticleStorm.Modules
 		[Tooltip("Apply the color gradient between these minimum and maximum speeds.")]
 		public Vector2 range;
 
-		public void ApplicateOn(PSParticleSystem ps)
+		public void ApplicateOn(ParticleGenerator ps)
 		{
 			var module = ps.GetComponent<ParticleSystem>().colorBySpeed;
 			module.enabled = enabled;

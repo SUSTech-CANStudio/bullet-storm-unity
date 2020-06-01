@@ -31,7 +31,7 @@ namespace ParticleStorm.Modules
 		[Tooltip("Default parameters of the particle.")]
 		public Parameters defaultParams;
 
-		public void ApplicateOn(PSParticleSystem ps)
+		public void ApplicateOn(ParticleGenerator ps)
 		{
 			var psr = ps.GetComponent<ParticleSystemRenderer>();
 			var main = ps.Main;
