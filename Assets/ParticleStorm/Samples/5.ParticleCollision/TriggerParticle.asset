@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 867232682ab9d61479fc1061702c10d1, type: 3}
   m_Name: TriggerParticle
   m_EditorClassIdentifier: 
-  useParticleSystem: 1
   basicModule:
     renderMode: 3
     material: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
@@ -343,12 +342,7 @@ MonoBehaviour:
     zMultiplier: 1
   scriptModule:
     enabled: 1
-    update: TurnToBox
-    fixedUpdate: 
-    lateUpdate: 
-    parallelUpdate: 1
-    parallelFixedUpdate: 0
-    parallelLateUpdate: 0
+    updateEvent: TurnToBox
   sizeBySpeedModule:
     enabled: 0
     size:
