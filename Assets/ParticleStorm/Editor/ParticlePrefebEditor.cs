@@ -7,7 +7,6 @@ namespace UnityEditor
 	internal class ParticlePrefebEditor : Editor
 	{
 		// basic module
-		private SerializedProperty basicModule;
 		private SerializedProperty renderMode;
 		private SerializedProperty material;
 		private SerializedProperty materials;
@@ -32,7 +31,7 @@ namespace UnityEditor
 		private void OnEnable()
 		{
 			// basic module
-			basicModule = serializedObject.FindProperty("basicModule");
+			var basicModule = serializedObject.FindProperty("basicModule");
 			renderMode = basicModule.FindPropertyRelative("renderMode");
 			material = basicModule.FindPropertyRelative("material");
 			materials = basicModule.FindPropertyRelative("materials");

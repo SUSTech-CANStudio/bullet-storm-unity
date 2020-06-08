@@ -62,14 +62,14 @@ namespace ParticleStorm.StormNS
 
 		public IEnumerator Execute(ParticleSystemController psc, Transform transform, float stormStartTime)
 		{
-			Duration duration = new Duration(this.duration);
+			Duration executing = new Duration(duration);
 			int begin, end;
 			if (psc.IsOrigin)
 			{
-				while (!duration.Finished)
+				while (!executing.Finished)
 				{
-					begin = duration.PastEventCount;
-					end = duration.GetHappenedEventCount(Time.time - stormStartTime);
+					begin = executing.PastEventCount;
+					end = executing.GetHappenedEventCount(Time.time - stormStartTime);
 					for (int i = begin; i < end; i++)
 					{
 						psc.Emit(emitParams[i].RelativeParams(transform));
@@ -79,10 +79,10 @@ namespace ParticleStorm.StormNS
 			}
 			else
 			{
-				while (!duration.Finished)
+				while (!executing.Finished)
 				{
-					begin = duration.PastEventCount;
-					end = duration.GetHappenedEventCount(Time.time - stormStartTime);
+					begin = executing.PastEventCount;
+					end = executing.GetHappenedEventCount(Time.time - stormStartTime);
 					for (int i = begin; i < end; i++)
 					{
 						psc.Emit(emitParams[i]);
@@ -94,10 +94,8 @@ namespace ParticleStorm.StormNS
 
 		public int CompareTo(IStormBehavior other)
 		{
-			if (StartTime < other.StartTime)
-				return -1;
-			else
-				return 1;
+			if (StartTime < other.StartTime) { return -1; }
+			else { return 1; }
 		}
 	}
 }

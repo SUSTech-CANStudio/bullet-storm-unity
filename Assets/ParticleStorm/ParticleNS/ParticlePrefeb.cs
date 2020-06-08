@@ -9,9 +9,9 @@ namespace ParticleStorm.ParticleNS
 	public class ParticlePrefeb : ScriptableObject
 	{
 		[SerializeField]
-		private BasicModule basicModule = new BasicModule()
+		private BasicModule basicModule = new BasicModule
 		{
-			defaultParams = new BasicModule.Parameters()
+			defaultParams = new BasicModule.Parameters
 			{
 				startLifeTime = 10,
 				startColor = new ParticleSystem.MinMaxGradient(new Color(1, 1, 1, 1)),
@@ -23,14 +23,14 @@ namespace ParticleStorm.ParticleNS
 		[SerializeField]
 		private ColorOverLifetimeModule colorOverLifetimeModule;
 		[SerializeField]
-		private RotationBySpeedModule rotationBySpeedModule = new RotationBySpeedModule()
+		private RotationBySpeedModule rotationBySpeedModule = new RotationBySpeedModule
 		{
 			xMultiplier = 1,
 			yMultiplier = 1,
 			zMultiplier = 1
 		};
 		[SerializeField]
-		private RotationOverLifetimeModule rotationOverLifetimeModule = new RotationOverLifetimeModule()
+		private RotationOverLifetimeModule rotationOverLifetimeModule = new RotationOverLifetimeModule
 		{
 			xMultiplier = 1,
 			yMultiplier = 1,
@@ -39,12 +39,12 @@ namespace ParticleStorm.ParticleNS
 		[SerializeField]
 		private ScriptModule scriptModule;
 		[SerializeField]
-		private SizeBySpeedModule sizeBySpeedModule = new SizeBySpeedModule()
+		private SizeBySpeedModule sizeBySpeedModule = new SizeBySpeedModule
 		{
 			sizeMultiplier = 1
 		};
 		[SerializeField]
-		private SizeOverLifetimeModule sizeOverLifetimeModule = new SizeOverLifetimeModule()
+		private SizeOverLifetimeModule sizeOverLifetimeModule = new SizeOverLifetimeModule
 		{
 			sizeMultiplier = 1
 		};
@@ -53,7 +53,7 @@ namespace ParticleStorm.ParticleNS
 		[SerializeField]
 		private CollisionModule collisionModule;
 		[SerializeField]
-		private VelocityOverLifetimeModule velocityOverLifetimeModule = new VelocityOverLifetimeModule()
+		private VelocityOverLifetimeModule velocityOverLifetimeModule = new VelocityOverLifetimeModule
 		{
 			speedMultiplier = 1
 		};
@@ -67,7 +67,6 @@ namespace ParticleStorm.ParticleNS
 			rotationOverLifetimeModule.ApplicateOn(psc);
 			sizeBySpeedModule.ApplicateOn(psc);
 			sizeOverLifetimeModule.ApplicateOn(psc);
-			//trailModule.ApplicateOn(psc);
 			collisionModule.ApplicateOn(psc);
 			velocityOverLifetimeModule.ApplicateOn(psc);
 			scriptModule.ApplicateOn(psc);

@@ -1,4 +1,5 @@
 ﻿using ParticleStorm.Util;
+using System.ComponentModel;
 
 namespace ParticleStorm.ParticleNS.Script
 {
@@ -61,6 +62,8 @@ namespace ParticleStorm.ParticleNS.Script
 				case 2:
 					OnParticleLateUpdate = script;
 					break;
+				default:
+					throw new InvalidEnumArgumentException();
 			}
 		}
 	}
