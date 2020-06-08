@@ -1,30 +1,33 @@
-﻿using ParticleStorm;
+﻿using ParticleStorm.ParticleNS;
 using UnityEngine;
 
 namespace UnityEditor
 {
 	[CustomEditor(typeof(ParticlePrefeb))]
-	class ParticlePrefebEditor : Editor
+	internal class ParticlePrefebEditor : Editor
 	{
 		// basic module
-		SerializedProperty basicModule;
-		SerializedProperty renderMode;
-		SerializedProperty material;
-		SerializedProperty materials;
-		SerializedProperty mesh;
-		SerializedProperty defaultParams;
+		private SerializedProperty basicModule;
+		private SerializedProperty renderMode;
+		private SerializedProperty material;
+		private SerializedProperty materials;
+		private SerializedProperty mesh;
+		private SerializedProperty defaultParams;
+
 		// normal modules
-		SerializedProperty colorBySpeedModule;
-		SerializedProperty colorOverLifetimeModule;
-		SerializedProperty rotationBySpeedModule;
-		SerializedProperty rotationOverLifetimeModule;
-		SerializedProperty sizeBySpeedModule;
-		SerializedProperty sizeOverLifetimeModule;
-		SerializedProperty velocityOverLifetimeModule;
+		private SerializedProperty colorBySpeedModule;
+		private SerializedProperty colorOverLifetimeModule;
+		private SerializedProperty rotationBySpeedModule;
+		private SerializedProperty rotationOverLifetimeModule;
+		private SerializedProperty sizeBySpeedModule;
+		private SerializedProperty sizeOverLifetimeModule;
+		private SerializedProperty velocityOverLifetimeModule;
+
 		// script module
-		SerializedProperty scriptModule;
+		private SerializedProperty scriptModule;
+
 		// collision module
-		SerializedProperty collisionModule;
+		private SerializedProperty collisionModule;
 
 		private void OnEnable()
 		{
@@ -64,11 +67,11 @@ namespace UnityEditor
 			}
 			EditorGUILayout.PropertyField(defaultParams);
 		}
-	 
+
 		private void DrawModule(SerializedProperty module, int propertyCount)
 		{
 			SerializedProperty sp = module.FindPropertyRelative("enabled");
-			
+
 			EditorGUILayout.BeginVertical("Box");
 			EditorGUILayout.PropertyField(sp, new GUIContent(module.displayName, sp.tooltip));
 			if (sp.boolValue)

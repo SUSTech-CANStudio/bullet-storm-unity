@@ -50,7 +50,7 @@ namespace ParticleStorm.Util
 			var z = Settings.UseRightHandedCoordinateSystem ? vector3.y : vector3.z;
 			R = vector3.magnitude;
 
-			radTheta = Mathf.Acos(z/ R);
+			radTheta = Mathf.Acos(z / R);
 			radPhi = Mathf.Atan(y / vector3.x);
 
 			if (float.IsNaN(radTheta)) { radTheta = 0; }

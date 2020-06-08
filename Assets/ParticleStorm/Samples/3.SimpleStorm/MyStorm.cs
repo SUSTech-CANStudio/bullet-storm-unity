@@ -1,13 +1,13 @@
-﻿using UnityEngine;
-using ParticleStorm;
-using ParticleStorm.StormBehaviors;
+﻿using ParticleStorm.ParticleNS;
+using ParticleStorm.StormNS;
+using UnityEngine;
 
 public class MyStorm : MonoBehaviour
 {
     public ParticlePrefeb particlePrefeb;
     public float gap;
 
-    void Start()
+    private void Start()
     {
         // Get generator component
         var generator = GetComponent<StormGenerator>();
