@@ -9,6 +9,6 @@ public class MyParticle : MonoBehaviour
     void Start()
     {
         Particle particle = new Particle(prefeb);
-        particle.Emit(new EmitParams(), 1);
+        particle.Origin.Emit(new EmitParams());
     }
 }

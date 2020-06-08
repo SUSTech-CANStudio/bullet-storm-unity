@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ParticleStorm.Script
 {
-	internal class ParticleStatusList
+	class ParticleStatusList
 	{
 		public ParticleSystem ParticleSystem { get; }
 		public float DeltaTime { get; private set; }
@@ -31,7 +31,7 @@ namespace ParticleStorm.Script
 			WriteParticles(readNum);
 		}
 
-		public void Trigger(ParticleCollisionScript script, ParticleSystemTriggerEventType eventType)
+		public void Collision(ParticleCollisionScript script, ParticleSystemTriggerEventType eventType)
 		{
 			// Get
 			List<ParticleSystem.Particle> particles = new List<ParticleSystem.Particle>();

@@ -10,7 +10,7 @@ namespace ParticleStorm
 	public class ParticlePrefeb : ScriptableObject
 	{
 		[SerializeField]
-		private BasicModule basicModule = new BasicModule() { 
+		private BasicModule basicModule = new BasicModule() {
 			defaultParams = new BasicModule.Parameters() {
 				startLifeTime = 10,
 				startColor = new ParticleSystem.MinMaxGradient(new Color(1, 1, 1, 1)),
@@ -56,19 +56,19 @@ namespace ParticleStorm
 			speedMultiplier = 1
 		};
 
-		internal void Bind(ParticleGenerator particleSystem)
+		internal void ApplicateOn(ParticleSystemController psc)
 		{
-			particleSystem.ApplicateModule(basicModule);
-			particleSystem.ApplicateModule(colorBySpeedModule);
-			particleSystem.ApplicateModule(colorOverLifetimeModule);
-			particleSystem.ApplicateModule(rotationBySpeedModule);
-			particleSystem.ApplicateModule(rotationOverLifetimeModule);
-			particleSystem.ApplicateModule(sizeBySpeedModule);
-			particleSystem.ApplicateModule(sizeOverLifetimeModule);
-			//particleSystem.ApplicateModule(trailModule);
-			particleSystem.ApplicateModule(collisionModule);
-			particleSystem.ApplicateModule(velocityOverLifetimeModule);
-			particleSystem.ApplicateModule(scriptModule);
+			basicModule.ApplicateOn(psc);
+			colorBySpeedModule.ApplicateOn(psc);
+			colorOverLifetimeModule.ApplicateOn(psc);
+			rotationBySpeedModule.ApplicateOn(psc);
+			rotationOverLifetimeModule.ApplicateOn(psc);
+			sizeBySpeedModule.ApplicateOn(psc);
+			sizeOverLifetimeModule.ApplicateOn(psc);
+			//trailModule.ApplicateOn(psc);
+			collisionModule.ApplicateOn(psc);
+			velocityOverLifetimeModule.ApplicateOn(psc);
+			scriptModule.ApplicateOn(psc);
 		}
 	}
 }

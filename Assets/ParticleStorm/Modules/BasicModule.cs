@@ -1,5 +1,6 @@
 ﻿#pragma warning disable 0649
 
+using JetBrains.Annotations;
 using ParticleStorm.Core;
 using System;
 using UnityEngine;
@@ -31,10 +32,10 @@ namespace ParticleStorm.Modules
 		[Tooltip("Default parameters of the particle.")]
 		public Parameters defaultParams;
 
-		public void ApplicateOn(ParticleGenerator ps)
+		public void ApplicateOn(ParticleSystemController psc)
 		{
-			var psr = ps.GetComponent<ParticleSystemRenderer>();
-			var main = ps.Main;
+			var psr = psc.ParticleSystem.GetComponent<ParticleSystemRenderer>();
+			var main = psc.ParticleSystem.main;
 			psr.renderMode = renderMode;
 			main.startColor = defaultParams.startColor;
 			main.startLifetime = defaultParams.startLifeTime;

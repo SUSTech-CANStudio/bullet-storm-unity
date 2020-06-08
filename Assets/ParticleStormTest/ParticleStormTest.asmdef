@@ -1,11 +1,13 @@
 {
-    "name": "ParticleStormTests",
+    "name": "ParticleStormTest",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "ParticleStorm"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,

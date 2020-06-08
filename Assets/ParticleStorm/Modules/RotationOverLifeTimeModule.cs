@@ -24,9 +24,9 @@ namespace ParticleStorm.Modules
 		[Tooltip("Rotation multiplier along the z-axis.")]
 		public float zMultiplier;
 
-		public void ApplicateOn(ParticleGenerator ps)
+		public void ApplicateOn(ParticleSystemController psc)
 		{
-			var module = ps.GetComponent<ParticleSystem>().rotationOverLifetime;
+			var module = psc.ParticleSystem.rotationOverLifetime;
 			module.enabled = enabled;
 			if (enabled)
 			{

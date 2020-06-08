@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using ParticleStorm;
+using ParticleStorm.StormBehaviors;
 
 public class MyStorm : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class MyStorm : MonoBehaviour
         // Create an emit list.
         var emitList = EmitList.Cone(100, 2, 90, 1);
         // Add an emission behavior to storm.
-        storm.AddBehavior(0, emitList, particle, gap);
+        storm.AddBehavior(new EmissionBehavior(emitList, particle, 0, gap));
         // Generate storm.
         generator.Generate(storm);
     }

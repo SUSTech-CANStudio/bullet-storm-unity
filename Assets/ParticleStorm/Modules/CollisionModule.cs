@@ -21,11 +21,9 @@ namespace ParticleStorm.Modules
 		[Tooltip("The collision quality of this particle")]
 		public ParticleSystemCollisionQuality quality;
 
-		internal CollisionEvent onCollision;
-
-		public void ApplicateOn(ParticleGenerator ps)
+		public void ApplicateOn(ParticleSystemController psc)
 		{
-			var module = ps.GetComponent<ParticleSystem>().collision;
+			var module = psc.ParticleSystem.collision;
 			module.enabled = enabled;
 			if (enabled)
 			{
@@ -38,13 +36,14 @@ namespace ParticleStorm.Modules
 				{
 					module.maxKillSpeed = 0;
 				}
-				onCollision = CollisionEvent.Find(collisionEvent);
+				var onCollision = CollisionEvent.Find(collisionEvent);
 				if (onCollision == null)
 				{
 					Debug.LogWarning("No collision event named " + collisionEvent);
 				}
-				ps.collisionModule = this;
+				else { psc.CollisionEvent = onCollision; }
 			}
+			else { psc.CollisionEvent = null; }
 		}
 	}
 }

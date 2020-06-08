@@ -18,9 +18,9 @@ namespace ParticleStorm.Modules
 		[Tooltip("Set the minimum and maximum speed that this modules applies the size curve between.")]
 		public Vector2 range;
 
-		public void ApplicateOn(ParticleGenerator ps)
+		public void ApplicateOn(ParticleSystemController psc)
 		{
-			var module = ps.GetComponent<ParticleSystem>().sizeBySpeed;
+			var module = psc.ParticleSystem.sizeBySpeed;
 			module.enabled = enabled;
 			if (enabled)
 			{

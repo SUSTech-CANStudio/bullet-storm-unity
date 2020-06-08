@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ParticleStorm;
 using ParticleStorm.Script;
+using ParticleStorm.StormBehaviors;
 
 public class CollisionDemo : MonoBehaviour
 {
@@ -36,7 +37,7 @@ public class CollisionDemo : MonoBehaviour
         var generator = GetComponent<StormGenerator>();
         var storm = new Storm();
         var particle = new Particle(prefeb);
-        storm.AddBehavior(0, EmitList.Cone(100, 2, 90, 0.5f), particle, 1);
+        storm.AddBehavior(new EmissionBehavior(EmitList.Cone(100, 2, 90, 0.5f), particle, 0, 1));
         generator.Generate(storm);
     }
 

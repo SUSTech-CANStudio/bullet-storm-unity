@@ -23,7 +23,36 @@ namespace ParticleStorm.Script
 		/// </summary>
 		public ParticleUpdateScript OnParticleUpdate { get; set; }
 
-		public UpdateEvent(string name, ParticleUpdateScript script)
+		/// <summary>
+		/// Script for the particle on fixed update.
+		/// </summary>
+		public ParticleUpdateScript OnParticleFixedUpdate { get; set; }
+
+		/// <summary>
+		/// Script for the particle on late update.
+		/// </summary>
+		public ParticleUpdateScript OnParticleLateUpdate { get; set; }
+
+		public bool ParallelOnUpdate { get; set; }
+		public bool ParallelOnFixedUpdate { get; set; }
+		public bool ParallelOnLateUpdate { get; set; }
+
+		public UpdateEvent(string name) => Name = name;
+
+		/// <summary>
+		/// Create an update event with a script execute on update.
+		/// </summary>
+		/// <param name="name">Update event name</param>
+		/// <param name="script">The script function</param>
+		public UpdateEvent(string name, ParticleUpdateScript script) : this(name, script, 0) { }
+
+		/// <summary>
+		/// Create an update event with a script execute on update, fixed update, or late update.
+		/// </summary>
+		/// <param name="name">Update event name</param>
+		/// <param name="script">The script function</param>
+		/// <param name="mode">0 for update, 1 for fixed update, 2 for late update</param>
+		public UpdateEvent(string name, ParticleUpdateScript script, int mode)
 		{
 			Name = name;
 			OnParticleUpdate = script;

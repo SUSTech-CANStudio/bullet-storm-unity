@@ -13,9 +13,9 @@ namespace ParticleStorm.Modules
 		public bool enabled;
 		public ParticleSystem.MinMaxGradient color;
 
-		public void ApplicateOn(ParticleGenerator ps)
+		public void ApplicateOn(ParticleSystemController psc)
 		{
-			var module = ps.GetComponent<ParticleSystem>().colorOverLifetime;
+			var module = psc.ParticleSystem.colorOverLifetime;
 			module.enabled = enabled;
 			module.color = color;
 		}

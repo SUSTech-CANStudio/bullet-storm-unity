@@ -3,9 +3,9 @@
 	interface IParticleModule
 	{
 		/// <summary>
-		/// Add the module on a <see cref="PSParticleSystem"/>.
+		/// Add the module on a <see cref="ParticleSystemController"/>.
 		/// </summary>
-		/// <param name="ps"></param>
-		void ApplicateOn(ParticleGenerator ps);
+		/// <param name="psc">The particle system controller</param>
+		void ApplicateOn(ParticleSystemController psc);
 	}
 }

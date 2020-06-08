@@ -23,10 +23,8 @@ namespace UnityEditor
 		SerializedProperty velocityOverLifetimeModule;
 		// script module
 		SerializedProperty scriptModule;
-		SerializedProperty enableScriptModule;
 		// collision module
 		SerializedProperty collisionModule;
-		SerializedProperty enableCollisionModule;
 
 		private void OnEnable()
 		{
@@ -47,10 +45,8 @@ namespace UnityEditor
 			velocityOverLifetimeModule = serializedObject.FindProperty("velocityOverLifetimeModule");
 			// script module
 			scriptModule = serializedObject.FindProperty("scriptModule");
-			enableScriptModule = scriptModule.FindPropertyRelative("enabled");
 			// collicion module
 			collisionModule = serializedObject.FindProperty("collisionModule");
-			enableCollisionModule = collisionModule.FindPropertyRelative("enabled");
 		}
 
 		#region modules
@@ -85,48 +81,6 @@ namespace UnityEditor
 			}
 			EditorGUILayout.EndVertical();
 		}
-
-		private void DrawScriptModule()
-		{
-			EditorGUILayout.BeginVertical("Box");
-			EditorGUILayout.PropertyField(enableScriptModule, new GUIContent(scriptModule.displayName, enableScriptModule.tooltip));
-			if (enableScriptModule.boolValue)
-			{
-				var update = scriptModule.FindPropertyRelative("update");
-				var fixedUpdate = scriptModule.FindPropertyRelative("fixedUpdate");
-				var lateUpdate = scriptModule.FindPropertyRelative("lateUpdate");
-				EditorGUILayout.PropertyField(update);
-				if (update.stringValue != null && update.stringValue != "")
-				{
-					EditorGUILayout.PropertyField(scriptModule.FindPropertyRelative("parallelUpdate"));
-				}
-				EditorGUILayout.PropertyField(fixedUpdate);
-				if (fixedUpdate.stringValue != null && fixedUpdate.stringValue != "")
-				{
-					EditorGUILayout.PropertyField(scriptModule.FindPropertyRelative("parallelFixedUpdate"));
-				}
-				EditorGUILayout.PropertyField(lateUpdate);
-				if (lateUpdate.stringValue != null && lateUpdate.stringValue != "")
-				{
-					EditorGUILayout.PropertyField(scriptModule.FindPropertyRelative("parallelLateUpdate"));
-				}
-			}
-			EditorGUILayout.EndVertical();
-		}
-
-		private void DrawCollisionModule()
-		{
-			EditorGUILayout.BeginVertical("Box");
-			EditorGUILayout.PropertyField(enableCollisionModule, new GUIContent(collisionModule.displayName, enableCollisionModule.tooltip));
-			if (enableCollisionModule.boolValue)
-			{
-				EditorGUILayout.PropertyField(collisionModule.FindPropertyRelative("kill"));
-				EditorGUILayout.PropertyField(collisionModule.FindPropertyRelative("triggerType"));
-				EditorGUILayout.PropertyField(collisionModule.FindPropertyRelative("collisionEvent"));
-				EditorGUILayout.PropertyField(collisionModule.FindPropertyRelative("quality"));
-			}
-			EditorGUILayout.EndVertical();
-		}
 		#endregion
 
 		public override void OnInspectorGUI()
@@ -141,8 +95,8 @@ namespace UnityEditor
 			DrawModule(sizeBySpeedModule, 4);
 			DrawModule(sizeOverLifetimeModule, 3);
 			DrawModule(velocityOverLifetimeModule, 3);
-			DrawScriptModule();
-			DrawCollisionModule();
+			DrawModule(scriptModule, 2);
+			DrawModule(collisionModule, 5);
 
 			serializedObject.ApplyModifiedProperties();
 		}

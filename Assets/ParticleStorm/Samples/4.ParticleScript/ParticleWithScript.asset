@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 867232682ab9d61479fc1061702c10d1, type: 3}
   m_Name: ParticleWithScript
   m_EditorClassIdentifier: 
-  useParticleSystem: 1
   basicModule:
     renderMode: 4
     material: {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
@@ -343,12 +342,7 @@ MonoBehaviour:
     zMultiplier: 1
   scriptModule:
     enabled: 1
-    update: MyScript
-    fixedUpdate: 
-    lateUpdate: 
-    parallelUpdate: 1
-    parallelFixedUpdate: 0
-    parallelLateUpdate: 0
+    updateEvent: MyScript
   sizeBySpeedModule:
     enabled: 0
     size:
@@ -390,17 +384,12 @@ MonoBehaviour:
       m_ConstantMin: 0
       m_ConstantMax: 0
     sizeMultiplier: 1
-  triggerModule:
+  collisionModule:
     enabled: 0
-    colliders: []
-    enter: 0
-    enterTrigger: 
-    exit: 0
-    exitTrigger: 
-    inside: 0
-    insideTrigger: 
-    outside: 0
-    outsideTrigger: 
+    kill: 0
+    triggerType: 0
+    collisionEvent: 
+    quality: 0
   velocityOverLifetimeModule:
     enabled: 0
     speed:

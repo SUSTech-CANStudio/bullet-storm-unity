@@ -9,7 +9,7 @@ namespace ParticleStorm.Modules
 	internal struct TrailModule : IParticleModule
 	{
 
-		public void ApplicateOn(ParticleGenerator ps)
+		public void ApplicateOn(ParticleSystemController psc)
 		{
 			throw new NotImplementedException();
 		}
