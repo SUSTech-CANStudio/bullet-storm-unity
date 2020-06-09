@@ -7,7 +7,9 @@ using UnityEngine;
 namespace ParticleStorm.StormNS
 {
 	/// <summary>
-	/// Executes storm behaviors.
+	/// Executes storm behaviors.<para/>
+	/// To generate a storm at given time and position,
+	/// get an executer from it.
 	/// </summary>
 	internal class StormExecuter
 	{
@@ -22,6 +24,10 @@ namespace ParticleStorm.StormNS
 			this.generator = generator;
 		}
 
+		/// <summary>
+		/// Start to execute storm behaviors.
+		/// </summary>
+		/// <returns></returns>
 		public IEnumerator Start()
 		{
 			float startTime = Time.time;
