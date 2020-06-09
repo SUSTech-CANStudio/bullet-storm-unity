@@ -2,7 +2,7 @@
 using ParticleStorm.ParticleNS;
 using UnityEngine;
 
-namespace ParticcleStormTest.Core
+namespace ParticcleStormTest.ParticleNS
 {
 	public class ParticleSystemControllerTest
 	{

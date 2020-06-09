@@ -5,8 +5,9 @@ using UnityEngine;
 namespace ParticleStorm.ParticleNS
 {
 	/// <summary>
-	/// <para>Particle is the bisic class of particle storm.</para>
-	/// <para>A particle can be emitted, controlled, and add modules.</para>
+	/// Represents one kind of particle. Particles can be emitted by
+	/// <see cref="ParticleSystemController"/>s, every kind of particle
+	/// has one <see cref="Origin"/> <see cref="ParticleSystemController"/>.
 	/// </summary>
 	public class Particle : Named<Particle>
 	{
@@ -15,6 +16,9 @@ namespace ParticleStorm.ParticleNS
 		/// </summary>
 		public ParticleSystemController Origin { get; private set; }
 
+		/// <summary>
+		/// Create a particle.
+		/// </summary>
 		public Particle() => Origin = new ParticleSystemController();
 
 		public Particle(string name) { Name = name; Origin = new ParticleSystemController(name); }
@@ -41,6 +45,17 @@ namespace ParticleStorm.ParticleNS
 			if (prefeb is null) { throw new ArgumentNullException(nameof(prefeb)); }
 			prefeb.ApplicateOn(Origin);
 		}
+
+		/// <summary>
+		/// Add a component to the <see cref="ParticleSystem"/> game object of
+		/// this particle. So that you can use <see cref="GameObject.GetComponent(Type)}"/>
+		/// to get it when the particle collides with a game object and calling
+		/// <c>OnParticleCollision</c>.
+		/// </summary>
+		/// <param name="componentType"></param>
+		public void AddComponent(Type componentType) => Origin.GameObject.AddComponent(componentType);
+
+		public void AddComponent<T>() where T : Component => Origin.GameObject.AddComponent<T>();
 
 		/// <summary>
 		/// Get a copy of the origin <see cref="ParticleSystemController"/>.

@@ -8,10 +8,10 @@ namespace ParticleStorm.ParticleNS
 	/// Contains a <see cref="UnityEngine.ParticleSystem"/> and can emit particle from it.<para/>
 	/// There two kinds of <see cref="ParticleSystemController"/>s,
 	/// one called origin, the other called copy.<para/>
-	/// Origin is created in <see cref="Particle"/>, one kind of particle
+	/// Origin is in <see cref="Particle"/>, one kind of particle
 	/// only has one origin. Origin is always at (0, 0, 0) and never rotate.<para/>
-	/// Copy can be created in <see cref="StormExecuter"/>, copies are copied from
-	/// origin, and the particle system can move with <see cref="StormGenerator"/>.
+	/// Copy can be created from <see cref="Particle.GetCopy(Transform)"/>,
+	/// and the <see cref="GameObject"/> in copies are children of given <see cref="Transform"/>.
 	/// </summary>
 	public class ParticleSystemController
 	{
@@ -40,25 +40,15 @@ namespace ParticleStorm.ParticleNS
 		/// The <see cref="UnityEngine.ParticleSystem"/> will be located at origin point.
 		/// </summary>
 		/// <param name="name">Name of the particle system game objecct.</param>
-		public ParticleSystemController(string name)
-		{
-			IsOrigin = true;
-			GameObject = new GameObject(name);
-			Initialize();
-		}
+		public ParticleSystemController(string name) : this() => GameObject.name = name;
 
 		/// <summary>
 		/// Create an origin <see cref="ParticleSystemController"/>.
 		/// The <see cref="UnityEngine.ParticleSystem"/> will be located at origin point.
 		/// </summary>
 		/// <param name="prefeb">The particle prefeb</param>
-		public ParticleSystemController(ParticlePrefeb prefeb)
-		{
-			IsOrigin = true;
-			GameObject = new GameObject(prefeb.name);
-			Initialize();
-			prefeb.ApplicateOn(this);
-		}
+		public ParticleSystemController(ParticlePrefeb prefeb) : this(prefeb.name)
+			=> prefeb.ApplicateOn(this);
 
 		/// <summary>
 		/// Create an origin <see cref="ParticleSystemController"/>.
@@ -66,13 +56,8 @@ namespace ParticleStorm.ParticleNS
 		/// </summary>
 		/// <param name="name">Name of the particle system game objecct.</param>
 		/// <param name="prefeb">The particle prefeb</param>
-		public ParticleSystemController(string name, ParticlePrefeb prefeb)
-		{
-			IsOrigin = true;
-			GameObject = new GameObject(name);
-			Initialize();
-			prefeb.ApplicateOn(this);
-		}
+		public ParticleSystemController(string name, ParticlePrefeb prefeb) : this(prefeb)
+			=> GameObject.name = name;
 
 		/// <summary>
 		/// Copy an origin.
@@ -92,6 +77,10 @@ namespace ParticleStorm.ParticleNS
 			GameObject.Destroy(GameObject);
 		}
 
+		/// <summary>
+		/// Emit a particle.
+		/// </summary>
+		/// <param name="emitParams">The particle parameters when emitting</param>
 		public void Emit(EmitParams emitParams)
 		{
 			ParticleSystem.Emit(emitParams.Full, 1);

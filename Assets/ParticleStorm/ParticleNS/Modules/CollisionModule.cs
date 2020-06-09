@@ -13,7 +13,7 @@ namespace ParticleStorm.ParticleNS.Modules
 		public bool enabled;
 		[Tooltip("Kill the particle after collision")]
 		public bool kill;
-		[Tooltip("Occation to call the script for particle")]
+		[Tooltip("Occation to call the script for particle (not implemented currently)")]
 		public ParticleSystemTriggerEventType triggerType;
 		[Tooltip("Name of the collision event for this particle")]
 		public string collisionEvent;
