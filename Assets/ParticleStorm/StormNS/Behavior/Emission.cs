@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace ParticleStorm.StormNS.Behavior
 {
-	public class EmissionBehavior : IStormBehavior
+	public class Emission : IStormBehavior
 	{
 		/// <summary>
 		/// Behavior start time relative to storm time.
@@ -38,7 +38,7 @@ namespace ParticleStorm.StormNS.Behavior
 		/// <param name="emits">The emit list for particle emissions.</param>
 		/// <param name="particle">The particle to emit.</param>
 		/// <param name="startTime">Start time of the behavior, relative to the storm time.</param>
-		public EmissionBehavior(EmitList emits, Particle particle, float startTime)
+		public Emission(EmitList emits, Particle particle, float startTime)
 		{
 			emitParams = emits.List;
 			Referenced = particle;
@@ -52,7 +52,7 @@ namespace ParticleStorm.StormNS.Behavior
 		/// <param name="particle">The particle to emit.</param>
 		/// <param name="startTime">Start time of the behavior, relative to the storm time.</param>
 		/// <param name="gap">Time between two emissions.</param>
-		public EmissionBehavior(EmitList emits, Particle particle, float startTime, float gap)
+		public Emission(EmitList emits, Particle particle, float startTime, float gap)
 		{
 			emitParams = emits.List;
 			Referenced = particle;

@@ -19,7 +19,7 @@ public class MyStorm : MonoBehaviour
 		// Create an emit list.
 		var emitList = EmitList.Cone(100, 2, 90, 1);
 		// Add an emission behavior to storm.
-		storm.AddBehavior(new EmissionBehavior(emitList, particle, 0, gap));
+		storm.AddBehavior(new Emission(emitList, particle, 0, gap));
 		// Generate storm.
 		generator.Generate(storm);
 	}
