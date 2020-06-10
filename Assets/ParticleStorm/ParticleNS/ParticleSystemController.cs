@@ -147,6 +147,10 @@ namespace ParticleStorm.ParticleNS
 				var psr = GameObject.GetComponent<ParticleSystemRenderer>();
 				psr.enableGPUInstancing = true;
 
+				// Disable emission module
+				var emission = ParticleSystem.emission;
+				emission.enabled = false;
+
 				// Lock transform
 				GameObject.transform.position = Vector3.zero;
 				GameObject.transform.rotation = Quaternion.identity;
@@ -158,9 +162,6 @@ namespace ParticleStorm.ParticleNS
 				GameObject.GetComponent<ParticleSystemControllerUpdater>().UpdateFor(this);
 				GameObject.isStatic = false;
 			}
-
-			// Disable auto generate
-			ParticleSystem.Stop();
 
 			// Init lists
 			particles = new ParticleStatusList(ParticleSystem);
