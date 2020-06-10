@@ -1,6 +1,7 @@
 ﻿using ParticleStorm.ParticleNS;
 using ParticleStorm.ParticleNS.Script;
 using ParticleStorm.StormNS;
+using ParticleStorm.StormNS.Behavior;
 using UnityEngine;
 
 public class CollisionDemo : MonoBehaviour

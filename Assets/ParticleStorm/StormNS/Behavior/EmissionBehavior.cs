@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ParticleStorm.StormNS
+namespace ParticleStorm.StormNS.Behavior
 {
 	public class EmissionBehavior : IStormBehavior
 	{

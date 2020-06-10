@@ -1,5 +1,6 @@
 ﻿using JetBrains.Annotations;
 using ParticleStorm.ParticleNS;
+using ParticleStorm.StormNS.Behavior;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,8 +18,8 @@ namespace ParticleStorm.StormNS
 		private readonly StormGenerator generator;
 
 		public StormExecuter(
-			[NotNull]SortedList<IStormBehavior, ParticleSystemController> behaviors,
-			[NotNull]StormGenerator generator)
+			[NotNull] SortedList<IStormBehavior, ParticleSystemController> behaviors,
+			[NotNull] StormGenerator generator)
 		{
 			this.behaviors = behaviors;
 			this.generator = generator;

@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-namespace ParticleStorm.StormNS
+namespace ParticleStorm.StormNS.Behavior
 {
 	public interface IStormBehavior : IComparable<IStormBehavior>
 	{
