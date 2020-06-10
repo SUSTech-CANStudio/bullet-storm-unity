@@ -14,11 +14,11 @@ namespace ParticleStorm.StormNS
 	/// </summary>
 	internal class StormExecuter
 	{
-		private readonly SortedList<IStormBehavior, ParticleSystemController> behaviors;
+		private readonly SortedList<StormBehavior, ParticleSystemController> behaviors;
 		private readonly StormGenerator generator;
 
 		public StormExecuter(
-			[NotNull] SortedList<IStormBehavior, ParticleSystemController> behaviors,
+			[NotNull] SortedList<StormBehavior, ParticleSystemController> behaviors,
 			[NotNull] StormGenerator generator)
 		{
 			this.behaviors = behaviors;
@@ -39,10 +39,10 @@ namespace ParticleStorm.StormNS
 				if (Time.time - startTime >= behaviors.Keys[i].StartTime)
 				{
 					generator.StartCoroutine(
-						behaviors.Keys[i].Execute(behaviors.Values[i], generator.transform, startTime));
+						behaviors.Keys[i].Execute(behaviors.Values[i], generator.transform));
 					i++;
 				}
-				else { yield return null; }
+				else { yield return new WaitForFixedUpdate(); }
 			}
 		}
 	}

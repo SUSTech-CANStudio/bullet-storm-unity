@@ -6,16 +6,16 @@ using UnityEngine;
 
 namespace ParticleStorm.StormNS.Behavior
 {
-	public class Emission : IStormBehavior
+	public class Emission : StormBehavior
 	{
 		/// <summary>
 		/// Behavior start time relative to storm time.
 		/// </summary>
-		public float StartTime { get => duration.Start; }
+		public override float StartTime { get => duration.Start; }
 		/// <summary>
-		/// Behavior end time relative to storm time.
+		/// Behavior finish time relative to storm time.
 		/// </summary>
-		public float EndTime { get => duration.End; set => duration.End = value; }
+		public override float FinishTime { get => duration.End; }
 		/// <summary>
 		/// Behavior total time.
 		/// </summary>
@@ -27,10 +27,11 @@ namespace ParticleStorm.StormNS.Behavior
 		/// <summary>
 		/// The particle to emit.
 		/// </summary>
-		public Particle Referenced { get; private set; }
+		public override Particle Referenced { get => referenced; }
 
 		private readonly List<EmitParams> emitParams;
 		private readonly Duration duration;
+		private readonly Particle referenced;
 
 		/// <summary>
 		/// Create a storm behavior.
@@ -41,7 +42,7 @@ namespace ParticleStorm.StormNS.Behavior
 		public Emission(EmitList emits, Particle particle, float startTime)
 		{
 			emitParams = emits.List;
-			Referenced = particle;
+			referenced = particle;
 			duration = new Duration(startTime, emits.Count);
 		}
 
@@ -55,15 +56,16 @@ namespace ParticleStorm.StormNS.Behavior
 		public Emission(EmitList emits, Particle particle, float startTime, float gap)
 		{
 			emitParams = emits.List;
-			Referenced = particle;
+			referenced = particle;
 			duration = new Duration(startTime, emits.Count);
 			EmitGap = gap;
 		}
 
-		public IEnumerator Execute(ParticleSystemController psc, Transform transform, float stormStartTime)
+		public override IEnumerator Execute(ParticleSystemController psc, Transform transform)
 		{
 			Duration executing = new Duration(duration);
 			int begin, end;
+			float stormStartTime = Time.time - executing.Start;
 			if (psc.IsOrigin)
 			{
 				while (!executing.Finished)
@@ -74,7 +76,7 @@ namespace ParticleStorm.StormNS.Behavior
 					{
 						psc.Emit(emitParams[i].RelativeParams(transform));
 					}
-					yield return null;
+					yield return new WaitForFixedUpdate();
 				}
 			}
 			else
@@ -87,15 +89,9 @@ namespace ParticleStorm.StormNS.Behavior
 					{
 						psc.Emit(emitParams[i]);
 					}
-					yield return null;
+					yield return new WaitForFixedUpdate();
 				}
 			}
-		}
-
-		public int CompareTo(IStormBehavior other)
-		{
-			if (StartTime < other.StartTime) { return -1; }
-			else { return 1; }
 		}
 	}
 }

@@ -26,7 +26,7 @@ namespace ParticleStorm.StormNS
 		/// </summary>
 		/// <param name="behavior"></param>
 		/// <returns></returns>
-		public Storm AddBehavior(IStormBehavior behavior)
+		public Storm AddBehavior(StormBehavior behavior)
 		{
 			if (behavior.Referenced != null && !translator.ContainsKey(behavior.Referenced))
 			{
@@ -47,7 +47,7 @@ namespace ParticleStorm.StormNS
 		/// <returns>A new executer</returns>
 		internal StormExecuter GetExecuter(StormGenerator generator, bool useLocalExecuter)
 		{
-			var casted = new SortedList<IStormBehavior, ParticleSystemController>(behaviors.Count);
+			var casted = new SortedList<StormBehavior, ParticleSystemController>(behaviors.Count);
 			if (useLocalExecuter)
 			{
 				foreach (var particle in new List<ParticleNS.Particle>(translator.Keys))
@@ -71,7 +71,7 @@ namespace ParticleStorm.StormNS
 			return new StormExecuter(casted, generator);
 		}
 
-		private readonly SortedList<IStormBehavior, ParticleNS.Particle> behaviors = new SortedList<IStormBehavior, ParticleNS.Particle>();
+		private readonly SortedList<StormBehavior, ParticleNS.Particle> behaviors = new SortedList<StormBehavior, ParticleNS.Particle>();
 		private readonly Dictionary<ParticleNS.Particle, ParticleSystemController> translator = new Dictionary<ParticleNS.Particle, ParticleSystemController>();
 	}
 }

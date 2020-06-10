@@ -5,22 +5,22 @@ using UnityEngine;
 
 namespace ParticleStorm.StormNS.Behavior
 {
-	public interface IStormBehavior : IComparable<IStormBehavior>
+	public abstract class StormBehavior : IComparable<StormBehavior>
 	{
 		/// <summary>
 		/// Start time of the behavior (related to storm start time).
 		/// </summary>
-		float StartTime { get; }
+		public abstract float StartTime { get; }
 
 		/// <summary>
-		/// End time of the behavior (related to storm start time).
+		/// Finish time of the behavior (related to storm start time).
 		/// </summary>
-		float EndTime { get; }
+		public abstract float FinishTime { get; }
 
 		/// <summary>
 		/// Referenced particle of this behavior.
 		/// </summary>
-		ParticleNS.Particle Referenced { get; }
+		public abstract Particle Referenced { get; }
 
 		/// <summary>
 		/// Execute the behavior.
@@ -29,6 +29,12 @@ namespace ParticleStorm.StormNS.Behavior
 		/// <param name="transform"></param>
 		/// <param name="stormStartTime"></param>
 		/// <returns></returns>
-		IEnumerator Execute(ParticleSystemController psc, Transform transform, float stormStartTime);
+		public abstract IEnumerator Execute(ParticleSystemController psc, Transform transform);
+
+		public int CompareTo(StormBehavior other)
+		{
+			if (StartTime < other.StartTime) { return -1; }
+			else { return 1; }
+		}
 	}
 }
