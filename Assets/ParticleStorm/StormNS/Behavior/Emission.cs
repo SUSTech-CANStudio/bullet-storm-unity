@@ -11,26 +11,26 @@ namespace ParticleStorm.StormNS.Behavior
 		/// <summary>
 		/// Behavior start time relative to storm time.
 		/// </summary>
-		public override float StartTime { get => duration.Start; }
+		public override float StartTime => startTime;
+
 		/// <summary>
 		/// Behavior finish time relative to storm time.
 		/// </summary>
-		public override float FinishTime { get => duration.End; }
+		public override float FinishTime => startTime + sequence.Length;
+
 		/// <summary>
 		/// Behavior total time.
 		/// </summary>
-		public float TotalTime { get => duration.Total; set => duration.Total = value; }
-		/// <summary>
-		/// Time between two emissions.
-		/// </summary>
-		public float EmitGap { get => duration.Gap; set => duration.Gap = value; }
+		public float TotalTime => sequence.Length;
+
 		/// <summary>
 		/// The particle to emit.
 		/// </summary>
 		public override Particle Referenced { get => referenced; }
 
+		private readonly float startTime;
 		private readonly List<EmitParams> emitParams;
-		private readonly Duration duration;
+		private readonly TimeSequence sequence;
 		private readonly Particle referenced;
 
 		/// <summary>
@@ -43,7 +43,8 @@ namespace ParticleStorm.StormNS.Behavior
 		{
 			emitParams = emits.List;
 			referenced = particle;
-			duration = new Duration(startTime, emits.Count);
+			this.startTime = startTime;
+			sequence = TimeSequence.EqualSpace(emits.Count, 0);
 		}
 
 		/// <summary>
@@ -57,40 +58,32 @@ namespace ParticleStorm.StormNS.Behavior
 		{
 			emitParams = emits.List;
 			referenced = particle;
-			duration = new Duration(startTime, emits.Count);
-			EmitGap = gap;
+			this.startTime = startTime;
+			sequence = TimeSequence.EqualSpace(emits.Count, gap);
 		}
 
 		public override IEnumerator Execute(ParticleSystemController psc, Transform transform)
 		{
-			Duration executing = new Duration(duration);
-			int begin, end;
-			float stormStartTime = Time.time - executing.Start;
-			if (psc.IsOrigin)
+			float start = Time.fixedTime;
+			int index = 0;
+			List<float> marks;
+			while (Time.fixedTime - start - Time.fixedDeltaTime <= sequence.Length)
 			{
-				while (!executing.Finished)
+				marks = sequence.GetMarks(Time.fixedTime - start, Time.fixedDeltaTime);
+				foreach (float i in marks) { Debug.Log(i); }
+				for (int i = 0; i < marks.Count; i++)
 				{
-					begin = executing.PastEventCount;
-					end = executing.GetHappenedEventCount(Time.time - stormStartTime);
-					for (int i = begin; i < end; i++)
+					if (psc.IsOrigin)
 					{
-						psc.Emit(emitParams[i].RelativeParams(transform));
+						psc.Emit(emitParams[i + index].RelativeParams(transform));
 					}
-					yield return new WaitForFixedUpdate();
-				}
-			}
-			else
-			{
-				while (!executing.Finished)
-				{
-					begin = executing.PastEventCount;
-					end = executing.GetHappenedEventCount(Time.time - stormStartTime);
-					for (int i = begin; i < end; i++)
+					else
 					{
-						psc.Emit(emitParams[i]);
+						psc.Emit(emitParams[i + index]);
 					}
-					yield return new WaitForFixedUpdate();
 				}
+				index += marks.Count;
+				yield return new WaitForFixedUpdate();
 			}
 		}
 	}

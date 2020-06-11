@@ -6,6 +6,7 @@ namespace ParticleStorm.Util
 	/// <summary>
 	/// A period of time, can set events to happen evenly.
 	/// </summary>
+	[Obsolete("Replaced by TimeSequence")]
 	public class Duration
 	{
 		/// <summary>
@@ -24,9 +25,9 @@ namespace ParticleStorm.Util
 		public int EventCount { get; set; }
 
 		/// <summary>
-		/// End time.
+		/// Finish time.
 		/// </summary>
-		public float End { get => Start + Total; set => Total = value - Start; }
+		public float Finish { get => Start + Total; set => Total = value - Start; }
 
 		/// <summary>
 		/// Time between two events.
@@ -74,7 +75,7 @@ namespace ParticleStorm.Util
 		{
 			int result;
 
-			if (currentTime >= End)
+			if (currentTime >= Finish)
 			{
 				result = EventCount;
 			}
