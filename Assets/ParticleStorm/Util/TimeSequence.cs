@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace ParticleStorm.Util
@@ -51,43 +52,25 @@ namespace ParticleStorm.Util
 		}
 
 		/// <summary>
-		/// Get marks during time.
+		/// Get marks until current time.
 		/// </summary>
-		/// <param name="start">Start time (include)</param>
-		/// <param name="finish">Finish time (exclude)</param>
-		/// <returns>If <paramref name="start"/> larger than <see cref="Length"/>, return null</returns>
-		public List<float> GetMarksBetween(float start, float finish)
-		{
-			Assert.IsTrue(start < finish);
-			int begin = marks.BinarySearch(start);
-			while (begin > 0 && marks[begin - 1] == marks[begin]) { begin--; }
-			if (begin < 0)
-			{
-				begin = ~begin;
-				if (begin == marks.Count) { return null; }
-			}
-			int remain = marks.Count - begin;
-			for (int count = 0; count < remain; count++)
-			{
-				if (marks[begin + count] >= finish)
-				{
-					return marks.GetRange(begin, count);
-				}
-			}
-			return marks.GetRange(begin, remain);
-		}
-
-		/// <summary>
-		/// Get marks in an update.
-		/// </summary>
-		/// <param name="current">Current time</param>
-		/// <param name="deltaTime">Delta time of the update</param>
+		/// <param name="startIndex">Start index of marks.</param>
+		/// <param name="currentTime">Current time of the sequence.</param>
 		/// <returns></returns>
-		public List<float> GetMarks(float current, float deltaTime)
+		/// <exception cref="ArgumentOutOfRangeException"/>
+		public List<float> GetMarks(int startIndex, float currentTime)
 		{
-			var result = GetMarksBetween(current - deltaTime, current);
-			if (result == null) { return new List<float>(); }
-			else { return result; }
+			if (startIndex < 0 || startIndex >= marks.Count)
+			{
+				throw new ArgumentOutOfRangeException(nameof(startIndex));
+			}
+			int count = 0;
+			for (int i = startIndex; i < marks.Count; i++)
+			{
+				if (marks[i] > currentTime) { break; }
+				else { count++; }
+			}
+			return marks.GetRange(startIndex, count);
 		}
 	}
 }

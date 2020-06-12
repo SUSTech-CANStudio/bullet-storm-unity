@@ -67,10 +67,9 @@ namespace ParticleStorm.StormNS.Behavior
 			float start = Time.fixedTime;
 			int index = 0;
 			List<float> marks;
-			while (Time.fixedTime - start - Time.fixedDeltaTime <= sequence.Length)
+			while (index < sequence.Count)
 			{
-				marks = sequence.GetMarks(Time.fixedTime - start, Time.fixedDeltaTime);
-				foreach (float i in marks) { Debug.Log(i); }
+				marks = sequence.GetMarks(index, Time.fixedTime - start);
 				for (int i = 0; i < marks.Count; i++)
 				{
 					if (psc.IsOrigin)
