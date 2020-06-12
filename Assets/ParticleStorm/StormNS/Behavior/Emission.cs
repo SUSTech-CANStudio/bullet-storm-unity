@@ -6,26 +6,13 @@ using UnityEngine;
 
 namespace ParticleStorm.StormNS.Behavior
 {
+	/// <summary>
+	/// Emit particles.
+	/// </summary>
 	public class Emission : StormBehavior
 	{
-		/// <summary>
-		/// Behavior start time relative to storm time.
-		/// </summary>
 		public override float StartTime => startTime;
-
-		/// <summary>
-		/// Behavior finish time relative to storm time.
-		/// </summary>
 		public override float FinishTime => startTime + sequence.Length;
-
-		/// <summary>
-		/// Behavior total time.
-		/// </summary>
-		public float TotalTime => sequence.Length;
-
-		/// <summary>
-		/// The particle to emit.
-		/// </summary>
 		public override Particle Referenced { get => referenced; }
 
 		private readonly float startTime;
