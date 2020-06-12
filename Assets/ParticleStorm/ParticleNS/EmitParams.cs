@@ -57,6 +57,11 @@ namespace ParticleStorm.ParticleNS
 			colorChanged = flag;
 		}
 
+		/// <summary>
+		/// Get relative parameters of a transform.
+		/// </summary>
+		/// <param name="transform">The parent transform.</param>
+		/// <returns></returns>
 		public EmitParams RelativeParams(Transform transform)
 		{
 			var rel = new EmitParams(this);
@@ -64,6 +69,19 @@ namespace ParticleStorm.ParticleNS
 			rel.Rotation3D = (transform.rotation * Quaternion.Euler(Rotation3D)).eulerAngles;
 			rel.Position = transform.rotation * Position + transform.position;
 			return rel;
+		}
+
+		/// <summary>
+		/// Adjust parameters for lag.
+		/// </summary>
+		/// <param name="time">Lagged time.</param>
+		/// <returns></returns>
+		public EmitParams Lag(float time)
+		{
+			var res = new EmitParams(this);
+			res.Position += Velocity * time;
+			res.StartLifetime -= time;
+			return res;
 		}
 
 		private Color32 startColor;

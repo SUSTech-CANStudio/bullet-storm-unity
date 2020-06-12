@@ -74,11 +74,11 @@ namespace ParticleStorm.StormNS.Behavior
 				{
 					if (psc.IsOrigin)
 					{
-						psc.Emit(emitParams[i + index].RelativeParams(transform));
+						psc.Emit(emitParams[i + index].RelativeParams(transform).Lag(Time.fixedTime - marks[i]));
 					}
 					else
 					{
-						psc.Emit(emitParams[i + index]);
+						psc.Emit(emitParams[i + index].Lag(Time.fixedTime - marks[i]));
 					}
 				}
 				index += marks.Count;
