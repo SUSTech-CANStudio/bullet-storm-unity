@@ -8,12 +8,11 @@ using UnityEngine;
 public class StormWithBehaviors : MonoBehaviour
 {
     public ParticlePrefeb prefeb;
-    private Storm storm;
 	// Start is called before the first frame update
 	void Start()
     {
         Particle particle = new Particle(prefeb);
-        storm = new Storm();
+        Storm storm = new Storm();
         storm.AddBehavior(new Emission(EmitList.Sphere(100, 2, 1), particle, 0))
             .AddBehavior(new Wait(2, 4, particle));
         GetComponent<StormGenerator>().Generate(storm);
