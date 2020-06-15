@@ -48,6 +48,8 @@ namespace ParticleStorm.ParticleNS
 		{
 			sizeMultiplier = 1
 		};
+		[SerializeField]
+		private EmitEffectModule emitEffectModule;
 		//[SerializeField]
 		//private TrailModule trailModule;
 		[SerializeField]
@@ -68,6 +70,7 @@ namespace ParticleStorm.ParticleNS
 			sizeBySpeedModule.ApplicateOn(psc);
 			sizeOverLifetimeModule.ApplicateOn(psc);
 			collisionModule.ApplicateOn(psc);
+			emitEffectModule.ApplicateOn(psc);
 			velocityOverLifetimeModule.ApplicateOn(psc);
 			scriptModule.ApplicateOn(psc);
 		}

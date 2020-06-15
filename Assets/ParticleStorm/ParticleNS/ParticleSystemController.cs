@@ -20,6 +20,7 @@ namespace ParticleStorm.ParticleNS
 		public ParticleSystem ParticleSystem { get; private set; }
 		public UpdateEvent UpdateEvent { get; set; }
 		public CollisionEvent CollisionEvent { get; set; }
+		public EmissionEvent EmissionEvent { get; set; }
 
 		private ParticleStatusList particles;
 		private List<ParticleCollisionEvent> collisionEvents;

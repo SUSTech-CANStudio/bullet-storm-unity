@@ -21,6 +21,7 @@ namespace UnityEditor
 		private SerializedProperty sizeBySpeedModule;
 		private SerializedProperty sizeOverLifetimeModule;
 		private SerializedProperty velocityOverLifetimeModule;
+		private SerializedProperty emitEffectModule;
 
 		// script module
 		private SerializedProperty scriptModule;
@@ -45,6 +46,7 @@ namespace UnityEditor
 			sizeBySpeedModule = serializedObject.FindProperty("sizeBySpeedModule");
 			sizeOverLifetimeModule = serializedObject.FindProperty("sizeOverLifetimeModule");
 			velocityOverLifetimeModule = serializedObject.FindProperty("velocityOverLifetimeModule");
+			emitEffectModule = serializedObject.FindProperty("emitEffectModule");
 			// script module
 			scriptModule = serializedObject.FindProperty("scriptModule");
 			// collicion module
@@ -97,6 +99,7 @@ namespace UnityEditor
 			DrawModule(sizeBySpeedModule, 4);
 			DrawModule(sizeOverLifetimeModule, 3);
 			DrawModule(velocityOverLifetimeModule, 3);
+			DrawModule(emitEffectModule, 4);
 			DrawModule(scriptModule, 2);
 			DrawModule(collisionModule, 5);
 

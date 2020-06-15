@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 867232682ab9d61479fc1061702c10d1, type: 3}
-  m_Name: TriggerParticle
+  m_Name: ParticleWithEffect
   m_EditorClassIdentifier: 
   basicModule:
-    renderMode: 3
-    material: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
+    renderMode: 0
+    material: {fileID: 0}
     materials: []
     mesh: {fileID: 0}
     defaultParams:
-      startLifeTime: 100
+      startLifeTime: 10
       startColor:
         m_Mode: 0
         m_GradientMin:
@@ -341,8 +341,8 @@ MonoBehaviour:
       m_ConstantMax: 0
     zMultiplier: 1
   scriptModule:
-    enabled: 1
-    updateEvent: TurnToBox
+    enabled: 0
+    updateEvent: 
   sizeBySpeedModule:
     enabled: 0
     size:
@@ -385,15 +385,16 @@ MonoBehaviour:
       m_ConstantMax: 0
     sizeMultiplier: 1
   emitEffectModule:
-    enabled: 0
-    particleSystem: {fileID: 0}
+    enabled: 1
+    particleSystem: {fileID: 6878042460454047595, guid: c281300d12fbe194383aa84a13af8f5e,
+      type: 3}
     position: 0
     rotation: 0
   collisionModule:
-    enabled: 1
-    kill: 1
-    triggerType: 2
-    collisionEvent: Collision
+    enabled: 0
+    kill: 0
+    triggerType: 0
+    collisionEvent: 
     quality: 0
   velocityOverLifetimeModule:
     enabled: 0

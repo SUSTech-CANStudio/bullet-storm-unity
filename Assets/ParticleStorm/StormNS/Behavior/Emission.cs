@@ -54,18 +54,24 @@ namespace ParticleStorm.StormNS.Behavior
 			float start = Time.fixedTime;
 			int index = 0;
 			List<float> marks;
+			EmitParams accurate;
 			while (index < sequence.Count)
 			{
 				marks = sequence.GetMarks(index, Time.fixedTime - start);
 				for (int i = 0; i < marks.Count; i++)
 				{
+					accurate = emitParams[i + index].Lag(Time.fixedTime - marks[i]);
 					if (psc.IsOrigin)
 					{
-						psc.Emit(emitParams[i + index].RelativeParams(transform).Lag(Time.fixedTime - marks[i]));
+						psc.Emit(accurate.RelativeParams(transform));
 					}
 					else
 					{
-						psc.Emit(emitParams[i + index].Lag(Time.fixedTime - marks[i]));
+						psc.Emit(accurate);
+					}
+					if (psc.EmissionEvent != null)
+					{
+						psc.EmissionEvent.OnParticleEmission(transform, accurate);
 					}
 				}
 				index += marks.Count;
