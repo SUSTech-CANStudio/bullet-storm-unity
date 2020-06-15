@@ -1,5 +1,7 @@
 # particle-storm-unity
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/a639fe15435f42408e9eeb2e315121c3)](https://app.codacy.com/gh/SUSTech-CANStudio/particle-storm-unity?utm_source=github.com&utm_medium=referral&utm_content=SUSTech-CANStudio/particle-storm-unity&utm_campaign=Badge_Grade_Dashboard)
+
 更好用的粒子系统，为三维情况下的弹幕游戏设计
 
 - 可以为每个粒子单独编写脚本
