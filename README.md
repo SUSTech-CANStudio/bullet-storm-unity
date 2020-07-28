@@ -1,26 +1,13 @@
-# particle-storm-unity
+# bullet-storm-unity
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a639fe15435f42408e9eeb2e315121c3)](https://app.codacy.com/gh/SUSTech-CANStudio/particle-storm-unity?utm_source=github.com&utm_medium=referral&utm_content=SUSTech-CANStudio/particle-storm-unity&utm_campaign=Badge_Grade_Dashboard)
 
-更好用的粒子系统，为三维情况下的弹幕游戏设计
+Bullet Storm 是为3D STG游戏设计的弹幕系统，旨在简化弹幕游戏制作流程。
+早先版本由于对需求的认知不够明确，代码整体结构出现了问题，因此该项目目前正在进行一次重构，调整类结构以符合未来开发的需要。
 
-- 可以为每个粒子单独编写脚本
-- 极低的性能开销
-- 方便的全局和局部粒子控制方法
-- 可将编写好的粒子风暴存为文件（待实现）
+Bullet Storm is a better particle system designed for 3D STG games.
+Due to not clear about demands during early development, there exists some problems with code structure. I am refactoring it to fit future development.
 
-## 安装
+重构将以下图为大纲进行 My refactor will base on the outline below：
 
-直接将[Assets](./Assets)文件夹下所有内容复制到您的Unity项目Assets文件夹下
-
-## 使用
-
-- 基本概念
-  - 粒子`Particle`：粒子风暴中，所有被发射的物体统称`Particle`
-  - 粒子预设`ParticlePrefeb`：允许您使用图形界面设置`Particle`
-  - 风暴`Storm`：按照预定义的方式有序发射各种粒子的过程称为`Storm`
-  - 风暴发生器`StormGenerator`：可以在发生器所处的位置生成`Storm`
-  - 发射参数列表`EmitList`：表示一次`Storm`的发射行为中所有粒子的初始状态
-
-- 初次使用，请尝试[使用示例](./Assets/ParticleStorm/Samples)
-- 详细介绍查看[帮助文档](./Assets/ParticleStorm/README.md)
+![UML Classes](classes.png)
