@@ -7,13 +7,13 @@ namespace BulletStorm.Storm
     public class StormInfo
     {
         private readonly List<IStormEvent> stormEvents;
-        private readonly List<Bullet> referencedBullets;
+        private readonly List<string> referencedBullets;
         private readonly Stack<int> scopeStack;
 
         public StormInfo()
         {
             stormEvents = new List<IStormEvent>();
-            referencedBullets = new List<Bullet>();
+            referencedBullets = new List<string>();
             scopeStack = new Stack<int>();
         }
         

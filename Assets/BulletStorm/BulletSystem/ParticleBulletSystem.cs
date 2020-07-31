@@ -21,7 +21,8 @@ namespace BulletStorm.BulletSystem
 	/// You can create a prefab with this script, and use it in your storms.
 	[RequireComponent(typeof(ParticleSystem))]
 	[ExecuteInEditMode]
-	public class ParticleBulletSystem : MonoBehaviour, IBulletSystem
+	[AddComponentMenu("")]
+	public class ParticleBulletSystem : BulletSystemBase
 	{
 		private ParticleSystem ps;
 		private ParticleSystem.MainModule psm;
@@ -33,7 +34,7 @@ namespace BulletStorm.BulletSystem
 		[SerializeField] private TracingModule tracing;
 		[SerializeField] private EmissionEffectModule emissionEffect;
 
-		public void ChangeVelocity(Func<Vector3, Vector3, Vector3> operation)
+		public override void ChangeVelocity(Func<Vector3, Vector3, Vector3> operation)
 		{
 			UpdateParticles();
 			Parallel.For(0, particleCount, i =>
@@ -50,7 +51,7 @@ namespace BulletStorm.BulletSystem
 			});
 		}
 
-		public void ChangePosition(Func<Vector3, Vector3, Vector3> operation)
+		public override void ChangePosition(Func<Vector3, Vector3, Vector3> operation)
 		{
 			UpdateParticles();
 			Parallel.For(0, particleCount, i =>
@@ -59,7 +60,7 @@ namespace BulletStorm.BulletSystem
 			});
 		}
 
-		public void Emit(BulletEmitParam relative, Transform emitter)
+		public override void Emit(BulletEmitParam relative, Transform emitter)
 		{
 			ParticleSystem.EmitParams ToEmitParams(in BulletEmitParam bulletEmitParam)
 			{
@@ -96,7 +97,7 @@ namespace BulletStorm.BulletSystem
 			
 			emissionEffect.OnEmit(relative, emitter);
 		}
-		
+
 		/// <summary>
 		/// Updates cache in <see cref="particles"/> if needed.
 		/// </summary>
@@ -118,7 +119,7 @@ namespace BulletStorm.BulletSystem
 			particlesUpToDate = false;
 		}
 
-		private void Start()
+		private void Awake()
 		{
 			ps = GetComponent<ParticleSystem>();
 			psm = ps.main;

@@ -1,24 +1,55 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using BulletStorm.Emission;
 using UnityEngine;
 
 namespace BulletStorm.BulletSystem
 {
-    public class GameObjectBulletSystem : IBulletSystem
+    [AddComponentMenu("")]
+    public class GameObjectBulletSystem : BulletSystemBase
     {
-        public void ChangePosition(Func<Vector3, Vector3, Vector3> operation)
+        private List<GameObjectBullet> bullets = new List<GameObjectBullet>();
+        private bool bulletsCleared;
+
+        [Tooltip("The game object to emit.")]
+        [SerializeField] private GameObject bullet;
+
+        public override void ChangePosition(Func<Vector3, Vector3, Vector3> operation)
+        {
+            ClearDestroyedBullets();
+            foreach (var gameObjectBullet in bullets)
+            {
+                var bulletTransform = gameObjectBullet.transform;
+                bulletTransform.position =
+                    operation(bulletTransform.position, gameObjectBullet.velocity);
+            }
+        }
+
+        public override void ChangeVelocity(Func<Vector3, Vector3, Vector3> operation)
+        {
+            ClearDestroyedBullets();
+            foreach (var gameObjectBullet in bullets)
+            {
+                gameObjectBullet.velocity = operation(gameObjectBullet.transform.position, gameObjectBullet.velocity);
+            }
+        }
+
+        public override void Emit(BulletEmitParam emitParam, Transform emitter)
         {
             throw new NotImplementedException();
         }
 
-        public void ChangeVelocity(Func<Vector3, Vector3, Vector3> operation)
+        private void ClearDestroyedBullets()
         {
-            throw new NotImplementedException();
+            if (bulletsCleared) return;
+            bullets = bullets.Where(gameObjectBullet => gameObjectBullet).ToList();
+            bulletsCleared = true;
         }
 
-        public void Emit(BulletEmitParam emitParam, Transform emitter)
+        private void LateUpdate()
         {
-            throw new NotImplementedException();
+            bulletsCleared = false;
         }
     }
 }

@@ -3,10 +3,12 @@ using BulletStorm.Emission;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
+#pragma warning disable 0649
+
 namespace BulletStorm.BulletSystem.Modules
 {
     [Serializable]
-    internal class EmissionEffectModule
+    internal struct EmissionEffectModule
     {
         [Tooltip("Enable playing effect when emitting bullets.")]
         [SerializeField] private bool enabled;

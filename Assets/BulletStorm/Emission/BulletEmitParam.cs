@@ -1,4 +1,5 @@
 ﻿using System;
+using BulletStorm.BulletSystem;
 using UnityEngine;
 
 namespace BulletStorm.Emission
@@ -10,9 +11,21 @@ namespace BulletStorm.Emission
         public Color color;
         public Vector3 size;
 
-        public BulletEmitParam(Vector3 position, Vector3 velocity) :
-            this(position, velocity, Color.clear, Vector3.zero)
-        {}
+        public BulletEmitParam(Vector3 position)
+        {
+            this.position = position;
+            velocity = Vector3.zero;
+            color = Color.clear;
+            size = Vector3.zero;
+        }
+        
+        public BulletEmitParam(Vector3 position, Vector3 velocity)
+        {
+            this.position = position;
+            this.velocity = velocity;
+            color = Color.clear;
+            size = Vector3.zero;
+        }
         
         public BulletEmitParam(Vector3 position, Vector3 velocity, Color color, Vector3 size)
         {
