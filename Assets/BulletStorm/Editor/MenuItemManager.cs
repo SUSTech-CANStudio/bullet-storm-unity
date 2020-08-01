@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using BulletStorm.BulletSystem;
+using BulletStorm.Emitters;
+using BulletStorm.Util;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -12,7 +14,7 @@ namespace BulletStorm.Editor
         /// A counter to avoid redundant file name.
         /// </summary>
         private static readonly Dictionary<string, int> Counter = new Dictionary<string, int>();
-        
+
         [MenuItem("Assets/Create/BulletStorm/ParticleBulletSystem")]
         public static void CreateParticleBulletSystemPrefab()
         {
@@ -25,6 +27,30 @@ namespace BulletStorm.Editor
             CreatePrefab<GameObjectBulletSystem>("NewBulletSystem", GetCurrentAssetDirectory("Assets/Prefab/BulletStorm"));
         }
 
+        [MenuItem("GameObject/3D Object/BulletStorm/AutoBulletEmitter")]
+        public static void CreateAutoBulletEmitter()
+        {
+            CreateGameObject<AutoBulletEmitter>();
+        }
+        
+        private static void CreateGameObject<T>() where T : MonoBehaviour
+        {
+            var transforms = Selection.transforms;
+            if (transforms.Length == 0)
+            {
+                _ = new GameObject(typeof(T).Name, typeof(T));
+            }
+            else
+            {
+                foreach (var transform in Selection.transforms)
+                {
+                    
+                    var go = new GameObject(typeof(T).Name, typeof(T));
+                    go.transform.SetParent(transform, false);
+                }
+            }
+        }
+        
         /// <summary>
         /// Creates a prefab and save to assets.
         /// </summary>

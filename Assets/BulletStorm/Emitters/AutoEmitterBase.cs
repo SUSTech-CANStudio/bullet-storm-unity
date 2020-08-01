@@ -10,14 +10,27 @@ namespace BulletStorm.Emitters
     /// </summary>
     /// Auto emitters can rotate automatically when emitting bullets. But every auto emitter can only start
     /// one emission at same time.
+    [DisallowMultipleComponent]
     public abstract class AutoEmitterBase : Emitter
     {
+        [Header("Automation")]
         [Tooltip("Begin to emit bullets on start.")]
         public bool emitOnStart;
+        [Tooltip("Auto destroy the emitter when emission finished.")]
+        public bool destroyOnFinish;
         [Tooltip("Auto rotates the emitter to aim at a target.")]
-        public AutoAimModule autoAim;
+        public AutoAimModule autoAim = new AutoAimModule
+        {
+            followRateMultiplier = 1
+        };
         [Tooltip("Enables the emitter to emit towards customized direction, otherwise it will always emit forward.")]
-        public AimOffsetModule aimOffset;
+        public AimOffsetModule aimOffset = new AimOffsetModule
+        {
+            curveTimeScale = 1,
+            xOffsetMultiplier = 1,
+            yOffsetMultiplier = 1,
+            zOffsetMultiplier = 1
+        };
         
         // the emission coroutine
         private ControllableCoroutine coroutine;
@@ -54,7 +67,10 @@ namespace BulletStorm.Emitters
             // start coroutine
             if (coroutine is null || coroutine.Status == CoroutineStatus.Finished)
             {
-                coroutine = new ControllableCoroutine(StartEmitCoroutine());
+                coroutine = new ControllableCoroutine(StartEmitCoroutine(), () =>
+                {
+                    if (destroyOnFinish) Destroy(this);
+                });
                 coroutine.Start();
             }
             else
@@ -68,6 +84,11 @@ namespace BulletStorm.Emitters
         /// </summary>
         /// <returns></returns>
         protected abstract IEnumerator StartEmitCoroutine();
+
+        protected virtual void Start()
+        {
+            if (emitOnStart) StartEmission();
+        }
 
         protected virtual void Update()
         {

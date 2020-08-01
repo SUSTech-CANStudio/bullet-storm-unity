@@ -48,6 +48,7 @@ namespace BulletStorm.Util
             switch (Status)
             {
                 case CoroutineStatus.NotStarted:
+                    if (Application.isEditor) throw new MethodAccessException("Can't start coroutine in editor.");
                     Status = CoroutineStatus.Running;
                     coroutine = Daemon.Value.StartCoroutine(Wrapper());
                     break;

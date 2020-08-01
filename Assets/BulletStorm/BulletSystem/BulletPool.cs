@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using BulletStorm.Util;
 using JetBrains.Annotations;
 using UnityEditor;
 using UnityEngine;
@@ -17,7 +19,7 @@ namespace BulletStorm.BulletSystem
     [CreateAssetMenu(menuName = "BulletStorm/BulletPool")]
     public sealed class BulletPool : ScriptableObject
     {
-        private readonly Dictionary<string, IOriginBulletSystem> bullets = new Dictionary<string, IOriginBulletSystem>();
+        private readonly Dictionary<string, IBulletSystem> bullets = new Dictionary<string, IBulletSystem>();
         
         [Tooltip("Bullet pool can inherit bullets from other pool.")]
         [SerializeField] private BulletPool parentPool;
@@ -42,7 +44,7 @@ namespace BulletStorm.BulletSystem
         /// </summary>
         /// <param name="bulletName">Name of the bullet (bullet system prefab name)</param>
         /// <returns>Null if not found</returns>
-        public IOriginBulletSystem Find(string bulletName)
+        public IBulletSystem Find(string bulletName)
         {
             if (bullets.TryGetValue(bulletName, out var bullet)) return bullet;
             if (parentPool && parentPool != this) return parentPool.Find(bulletName);
@@ -53,7 +55,8 @@ namespace BulletStorm.BulletSystem
         /// <summary>
         /// Register all bullets in the same folder or in subfolders into the pool.
         /// </summary>
-        public void Refresh()
+        [ContextMenu("Detect")]
+        public void Detect()
         {
             bullets.Clear();
             var selfPath = AssetDatabase.GetAssetPath(this);
@@ -66,7 +69,7 @@ namespace BulletStorm.BulletSystem
                 if (prefab is null) continue;
                 var type = PrefabUtility.GetPrefabAssetType(prefab);
                 if (type != PrefabAssetType.Regular && type != PrefabAssetType.Variant) continue;
-                if (prefab.TryGetComponent(out IOriginBulletSystem bulletSystem))
+                if (prefab.TryGetComponent(out IBulletSystem bulletSystem))
                 {
                     bullets.Add(bulletSystem.Name, bulletSystem);
                 }
@@ -88,11 +91,6 @@ namespace BulletStorm.BulletSystem
             if (names.Count == 0) return "";
             names.Sort();
             return names.Aggregate((current, add) => current + "\n" + add);
-        }
-
-        private void OnEnable()
-        {
-            Refresh();
         }
 #endif
     }

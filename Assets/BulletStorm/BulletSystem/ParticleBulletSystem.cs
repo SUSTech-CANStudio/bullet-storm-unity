@@ -130,6 +130,8 @@ namespace BulletStorm.BulletSystem
 			psm.simulationSpace = ParticleSystemSimulationSpace.World;
 			var emission = ps.emission;
 			emission.enabled = false;
+			var shape = ps.shape;
+			shape.enabled = false;
 #endif
 		}
 

@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace BulletStorm.Emission
 {
@@ -12,9 +14,10 @@ namespace BulletStorm.Emission
     /// This class provides some basic patterns like ring, line, sphere... and provides functions to transform
     /// them. You can use operator '+' to combine two <see cref="Shape"/>s, and call <see cref="AsReadOnly"/>
     /// to get the list.
-    public class Shape
+    public class Shape : ScriptableObject
     {
-        [NotNull] private readonly List<BulletEmitParam> emitParams;
+        [SerializeField]
+        private List<BulletEmitParam> emitParams;
 
         /// <summary>
         /// Total bullets count in the shape.

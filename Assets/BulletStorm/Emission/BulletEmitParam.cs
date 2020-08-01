@@ -1,14 +1,18 @@
 ﻿using System;
-using BulletStorm.BulletSystem;
 using UnityEngine;
 
 namespace BulletStorm.Emission
 {
+    [Serializable]
     public struct BulletEmitParam
     {
+        [Tooltip("Start position relative to emitter.")]
         public Vector3 position;
+        [Tooltip("Start velocity.")]
         public Vector3 velocity;
+        [Tooltip("Color of the bullet, Color.clear (0, 0, 0, 0) will be override by bullet system default settings.")]
         public Color color;
+        [Tooltip("Size of the bullet, Vector3.zero (0, 0, 0) will be override by bullet system default settings.")]
         public Vector3 size;
 
         public BulletEmitParam(Vector3 position)

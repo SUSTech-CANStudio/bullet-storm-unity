@@ -23,9 +23,9 @@ namespace BulletStorm.Editor
         {
             base.OnInspectorGUI();
 
-            if (GUILayout.Button(new GUIContent("Refresh", "Refresh bullets in the pool.")))
+            if (GUILayout.Button(new GUIContent("Detect", "Detect bullets in the folder.")))
             {
-                self.Refresh();
+                self.Detect();
                 bullets = self.BulletsToString();
                 inheritedBullets = self.InheritedBulletsToString();
             }

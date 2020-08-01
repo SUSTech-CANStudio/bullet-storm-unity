@@ -18,14 +18,14 @@ namespace BulletStorm.BulletSystem.Modules
         [Tooltip("Enable rotation of the bullet to change, or only change velocity direction.")]
         [SerializeField] private bool changeRotation;
 
-        public void OnUpdate(IBulletSystem bulletSystem)
+        public void OnUpdate(IBulletController bullet)
         {
             if (!enabled || target is null) return;
 
             var deltaTime = Time.deltaTime;
             var targetPosition = target.position;
             var ratio = this.tracingRatio;
-            bulletSystem.ChangeVelocity((position, velocity) => 
+            bullet.ChangeVelocity((position, velocity) => 
                 Vector3.RotateTowards(
                     velocity,
                     targetPosition - position,
