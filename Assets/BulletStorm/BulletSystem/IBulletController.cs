@@ -28,9 +28,13 @@ namespace BulletStorm.BulletSystem
         /// <summary>
         /// Set the parent transform of the controller.
         /// </summary>
-        /// <param name="parent"></param>
+        /// <param name="parent">If the controller simulates in local space,
+        /// this parameter preforms as the simulation space.</param>
         void SetParent(Transform parent);
 
+        /// <summary>
+        /// Destroy the controller.
+        /// </summary>
         void Destroy();
     }
 }

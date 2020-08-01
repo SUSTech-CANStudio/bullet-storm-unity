@@ -47,7 +47,7 @@ namespace BulletStorm.Emitters
         /// </summary>
         public bool IsEmitting => coroutine.Status == CoroutineStatus.Running;
         
-        public virtual void StartEmission()
+        public void StartEmission()
         {
             // auto aim
             if (autoAim.enabled && autoAim.aimOnEmissionStart && autoAim.CheckTarget())
