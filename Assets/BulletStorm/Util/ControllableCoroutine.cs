@@ -25,14 +25,14 @@ namespace BulletStorm.Util
             });
         private Coroutine coroutine;
         private readonly IEnumerator enumerator;
-        private event CoroutineCallback Finish;
+        private event Action Finish;
 
         /// <summary>
         /// Create a coroutine.
         /// </summary>
         /// <param name="coroutine">The coroutine function.</param>
         /// <param name="callback">Callback function on finish.</param>
-        public ControllableCoroutine(IEnumerator coroutine, CoroutineCallback callback = null)
+        public ControllableCoroutine(IEnumerator coroutine, Action callback = null)
         {
             Status = CoroutineStatus.NotStarted;
             enumerator = coroutine;
@@ -94,9 +94,19 @@ namespace BulletStorm.Util
         /// <summary>
         /// Stops the coroutine.
         /// </summary>
+        public void Stop() => Stop(true);
+
+        /// <summary>
+        /// Same as <see cref="Stop"/>, but will not send finish callback.
+        /// </summary>
+        public void Interrupt() => Stop(false);
+        
+        /// <summary>
+        /// Stops the coroutine.
+        /// </summary>
         /// <param name="callback">Still send a callback if coroutine finished by this.</param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public void Stop(bool callback = false)
+        private void Stop(bool callback)
         {
             switch (Status)
             {
@@ -138,10 +148,7 @@ namespace BulletStorm.Util
             OnFinish();
         }
 
-        private void OnFinish()
-        {
-            Finish?.Invoke();
-        }
+        private void OnFinish() => Finish?.Invoke();
     }
 
     [AddComponentMenu("")]
@@ -155,6 +162,4 @@ namespace BulletStorm.Util
         Paused,
         Finished
     }
-
-    public delegate void CoroutineCallback();
 }

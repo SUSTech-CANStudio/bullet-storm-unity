@@ -14,7 +14,8 @@ namespace BulletStorm.Emission
     /// This class provides some basic patterns like ring, line, sphere... and provides functions to transform
     /// them. You can use operator '+' to combine two <see cref="Shape"/>s, and call <see cref="AsReadOnly"/>
     /// to get the list.
-    public class Shape : ScriptableObject
+    [Serializable]
+    public class Shape
     {
         [SerializeField]
         private List<BulletEmitParam> emitParams;

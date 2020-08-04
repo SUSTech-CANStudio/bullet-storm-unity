@@ -26,7 +26,7 @@ namespace BulletStorm.Emitters
         [Header("Bullet parameter")]
         [Tooltip("Emit shapes instead of single bullets.")]
         public bool useShape;
-        public Shape shape;
+        public ShapeAsset shape;
         public BulletEmitParam emitParam;
 
         protected override IEnumerator StartEmitCoroutine()
@@ -34,7 +34,7 @@ namespace BulletStorm.Emitters
             var startTime = Time.time;
             for (var i = 0; i < emitTimes; i++)
             {
-                if (useShape) Emit(shape.AsReadOnly(), bullet, Emitter);
+                if (useShape) Emit(shape.shape.AsReadOnly(), bullet, Emitter);
                 else Emit(emitParam, bullet, Emitter);
                 yield return new WaitForSeconds(
                     emitInterval.Evaluate((Time.time - startTime) / intervalCurveTimeScale) * intervalMultiplier);

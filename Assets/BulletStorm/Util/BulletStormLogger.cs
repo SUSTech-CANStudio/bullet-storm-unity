@@ -38,6 +38,8 @@ namespace BulletStorm.Util
                     default:
                         throw new ArgumentOutOfRangeException(nameof(logType), logType, null);
                 }
+
+                format += "\n";
                 Debug.unityLogger.logHandler.LogFormat(logType, context, format, args);
             }
 

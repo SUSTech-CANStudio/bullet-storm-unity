@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 using BulletStorm.BulletSystem;
 using BulletStorm.Emitters;
 using BulletStorm.Util;
@@ -10,11 +10,6 @@ namespace BulletStorm.Editor
 {
     public static class MenuItemManager
     {
-        /// <summary>
-        /// A counter to avoid redundant file name.
-        /// </summary>
-        private static readonly Dictionary<string, int> Counter = new Dictionary<string, int>();
-
         [MenuItem("Assets/Create/BulletStorm/ParticleBulletSystem")]
         public static void CreateParticleBulletSystemPrefab()
         {
@@ -33,6 +28,12 @@ namespace BulletStorm.Editor
             CreateGameObject<AutoBulletEmitter>();
         }
         
+        
+        
+        /// <summary>
+        /// Create a game object scene.
+        /// </summary>
+        /// <typeparam name="T">Script type.</typeparam>
         private static void CreateGameObject<T>() where T : MonoBehaviour
         {
             var transforms = Selection.transforms;
@@ -59,14 +60,24 @@ namespace BulletStorm.Editor
         /// <typeparam name="T">Script type</typeparam>
         private static void CreatePrefab<T>(string name, string path) where T : MonoBehaviour
         {
-            var go = new GameObject(name, typeof(T));
-            if (AssetDatabase.FindAssets(name, new[] {path}).Length > 0)
+            var go = EditorUtility.CreateGameObjectWithHideFlags(
+                name, HideFlags.DontSaveInEditor & HideFlags.HideInHierarchy, typeof(T));
+            while (AssetDatabase.FindAssets(name, new[] {path}).Length > 0)
             {
-                if (!Counter.ContainsKey(name)) Counter.Add(name, 1);
-                name += "(" + ++Counter[name] + ")";
+                var split = name.Split(' ');
+                if (int.TryParse(split[split.Length - 1], out var result))
+                {
+                    split[split.Length - 1] = (result + 1).ToString();
+                    name = split.Aggregate((current, next) => current + " " + next);
+                }
+                else
+                {
+                    name = name + " 2";
+                }
             }
             PrefabUtility.SaveAsPrefabAsset(go, path + "/" + name + ".prefab");
             Object.DestroyImmediate(go);
+            BulletStormLogger.Log("Created prefab '" + name + "'.\n" + path + "/" + name);
         }
         
         /// <summary>
