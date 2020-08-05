@@ -20,9 +20,7 @@ namespace BulletStorm.Emitters
         public ParticleSystem.MinMaxCurve emitInterval;
         [Tooltip("When using curve, the time in seconds that curve x-axis 0~1 represents.")]
         public float intervalCurveTimeScale = 1;
-        [Tooltip("Multiplier for emit interval time.")]
-        public float intervalMultiplier = 1;
-        
+
         [Header("Bullet parameter")]
         [Tooltip("Emit shapes instead of single bullets.")]
         public bool useShape;
@@ -37,7 +35,7 @@ namespace BulletStorm.Emitters
                 if (useShape) Emit(shape.shape.AsReadOnly(), bullet, Emitter);
                 else Emit(emitParam, bullet, Emitter);
                 yield return new WaitForSeconds(
-                    emitInterval.Evaluate((Time.time - startTime) / intervalCurveTimeScale) * intervalMultiplier);
+                    emitInterval.Evaluate(Time.time - startTime) / intervalCurveTimeScale);
             }
         }
     }
