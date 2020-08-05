@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using BulletStorm.Emission;
@@ -38,6 +39,21 @@ namespace BulletStorm.BulletSystem
         public override void Emit(BulletEmitParam emitParam, Transform emitter)
         {
             throw new NotImplementedException();
+        }
+
+        public override void Destroy()
+        {
+            StartCoroutine(DestroyCoroutine());
+        }
+
+        private IEnumerator DestroyCoroutine()
+        {
+            while (true)
+            {
+                if (bullets is null || bullets.Count == 0) break;
+                yield return null;
+            }
+            Destroy(this);
         }
 
         private void ClearDestroyedBullets()

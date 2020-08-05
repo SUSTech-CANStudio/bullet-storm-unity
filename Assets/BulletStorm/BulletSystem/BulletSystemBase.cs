@@ -14,8 +14,8 @@ namespace BulletStorm.BulletSystem
         public abstract void ChangePosition(Func<Vector3, Vector3, Vector3> operation);
         public abstract void ChangeVelocity(Func<Vector3, Vector3, Vector3> operation);
         public abstract void Emit(BulletEmitParam emitParam, Transform emitter);
+        public abstract void Destroy();
         public IBulletController GetController() => Instantiate(this);
         public void SetParent(Transform parent) => transform.SetParent(parent, false);
-        public void Destroy() => Object.Destroy(this);
     }
 }

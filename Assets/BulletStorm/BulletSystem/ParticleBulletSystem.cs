@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using BulletStorm.BulletSystem.Modules;
 using BulletStorm.Emission;
@@ -96,6 +98,18 @@ namespace BulletStorm.BulletSystem
 					: ToEmitParams(relative), 1);
 			
 			emissionEffect.OnEmit(relative, emitter);
+		}
+
+		public override void Destroy() => StartCoroutine(DestroyCoroutine());
+
+		private IEnumerator DestroyCoroutine()
+		{
+			while (true)
+			{
+				if (ps.particleCount == 0) break;
+				yield return null;
+			}
+			Destroy(this);
 		}
 
 		/// <summary>

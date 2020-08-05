@@ -33,7 +33,7 @@ namespace BulletStorm.BulletSystem
         void SetParent(Transform parent);
 
         /// <summary>
-        /// Destroy the controller.
+        /// Destroy the controller when it contains no bullet.
         /// </summary>
         void Destroy();
     }

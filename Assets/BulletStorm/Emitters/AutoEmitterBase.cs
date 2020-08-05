@@ -90,6 +90,8 @@ namespace BulletStorm.Emitters
 
         protected virtual void Update()
         {
+            if (coroutine.Status != CoroutineStatus.Running) return;
+            
             // auto aim
             if (autoAim.enabled && autoAim.CheckTarget())
             {
