@@ -14,7 +14,6 @@ namespace BulletStorm.Emitters
         [Tooltip("Bullet system prefab to emit bullets.")]
         [SerializeField] private BulletSystemBase bullet;
         [Tooltip("Total emit times.")]
-        [Range(1, 10000)]
         public int emitTimes = 10;
         [Tooltip("Interval between two emits.")]
         public ParticleSystem.MinMaxCurve emitInterval;

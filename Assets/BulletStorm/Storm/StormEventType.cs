@@ -1,6 +1,6 @@
 ﻿namespace BulletStorm.Storm
 {
-    public class BehaviorEvent
+    public enum StormEventType
     {
         
     }

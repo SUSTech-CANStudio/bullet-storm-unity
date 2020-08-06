@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using BulletStorm.Util;
 using JetBrains.Annotations;
@@ -19,10 +21,10 @@ namespace BulletStorm.BulletSystem
     [CreateAssetMenu(menuName = "BulletStorm/BulletPool")]
     public sealed class BulletPool : ScriptableObject
     {
-        private readonly Dictionary<string, IBulletSystem> bullets = new Dictionary<string, IBulletSystem>();
-        
         [Tooltip("Bullet pool can inherit bullets from other pool.")]
         [SerializeField] private BulletPool parentPool;
+        
+        private Dictionary<string, IBulletSystem> bullets;
         
         [NotNull]
         private IEnumerable<string> AllBulletNames
@@ -50,7 +52,12 @@ namespace BulletStorm.BulletSystem
             if (parentPool && parentPool != this) return parentPool.Find(bulletName);
             return null;
         }
-        
+
+        private void Awake()
+        {
+            
+        }
+
 #if UNITY_EDITOR
         /// <summary>
         /// Register all bullets in the same folder or in subfolders into the pool.

@@ -190,7 +190,6 @@ MonoBehaviour:
     m_ConstantMin: 0
     m_ConstantMax: 0
   intervalCurveTimeScale: 1
-  intervalMultiplier: 1
   useShape: 1
   shape: {fileID: 0}
   emitParam:

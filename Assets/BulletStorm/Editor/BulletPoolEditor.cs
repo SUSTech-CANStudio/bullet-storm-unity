@@ -19,6 +19,8 @@ namespace BulletStorm.Editor
             inheritedBullets = self.InheritedBulletsToString();
         }
 
+        protected override bool ShouldHideOpenButton() => true;
+
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
