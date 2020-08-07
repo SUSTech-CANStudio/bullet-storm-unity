@@ -46,7 +46,7 @@ MonoBehaviour:
   emitOnStart: 0
   destroyOnFinish: 0
   autoAim:
-    enabled: 0
+    enabled: 1
     target: {fileID: 0}
     aimOnEmissionStart: 0
     followRateUseCurve: 1

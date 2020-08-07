@@ -15,16 +15,16 @@ namespace BulletStorm.Emitters
     public abstract class AutoEmitterBase : Emitter
     {
         [Header("Automation")]
-        [Tooltip("Begin to emit bullets on start.")]
+        [LocalizedTooltip("Begin to emit bullets on start.")]
         public bool emitOnStart;
-        [Tooltip("Auto destroy the emitter when emission finished.")]
+        [LocalizedTooltip("Auto destroy the emitter when emission finished.")]
         public bool destroyOnFinish;
-        [Tooltip("Auto rotates the emitter to aim at a target.")]
+        [LocalizedTooltip("Auto rotates the emitter to aim at a target.")]
         public AutoAimModule autoAim = new AutoAimModule
         {
             followRateMultiplier = 1
         };
-        [Tooltip("Enables the emitter to emit towards customized direction, otherwise it will always emit forward.")]
+        [LocalizedTooltip("Enables the emitter to emit towards customized direction, otherwise it will always emit forward.")]
         public AimOffsetModule aimOffset = new AimOffsetModule
         {
             curveTimeScale = 1
@@ -116,20 +116,20 @@ namespace BulletStorm.Emitters
         {
             public bool enabled;
             
-            [Tooltip("The game object should the emitter aim at.")]
+            [LocalizedTooltip("The game object should the emitter aim at.")]
             public Transform target;
-            [Tooltip("When start emitting, aim at the target.")]
+            [LocalizedTooltip("When start emitting, aim at the target.")]
             public bool aimOnEmissionStart;
             
             [Header("Follow rate")]
-            [Tooltip("Use a curve to describe follow rate.")]
+            [LocalizedTooltip("Use a curve to describe follow rate.")]
             public bool followRateUseCurve;
-            [Tooltip("Max rotation angle per second during emission to follow target")]
+            [LocalizedTooltip("Max rotation angle per second during emission to follow target")]
             public float followRateConst;
             [CustomCurve(0, 0, 180, 2)]
-            [Tooltip("X-axis is the angle between target and current aim direction, Y-axis is rotation rate.")]
+            [LocalizedTooltip("X-axis is the angle between target and current aim direction, Y-axis is rotation rate.")]
             public AnimationCurve followRateCurve;
-            [Tooltip("Multiplier for follow rate curve.")]
+            [LocalizedTooltip("Multiplier for follow rate curve.")]
             public float followRateMultiplier;
 
             public float GetFollowRate(float angleDiff) =>
@@ -149,27 +149,27 @@ namespace BulletStorm.Emitters
         public struct AimOffsetModule
         {
             public bool enabled;
-            [Tooltip("XYZ rotation offset when an emission starts in euler angles.")]
+            [LocalizedTooltip("XYZ rotation offset when an emission starts in euler angles.")]
             public Vector3 offsetOnStart;
-            [Tooltip("When using curve, the time in seconds that curve x-axis 0~1 represents.")]
+            [LocalizedTooltip("When using curve, the time in seconds that curve x-axis 0~1 represents.")]
             public float curveTimeScale;
             
             [Header("X-axis")]
-            [Tooltip("Offset mode on x-axis, this will cause emitter aim up (negative) and down (positive).")]
+            [LocalizedTooltip("Offset mode on x-axis, this will cause emitter aim up (negative) and down (positive).")]
             public OffsetMode xOffsetMode;
-            [Tooltip("Offset on x-axis.")]
+            [LocalizedTooltip("Offset on x-axis.")]
             public ParticleSystem.MinMaxCurve xOffset;
 
             [Header("Y-axis")]
-            [Tooltip("Offset mode on y-axis, this will cause emitter aim left (negative) and right (positive).")]
+            [LocalizedTooltip("Offset mode on y-axis, this will cause emitter aim left (negative) and right (positive).")]
             public OffsetMode yOffsetMode;
-            [Tooltip("Offset on y-axis.")]
+            [LocalizedTooltip("Offset on y-axis.")]
             public ParticleSystem.MinMaxCurve yOffset;
 
             [Header("Z-axis")]
-            [Tooltip("Offset mode on z-axis, this will cause emitter aim clockwise (negative) and counterclockwise (positive).")]
+            [LocalizedTooltip("Offset mode on z-axis, this will cause emitter aim clockwise (negative) and counterclockwise (positive).")]
             public OffsetMode zOffsetMode;
-            [Tooltip("Offset on z-axis.")]
+            [LocalizedTooltip("Offset on z-axis.")]
             public ParticleSystem.MinMaxCurve zOffset;
 
             private float time;
@@ -213,9 +213,9 @@ namespace BulletStorm.Emitters
 
             public enum OffsetMode
             {
-                [Tooltip("Use exactly this angle value.")]
+                [LocalizedTooltip("Use exactly this angle value.")]
                 ExactAngle,
-                [Tooltip("Rotate angle per second from emission start.")]
+                [LocalizedTooltip("Rotate angle per second from emission start.")]
                 AngularVelocity,
             }
         }

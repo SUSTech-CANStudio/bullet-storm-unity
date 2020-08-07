@@ -1,5 +1,6 @@
 ﻿using System;
 using BulletStorm.Emission;
+using BulletStorm.Util.EditorAttributes;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -10,13 +11,13 @@ namespace BulletStorm.BulletSystem.Modules
     [Serializable]
     internal struct EmissionEffectModule
     {
-        [Tooltip("Enable playing effect when emitting bullets.")]
+        [LocalizedTooltip("Enable playing effect when emitting bullets.")]
         [SerializeField] private bool enabled;
-        [Tooltip("Particle effect to play when bullets emitted.")]
+        [LocalizedTooltip("Particle effect to play when bullets emitted.")]
         [SerializeField] private ParticleSystem effect;
-        [Tooltip("Where to play the effect.")]
+        [LocalizedTooltip("Where to play the effect.")]
         [SerializeField] private EffectPosition position;
-        [Tooltip("How to rotate the effect.")]
+        [LocalizedTooltip("How to rotate the effect.")]
         [SerializeField] private EffectRotation rotation;
         
         public void OnEmit(BulletEmitParam relative, Transform emitter)

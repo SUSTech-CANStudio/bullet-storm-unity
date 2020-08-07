@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using BulletStorm.Util;
+using BulletStorm.Util.EditorAttributes;
 using JetBrains.Annotations;
 using UnityEditor;
 using UnityEngine;
@@ -21,7 +22,7 @@ namespace BulletStorm.BulletSystem
     [CreateAssetMenu(menuName = "BulletStorm/BulletPool")]
     public sealed class BulletPool : ScriptableObject
     {
-        [Tooltip("Bullet pool can inherit bullets from other pool.")]
+        [LocalizedTooltip("Bullet pool can inherit bullets from other pool.")]
         [SerializeField] private BulletPool parentPool;
         
         private Dictionary<string, IBulletSystem> bullets;

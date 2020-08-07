@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using BulletStorm.BulletSystem;
 using BulletStorm.Emission;
+using BulletStorm.Util.EditorAttributes;
 using UnityEngine;
 
 #pragma warning disable 0649
@@ -11,17 +12,17 @@ namespace BulletStorm.Emitters
     public class AutoBulletEmitter : AutoEmitterBase
     {
         [Header("Bullet emitter")]
-        [Tooltip("Bullet system prefab to emit bullets.")]
+        [LocalizedTooltip("Bullet system prefab to emit bullets.")]
         [SerializeField] private BulletSystemBase bullet;
-        [Tooltip("Total emit times.")]
+        [LocalizedTooltip("Total emit times.")]
         public int emitTimes = 10;
-        [Tooltip("Interval between two emits.")]
+        [LocalizedTooltip("Interval between two emits.")]
         public ParticleSystem.MinMaxCurve emitInterval;
-        [Tooltip("When using curve, the time in seconds that curve x-axis 0~1 represents.")]
+        [LocalizedTooltip("When using curve, the time in seconds that curve x-axis 0~1 represents.")]
         public float intervalCurveTimeScale = 1;
 
         [Header("Bullet parameter")]
-        [Tooltip("Emit shapes instead of single bullets.")]
+        [LocalizedTooltip("Emit shapes instead of single bullets.")]
         public bool useShape;
         public ShapeAsset shape;
         public BulletEmitParam emitParam;
