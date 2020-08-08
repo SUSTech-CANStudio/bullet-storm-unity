@@ -1,10 +1,13 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using BulletStorm.Util;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace BulletStorm.Editor
 {
-    public static class BulletStormEditorUtil
+    internal static class BulletStormEditorUtil
     {
         /// <summary>
         /// Calculate total height all child properties.
@@ -59,6 +62,41 @@ namespace BulletStorm.Editor
             current.yMin += result.height + EditorGUIUtility.standardVerticalSpacing;
             // if (current.height < 0) BulletStormLogger.LogWarning("Property position exceeded: " + current.height);
             return result;
+        }
+
+        /// <summary>
+        /// Gets path of bullet storm folder.
+        /// </summary>
+        /// <returns></returns>
+        public static string GetBasePath()
+        {
+            var assets = AssetDatabase.FindAssets("BulletStorm t:asmdef");
+            Assert.IsNotNull(assets);
+
+            var selected = assets.ToList().ConvertAll(AssetDatabase.GUIDToAssetPath)
+                .Where(path => path.EndsWith("/BulletStorm.asmdef")).ToList();
+
+            if (selected.Count == 1) return selected[0].Substring(0, selected[0].LastIndexOf('/'));
+            
+            BulletStormLogger.LogError("Can't locate bullet storm assembly, find " + (selected.Count > 0
+                ? selected.Count + " items:\n" + selected.Aggregate((current, next) => current + "\n" + next)
+                : "0 item."));
+            return "Assets/BulletStorm";
+        }
+
+        /// <summary>
+        /// Gets an attribute on an enum field value
+        /// </summary>
+        /// <param name="enumVal">The enum value</param>
+        /// <typeparam name="T">The type of the attribute you want to retrieve</typeparam>
+        /// <returns>The attribute of type T that exists on the enum value</returns>
+        /// <example><![CDATA[string desc = myEnumVariable.GetAttributeOfType<DescriptionAttribute>().Description;]]></example>
+        public static T GetAttributeOfType<T>(Enum enumVal) where T : Attribute
+        {
+            var type = enumVal.GetType();
+            var memInfo = type.GetMember(enumVal.ToString());
+            var attributes = memInfo[0].GetCustomAttributes(typeof(T), false);
+            return attributes.Length > 0 ? (T) attributes[0] : null;
         }
     }
 }

@@ -139,7 +139,7 @@ namespace BulletStorm.Emitters
 
             public bool CheckTarget()
             {
-                if (!(target is null)) return true;
+                if (target) return true;
                 BulletStormLogger.LogError("Emitter aim target not set");
                 return false;
             }

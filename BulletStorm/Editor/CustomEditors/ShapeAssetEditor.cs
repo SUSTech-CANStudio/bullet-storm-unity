@@ -5,7 +5,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace BulletStorm.Editor
+namespace BulletStorm.Editor.CustomEditors
 {
     [CustomEditor(typeof(ShapeAsset))]
     public class ShapeAssetEditor : UnityEditor.Editor

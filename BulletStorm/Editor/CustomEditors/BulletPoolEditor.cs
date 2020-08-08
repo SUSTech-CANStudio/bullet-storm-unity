@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace BulletStorm.Editor
+namespace BulletStorm.Editor.CustomEditors
 {
     [CustomEditor(typeof(BulletPool))]
     public class BulletPoolEditor : UnityEditor.Editor

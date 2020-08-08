@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using BulletStorm.BulletSystem;
 using BulletStorm.Emission;
+using BulletStorm.Util;
 using BulletStorm.Util.EditorAttributes;
 using UnityEngine;
 
@@ -29,6 +30,7 @@ namespace BulletStorm.Emitters
 
         protected override IEnumerator StartEmitCoroutine()
         {
+            if (!CheckBullet() || useShape && !CheckShape()) yield break;
             var startTime = Time.time;
             for (var i = 0; i < emitTimes; i++)
             {
@@ -37,6 +39,20 @@ namespace BulletStorm.Emitters
                 yield return new WaitForSeconds(
                     emitInterval.Evaluate(Time.time - startTime) / intervalCurveTimeScale);
             }
+        }
+
+        private bool CheckShape()
+        {
+            if (shape) return true;
+            BulletStormLogger.LogError("Shape is empty!");
+            return false;
+        }
+
+        private bool CheckBullet()
+        {
+            if (bullet) return true;
+            BulletStormLogger.LogError("Bullet is empty!");
+            return false;
         }
     }
 }

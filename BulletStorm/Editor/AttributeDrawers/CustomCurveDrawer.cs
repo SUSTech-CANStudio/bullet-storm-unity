@@ -1,5 +1,4 @@
-﻿using BulletStorm.Util;
-using BulletStorm.Util.EditorAttributes;
+﻿using BulletStorm.Util.EditorAttributes;
 using UnityEditor;
 using UnityEngine;
 

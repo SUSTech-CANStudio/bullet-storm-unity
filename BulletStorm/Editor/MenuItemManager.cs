@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using BulletStorm.BulletSystem;
+﻿using BulletStorm.BulletSystem;
 using BulletStorm.Emitters;
 using BulletStorm.Util;
 using UnityEditor;
@@ -8,18 +7,18 @@ using Object = UnityEngine.Object;
 
 namespace BulletStorm.Editor
 {
-    public static class MenuItemManager
+    internal static class MenuItemManager
     {
         [MenuItem("Assets/Create/BulletStorm/ParticleBulletSystem")]
         public static void CreateParticleBulletSystemPrefab()
         {
-            CreatePrefab<ParticleBulletSystem>("NewBulletSystem", GetCurrentAssetDirectory("Assets/Prefab/BulletStorm"));
+            CreatePrefab<ParticleBulletSystem>("NewBulletSystem", GetCurrentAssetDirectory("Assets/Prefabs/BulletStorm"));
         }
 
         [MenuItem("Assets/Create/BulletStorm/GameObjectBulletSystem")]
         public static void CreateGameObjectBulletSystemPrefab()
         {
-            CreatePrefab<GameObjectBulletSystem>("NewBulletSystem", GetCurrentAssetDirectory("Assets/Prefab/BulletStorm"));
+            CreatePrefab<GameObjectBulletSystem>("NewBulletSystem", GetCurrentAssetDirectory("Assets/Prefabs/BulletStorm"));
         }
 
         [MenuItem("GameObject/3D Object/BulletStorm/AutoBulletEmitter")]
@@ -27,7 +26,6 @@ namespace BulletStorm.Editor
         {
             CreateGameObject<AutoBulletEmitter>();
         }
-        
         
         
         /// <summary>
@@ -62,20 +60,8 @@ namespace BulletStorm.Editor
         {
             var go = EditorUtility.CreateGameObjectWithHideFlags(
                 name, HideFlags.DontSaveInEditor & HideFlags.HideInHierarchy, typeof(T));
-            while (AssetDatabase.FindAssets(name, new[] {path}).Length > 0)
-            {
-                var split = name.Split(' ');
-                if (int.TryParse(split[split.Length - 1], out var result))
-                {
-                    split[split.Length - 1] = (result + 1).ToString();
-                    name = split.Aggregate((current, next) => current + " " + next);
-                }
-                else
-                {
-                    name = name + " 2";
-                }
-            }
-            PrefabUtility.SaveAsPrefabAsset(go, path + "/" + name + ".prefab");
+            var uniquePath = AssetDatabase.GenerateUniqueAssetPath(path + "/" + name + ".prefab");
+            PrefabUtility.SaveAsPrefabAsset(go, uniquePath);
             Object.DestroyImmediate(go);
             BulletStormLogger.Log("Created prefab '" + name + "'.\n" + path + "/" + name);
         }
