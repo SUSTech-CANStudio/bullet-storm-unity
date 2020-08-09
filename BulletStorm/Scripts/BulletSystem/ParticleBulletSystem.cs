@@ -34,9 +34,6 @@ namespace BulletStorm.BulletSystem
 		private int particleCount;
 		private bool particlesUpToDate;
 
-		[SerializeField] private TracingModule tracing;
-		[SerializeField] private EmissionEffectModule emissionEffect;
-
 		public override void ChangeVelocity(Func<Vector3, Vector3, Vector3> operation)
 		{
 			UpdateParticles();
@@ -98,7 +95,7 @@ namespace BulletStorm.BulletSystem
 					? ToEmitParams(relative.RelativeTo(emitter))
 					: ToEmitParams(relative), 1);
 			
-			emissionEffect.OnEmit(relative, emitter);
+			PlayEmissionEffect(relative, emitter);
 		}
 
 		public override void Destroy() => StartCoroutine(WaitForDestroy());
@@ -148,11 +145,6 @@ namespace BulletStorm.BulletSystem
 			var shape = ps.shape;
 			shape.enabled = false;
 #endif
-		}
-
-		private void Update()
-		{
-			tracing.OnUpdate(this);
 		}
 
 		private void LateUpdate()

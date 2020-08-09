@@ -4767,13 +4767,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8390cb0b5183403797f47879b2bcdb3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tracing:
-    enabled: 0
-    target: {fileID: 0}
-    tracingRatio: 0
-    changeRotation: 0
   emissionEffect:
     enabled: 0
     effect: {fileID: 0}
     position: 0
     rotation: 0
+  tracing:
+    enabled: 0
+    target:
+      findBy: 0
+      transform: {fileID: 0}
+      info: 
+    tracingRate: 0

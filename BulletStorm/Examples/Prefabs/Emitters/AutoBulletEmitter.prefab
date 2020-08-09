@@ -47,7 +47,10 @@ MonoBehaviour:
   destroyOnFinish: 0
   autoAim:
     enabled: 0
-    target: {fileID: 0}
+    target:
+      findBy: 0
+      transform: {fileID: 0}
+      info: 
     aimOnEmissionStart: 0
     followRateUseCurve: 0
     followRateConst: 0

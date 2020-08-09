@@ -1,4 +1,5 @@
 ﻿using System;
+using BulletStorm.Util;
 using BulletStorm.Util.EditorAttributes;
 using UnityEngine;
 
@@ -12,20 +13,20 @@ namespace BulletStorm.BulletSystem.Modules
         [LocalizedTooltip("Enable bullets tracing some game object.")]
         [SerializeField] private bool enabled;
         [LocalizedTooltip("Tracing target.")]
-        [SerializeField] private Transform target;
+        [SerializeField] private Target target;
         [LocalizedTooltip("Max rotating angle per second.")]
         [Range(0, 180)]
-        [SerializeField] private float tracingRatio;
-        [LocalizedTooltip("Enable rotation of the bullet to change, or only change velocity direction.")]
-        [SerializeField] private bool changeRotation;
+        [SerializeField] private float tracingRate;
 
+        public void OnStart() => target.Check();
+        
         public void OnUpdate(IBulletController bullet)
         {
-            if (!enabled || target is null) return;
+            if (!enabled || !target) return;
 
             var deltaTime = Time.deltaTime;
-            var targetPosition = target.position;
-            var ratio = this.tracingRatio;
+            var targetPosition = target.AsTransform.position;
+            var ratio = this.tracingRate;
             bullet.ChangeVelocity((position, velocity) => 
                 Vector3.RotateTowards(
                     velocity,

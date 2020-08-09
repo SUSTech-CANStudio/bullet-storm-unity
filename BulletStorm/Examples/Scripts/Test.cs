@@ -1,19 +1,28 @@
-﻿using System.Xml.Linq;
+﻿using System;
+using BulletStorm.Util;
 using UnityEngine;
 
 namespace BulletStorm.Examples.Scripts
 {
     public class Test : MonoBehaviour
     {
-        public Quaternion q;
+        public Test2 t;
         
         private void Start()
         {
-            var root = new XElement("Root");
-            var document = new XDocument(new XDeclaration("1.0", "utf-8", "yes"), root);
-            root.Add(new XElement("Item", new XAttribute("src", "hahahaha"), "????"));
-            root.Add(new XElement("Item", new XAttribute("src", "gagagaga"), "!!!!"));
-            Debug.Log(document);
+            Debug.Log("I am son.");
         }
+    }
+
+    [Serializable]
+    public class Test2
+    {
+        public Test3 t;
+    }
+
+    [Serializable]
+    public class Test3
+    {
+        public Target target;
     }
 }

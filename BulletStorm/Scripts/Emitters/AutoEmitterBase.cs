@@ -48,7 +48,7 @@ namespace BulletStorm.Emitters
         public void StartEmission()
         {
             // auto aim
-            if (autoAim.enabled && autoAim.aimOnEmissionStart && autoAim.CheckTarget())
+            if (autoAim.enabled && autoAim.aimOnEmissionStart && autoAim.target.Check())
             {
                 transform.LookAt(autoAim.target);
             }
@@ -93,10 +93,10 @@ namespace BulletStorm.Emitters
             if (coroutine.Status != CoroutineStatus.Running) return;
             
             // auto aim
-            if (autoAim.enabled && autoAim.CheckTarget())
+            if (autoAim.enabled && autoAim.target)
             {
                 var t = transform;
-                var expected = autoAim.target.position - t.position;
+                var expected = autoAim.target.AsTransform.position - t.position;
                 var forward = t.forward;
                 forward = Vector3.RotateTowards(forward, expected,
                     autoAim.GetFollowRate(Vector3.Angle(forward, expected)), 0);
@@ -117,7 +117,7 @@ namespace BulletStorm.Emitters
             public bool enabled;
             
             [LocalizedTooltip("The game object should the emitter aim at.")]
-            public Transform target;
+            public Target target;
             [LocalizedTooltip("When start emitting, aim at the target.")]
             public bool aimOnEmissionStart;
             
@@ -136,13 +136,6 @@ namespace BulletStorm.Emitters
                 followRateUseCurve
                     ? followRateCurve.Evaluate(angleDiff) * followRateMultiplier
                     : followRateConst;
-
-            public bool CheckTarget()
-            {
-                if (target) return true;
-                BulletStormLogger.LogError("Emitter aim target not set");
-                return false;
-            }
         }
 
         [Serializable]

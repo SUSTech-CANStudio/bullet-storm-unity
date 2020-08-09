@@ -2,9 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using BulletStorm.BulletSystem.Modules;
 using BulletStorm.Emission;
+using BulletStorm.Util.EditorAttributes;
 using UnityEngine;
+
+#pragma warning disable 0649
 
 namespace BulletStorm.BulletSystem
 {
@@ -26,16 +28,13 @@ namespace BulletStorm.BulletSystem
         private List<GameObjectBullet> bullets = new List<GameObjectBullet>();
         private bool bulletsCleared;
 
-        [Tooltip("The game object to emit as bullet.")]
+        [LocalizedTooltip("The game object to emit as bullet.")]
         [SerializeField] private GameObject bullet;
-        [Tooltip("If disabled, bullets won't auto destroy.")]
+        [LocalizedTooltip("If disabled, bullets won't auto destroy.")]
         [SerializeField] private bool enableLifetime = true;
-        [Tooltip("Default lifetime of bullets.")]
+        [LocalizedTooltip("Default lifetime of bullets.")]
         [SerializeField] private float bulletLifeTime = 100;
-        
-        [SerializeField] private EmissionEffectModule emissionEffect;
-        [SerializeField] private TracingModule tracing;
-        
+
         public override void ChangePosition(Func<Vector3, Vector3, Vector3> operation)
         {
             ClearDestroyedBullets();
@@ -62,7 +61,8 @@ namespace BulletStorm.BulletSystem
             var absEmitParam = emitParam.RelativeTo(emitter);
             bulletComponent.Init(absEmitParam.position, absEmitParam.velocity, absEmitParam.color, absEmitParam.size);
             if (enableLifetime) bulletComponent.EnableLifeTime(bulletLifeTime);
-            emissionEffect.OnEmit(emitParam, emitter);
+            
+            PlayEmissionEffect(emitParam, emitter);
         }
 
         public override void Destroy() => StartCoroutine(WaitForDestroy());
@@ -85,11 +85,6 @@ namespace BulletStorm.BulletSystem
             if (bulletsCleared) return;
             bullets = bullets.Where(gameObjectBullet => gameObjectBullet).ToList();
             bulletsCleared = true;
-        }
-
-        private void Update()
-        {
-            tracing.OnUpdate(this);
         }
 
         private void LateUpdate()
