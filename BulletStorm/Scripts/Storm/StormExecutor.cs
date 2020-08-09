@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using BulletStorm.BulletSystem;
 using BulletStorm.Util;
@@ -23,6 +22,7 @@ namespace BulletStorm.Storm
             IReadOnlyList<IBulletController> defaultControllers)
         {
             this.info = info;
+            this.emitter = emitter;
             this.controllers = controllers;
             this.defaultControllers = defaultControllers;
             variables = new List<Variable>();

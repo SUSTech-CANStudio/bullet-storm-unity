@@ -5,6 +5,8 @@ namespace BulletStorm.Examples.Scripts
 {
     public class Test : MonoBehaviour
     {
+        public Quaternion q;
+        
         private void Start()
         {
             var root = new XElement("Root");

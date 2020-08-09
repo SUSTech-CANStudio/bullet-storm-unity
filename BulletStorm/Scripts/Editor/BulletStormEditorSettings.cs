@@ -58,6 +58,7 @@ namespace BulletStorm.Editor
             settings.UpdateIfRequiredOrScript();
             var property = settings.GetIterator();
             property.Next(true);
+            property.NextVisible(false);
             while (property.NextVisible(false))
             {
                 EditorGUILayout.PropertyField(property);

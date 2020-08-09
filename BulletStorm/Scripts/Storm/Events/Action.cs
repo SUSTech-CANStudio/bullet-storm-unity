@@ -4,6 +4,10 @@ using BulletStorm.Util;
 
 namespace BulletStorm.Storm.Events
 {
+    /// <summary>
+    /// Event contains an action.
+    /// </summary>
+    /// <seealso cref="BulletStorm.Storm.Actions"/>
     public class Action : IStormEvent
     {
         private readonly string bullet;
@@ -11,6 +15,11 @@ namespace BulletStorm.Storm.Events
 
         private int bulletIndex;
         
+        /// <summary>
+        /// Creates an action event.
+        /// </summary>
+        /// <param name="action">The action inside.</param>
+        /// <param name="bullet">Bullet name the action ues.</param>
         public Action(IStormAction action, string bullet)
         {
             this.bullet = bullet;
