@@ -2,20 +2,40 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using BulletStorm.BulletSystem.Modules;
 using BulletStorm.Emission;
 using UnityEngine;
 
 namespace BulletStorm.BulletSystem
 {
+    /// <summary>
+    /// A bullet system based on <see cref="GameObject"/>. It emits game objects as bullets,
+    /// and keeps them moving. The bullet system will attach a <see cref="GameObjectBullet"/>
+    /// component to every game objects it emits, from which you can get bullet attributes like
+    /// <see cref="GameObjectBullet.velocity"/> and <see cref="GameObjectBullet.lifetime"/>.
+    /// <para/>
+    /// This bullet system is much more inefficient than <see cref="ParticleBulletSystem"/>, but
+    /// useful when you need more flexibility. For example, if you need an enemy bullet which is
+    /// breakable by player's bullet, unfortunately unity's particle system can't detect collision
+    /// between two particles. A game object can be useful to deal with this situation. 
+    /// </summary>
     [AddComponentMenu("")]
+    [DisallowMultipleComponent]
     public class GameObjectBulletSystem : BulletSystemBase
     {
         private List<GameObjectBullet> bullets = new List<GameObjectBullet>();
         private bool bulletsCleared;
 
-        [Tooltip("The game object to emit.")]
+        [Tooltip("The game object to emit as bullet.")]
         [SerializeField] private GameObject bullet;
-
+        [Tooltip("If disabled, bullets won't auto destroy.")]
+        [SerializeField] private bool enableLifetime = true;
+        [Tooltip("Default lifetime of bullets.")]
+        [SerializeField] private float bulletLifeTime = 100;
+        
+        [SerializeField] private EmissionEffectModule emissionEffect;
+        [SerializeField] private TracingModule tracing;
+        
         public override void ChangePosition(Func<Vector3, Vector3, Vector3> operation)
         {
             ClearDestroyedBullets();
@@ -38,15 +58,16 @@ namespace BulletStorm.BulletSystem
 
         public override void Emit(BulletEmitParam emitParam, Transform emitter)
         {
-            throw new NotImplementedException();
+            var bulletComponent = Instantiate(bullet).AddComponent<GameObjectBullet>();
+            var absEmitParam = emitParam.RelativeTo(emitter);
+            bulletComponent.Init(absEmitParam.position, absEmitParam.velocity, absEmitParam.color, absEmitParam.size);
+            if (enableLifetime) bulletComponent.EnableLifeTime(bulletLifeTime);
+            emissionEffect.OnEmit(emitParam, emitter);
         }
 
-        public override void Destroy()
-        {
-            StartCoroutine(DestroyCoroutine());
-        }
+        public override void Destroy() => StartCoroutine(WaitForDestroy());
 
-        private IEnumerator DestroyCoroutine()
+        private IEnumerator WaitForDestroy()
         {
             while (true)
             {
@@ -56,6 +77,9 @@ namespace BulletStorm.BulletSystem
             Destroy(this);
         }
 
+        /// <summary>
+        /// Clear destroyed bullets if not cleared.
+        /// </summary>
         private void ClearDestroyedBullets()
         {
             if (bulletsCleared) return;
@@ -63,9 +87,20 @@ namespace BulletStorm.BulletSystem
             bulletsCleared = true;
         }
 
+        private void Update()
+        {
+            tracing.OnUpdate(this);
+        }
+
         private void LateUpdate()
         {
             bulletsCleared = false;
+        }
+
+        private void OnDestroy()
+        {
+            ClearDestroyedBullets();
+            foreach (var gameObjectBullet in bullets) Destroy(gameObjectBullet);
         }
     }
 }

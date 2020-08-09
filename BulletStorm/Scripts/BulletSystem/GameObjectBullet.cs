@@ -4,6 +4,7 @@ using UnityEngine;
 namespace BulletStorm.BulletSystem
 {
     [SuppressMessage("ReSharper", "ParameterHidesMember")]
+    [DisallowMultipleComponent]
     public class GameObjectBullet : MonoBehaviour
     {
         public Vector3 velocity;

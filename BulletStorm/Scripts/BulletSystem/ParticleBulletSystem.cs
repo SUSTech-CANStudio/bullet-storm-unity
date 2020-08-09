@@ -24,6 +24,7 @@ namespace BulletStorm.BulletSystem
 	[RequireComponent(typeof(ParticleSystem))]
 	[ExecuteInEditMode]
 	[AddComponentMenu("")]
+	[DisallowMultipleComponent]
 	public class ParticleBulletSystem : BulletSystemBase
 	{
 		private ParticleSystem ps;
@@ -100,9 +101,9 @@ namespace BulletStorm.BulletSystem
 			emissionEffect.OnEmit(relative, emitter);
 		}
 
-		public override void Destroy() => StartCoroutine(DestroyCoroutine());
+		public override void Destroy() => StartCoroutine(WaitForDestroy());
 
-		private IEnumerator DestroyCoroutine()
+		private IEnumerator WaitForDestroy()
 		{
 			while (true)
 			{
