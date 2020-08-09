@@ -124,7 +124,7 @@ namespace BulletStorm.Emitters
             [Header("Follow rate")]
             [LocalizedTooltip("Use a curve to describe follow rate.")]
             public bool followRateUseCurve;
-            [LocalizedTooltip("Max rotation angle per second during emission to follow target")]
+            [LocalizedTooltip("Max rotation angle per second during emission to follow target.")]
             public float followRateConst;
             [CustomCurve(0, 0, 180, 2)]
             [LocalizedTooltip("X-axis is the angle between target and current aim direction, Y-axis is rotation rate.")]

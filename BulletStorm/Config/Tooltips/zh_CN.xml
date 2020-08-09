@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+    
+    <!-- AutoEmitterBase -->
+    <item src="Begin to emit bullets on start.">发射器启动时自动开始发射</item>
+    <item src="Auto destroy the emitter when emission finished.">发射结束后自动销毁发射器</item>
+    <item src="Auto rotates the emitter to aim at a target.">自动旋转发射器以瞄准目标</item>
+    <item src="Enables the emitter to emit towards customized direction, otherwise it will always emit forward.">
+        允许发射器向一个自定义的方向发射，而不是始终向发射器z轴方向发射
+    </item>
+    
+    <!-- AutoAimModule -->
+    <item src="The game object should the emitter aim at.">需要发射器瞄准的GameObject</item>
+    <item src="When start emitting, aim at the target.">在开始发射时，立即瞄准目标</item>
+    <item src="Use a curve to describe follow rate.">使用曲线来表示瞄准跟随速率</item>
+    <item src="Max rotation angle per second during emission to follow target.">跟随瞄准时每秒最大转动角度</item>
+    <item src="X-axis is the angle between target and current aim direction, Y-axis is rotation rate.">
+        x轴为发射器实际瞄准方向与目标方向的夹角，y轴为处于该夹角时瞄准跟随速率
+    </item>
+    <item src="Multiplier for follow rate curve.">瞄准跟随速率曲线倍率</item>
+
+    <!-- AimOffsetModule -->
+    <item src="XYZ rotation offset when an emission starts in euler angles.">开始发射时初始瞄准偏移</item>
+    <item src="When using curve, the time in seconds that curve x-axis 0~1 represents.">
+        表示使用曲线时，曲线x轴坐标0~1数字范围所代表的实际时间范围（单位：秒）
+    </item>
+    <item src="Offset mode on x-axis, this will cause emitter aim up (negative) and down (positive).">
+        x轴的偏移模式。x轴表示发射器向上（偏移量为负）和向下（偏移量为正）转动
+    </item>
+    <item src="Offset on x-axis.">x轴偏移角度</item>
+    <item src="Offset mode on y-axis, this will cause emitter aim left (negative) and right (positive).">
+        y轴的偏移模式。y轴表示发射器向左（偏移量为负）和向右（偏移量为正）转动
+    </item>
+    <item src="Offset on y-axis.">y轴偏移角度</item>
+    <item src="Offset mode on z-axis, this will cause emitter aim clockwise (negative) and counterclockwise (positive).">
+        z轴的偏移模式。z轴表示发射器顺时针（偏移量为负）和逆时针（偏移量为正）转动
+    </item>
+    <item src="Offset on z-axis.">z轴偏移角度</item>
+
+    <!-- OffsetMode -->
+    <item src="Use exactly this angle value.">使用相对于原始方向的固定偏移角度</item>
+    <item src="Rotate angle per second from emission start.">从开始发射起，每秒旋转给定的角度</item>
+    
+    <!-- AutoBulletEmitter -->
+    <item src="Bullet system prefab to emit bullets.">要发射的子弹预设</item>
+    <item src="Total emit times.">总发射次数</item>
+    <item src="Interval between two emits.">两次发射间隔时间</item>
+    <item src="Emit shapes instead of single bullets.">使用发射形状而不是单个子弹参数</item>
+    
+</root>
