@@ -1,7 +1,11 @@
 {
-    "name": "BulletStorm",
-    "references": [],
-    "includePlatforms": [],
+    "name": "BulletStorm.Editor",
+    "references": [
+        "BulletStorm"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

@@ -8,6 +8,9 @@ Plugins/Editor/JetBrains*
 # Don't generate meta file in root directory
 /*.meta
 
+# Don't sync meta file of scripts
+/BulletStorm/Scripts/**/*.meta
+
 # Unity3D generated meta files
 *.pidb.meta
 *.pdb.meta
