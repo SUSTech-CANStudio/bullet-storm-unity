@@ -93,9 +93,7 @@ namespace BulletStorm.Editor.CustomEditors
         {
             if (!previewObject)    // Use default preview object if not set.
             {
-                var asset = BulletStormEditorUtil.LoadDefaultAsset<GameObject>("PreviewCube.prefab");
-                previewObject = Instantiate(asset);
-                previewObject.hideFlags = HideFlags.HideAndDontSave;
+                previewObject = BulletStormEditorUtil.LoadDefaultAsset<GameObject>("PreviewCube.prefab");
                 objectChanged = true;
             }
             if (objectChanged)    // Get mesh and material from preview object.
