@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using BulletStorm.BulletSystem.Modules;
 using BulletStorm.Emission;
 using UnityEngine;
 
@@ -45,7 +43,8 @@ namespace BulletStorm.BulletSystem
 				if (psr.renderMode == ParticleSystemRenderMode.Mesh)
 				{
 					particles[i].rotation3D =
-						(Quaternion.FromToRotation(oldVelocity, particles[i].velocity) *
+						(Quaternion.FromToRotation(oldVelocity == Vector3.zero ? Vector3.forward : oldVelocity,
+							 particles[i].velocity == Vector3.zero ? Vector3.forward : particles[i].velocity) *
 						 Quaternion.Euler(particles[i].rotation3D)).eulerAngles;
 				}
 			});
@@ -75,14 +74,15 @@ namespace BulletStorm.BulletSystem
 							psm.startRotationY.Evaluate(ps.time) * psm.startRotationYMultiplier,
 							psm.startRotationZ.Evaluate(ps.time) * psm.startRotationZMultiplier)
 						: new Vector3(0, 0, psm.startRotation.Evaluate(ps.time) * psm.startRotationMultiplier);
-					result.rotation3D = (Quaternion.LookRotation(result.velocity) * Quaternion.Euler(startRotation3D))
-						.eulerAngles;
+					result.rotation3D =
+						(Quaternion.LookRotation(result.velocity == Vector3.zero ? Vector3.forward : result.velocity) *
+						 Quaternion.Euler(startRotation3D)).eulerAngles;
 				}
-				if (bulletEmitParam.color != Color.clear)
+				if (!bulletEmitParam.DefaultColor)
 				{
 					result.startColor = bulletEmitParam.color;
 				}
-				if (bulletEmitParam.size != Vector3.zero)
+				if (!bulletEmitParam.DefaultSize)
 				{
 					result.startSize3D = bulletEmitParam.size;
 				}
