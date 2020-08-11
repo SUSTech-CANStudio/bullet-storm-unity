@@ -1,9 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BulletStorm.Util.EditorAttributes;
 using JetBrains.Annotations;
-using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 #pragma warning disable 0649
 
@@ -16,12 +20,16 @@ namespace BulletStorm.BulletSystem
     /// and it can auto register all bullet systems in the folder and sub folders.
     /// Then you can use <see cref="Find"/> to get a bullet.
     [CreateAssetMenu(menuName = "BulletStorm/BulletPool")]
-    public sealed class BulletPool : ScriptableObject
+    public sealed class BulletPool : ScriptableObject, ISerializationCallbackReceiver
     {
         [LocalizedTooltip("Bullet pool can inherit bullets from other pool.")]
         [SerializeField] private BulletPool parentPool;
-        
-        private Dictionary<string, IBulletSystem> bullets;
+
+        [SerializeField] [HideInInspector] private List<string> keys;
+        [SerializeField] [HideInInspector] private List<Object> values;
+
+        [NonSerialized]
+        private readonly Dictionary<string, IBulletSystem> bullets = new Dictionary<string, IBulletSystem>();
         
         [NotNull]
         private IEnumerable<string> AllBulletNames
@@ -49,10 +57,27 @@ namespace BulletStorm.BulletSystem
             if (parentPool && parentPool != this) return parentPool.Find(bulletName);
             return null;
         }
-
-        private void Awake()
+        
+        public void OnBeforeSerialize()
         {
-            
+            if (keys is null) keys = new List<string>();
+            else keys.Clear();
+            if (values is null) values = new List<Object>();
+            else values.Clear();
+            foreach (var bullet in bullets)
+            {
+                keys.Add(bullet.Key);
+                values.Add(bullet.Value as Object);
+            }
+        }
+
+        public void OnAfterDeserialize()
+        {
+            bullets.Clear();
+            for (var i = 0; i < keys.Count && i < values.Count; i++)
+            {
+                bullets.Add(keys[i], values[i] as IBulletSystem);
+            }
         }
 
 #if UNITY_EDITOR
@@ -99,4 +124,3 @@ namespace BulletStorm.BulletSystem
 #endif
     }
 }
-
