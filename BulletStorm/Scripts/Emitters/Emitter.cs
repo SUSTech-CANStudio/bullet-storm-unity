@@ -1,26 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using BulletStorm.BulletSystem;
 using BulletStorm.Emission;
 using BulletStorm.Storm;
-using BulletStorm.Util;
 using UnityEngine;
 
 namespace BulletStorm.Emitters
 {
+    /// <summary>
+    /// The basic emitter, all other emitters inherit this.
+    /// This emitter doesn't have graphical interface, you have to call emit functions to emit bullets or storms.
+    /// </summary>
     [AddComponentMenu("BulletStorm/Emitter")]
     public class Emitter : MonoBehaviour
     {
         private readonly Dictionary<IBulletSystem, IBulletController> bulletSystems =
             new Dictionary<IBulletSystem, IBulletController>();
-        
-        public void Emit(StormInfo storm)
-        {
-            
-        }
 
         /// <summary>
-        /// Emit bullets use given parameters from this emitter.
+        /// Emits a storm from this emitter.
+        /// </summary>
+        /// <param name="storm">The storm.</param>
+        public void Emit(StormInfo storm) => Emit(storm, transform);
+        
+        /// <summary>
+        /// Emits a storm.
+        /// </summary>
+        /// <param name="storm">The storm.</param>
+        /// <param name="emitter">Bullets will be emitted relative to it.</param>
+        public void Emit(StormInfo storm, Transform emitter) => StartCoroutine(storm.Execute(emitter));
+
+        /// <summary>
+        /// Emits bullets use given parameters from this emitter.
         /// </summary>
         /// <param name="shape">Bullet parameters</param>
         /// <param name="bullet">The bullet type to emit</param>
@@ -28,7 +38,7 @@ namespace BulletStorm.Emitters
             Emit(shape, bullet, transform);
 
         /// <summary>
-        /// Emit bullets use given parameters.
+        /// Emits bullets use given parameters.
         /// </summary>
         /// <param name="shape">Bullet parameters</param>
         /// <param name="bullet">The bullet type to emit</param>
@@ -39,7 +49,7 @@ namespace BulletStorm.Emitters
         }
 
         /// <summary>
-        /// Emit a single bullet from this emitter.
+        /// Emits a single bullet from this emitter.
         /// </summary>
         /// <param name="emitParam">Parameters of the bullet</param>
         /// <param name="bullet">The bullet type to emit</param>
@@ -47,7 +57,7 @@ namespace BulletStorm.Emitters
             Emit(emitParam, bullet, transform);
 
         /// <summary>
-        /// Emit a single bullet.
+        /// Emits a single bullet.
         /// </summary>
         /// <param name="emitParam">Parameters of the bullet</param>
         /// <param name="bullet">The bullet type to emit</param>
