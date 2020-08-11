@@ -1,7 +1,11 @@
-﻿using BulletStorm.Emission;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using BulletStorm.Emission;
 using BulletStorm.Util;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace BulletStorm.Editor.CustomEditors
 {
@@ -16,6 +20,7 @@ namespace BulletStorm.Editor.CustomEditors
         private Material material;
         private Vector2 viewPos;
         private float cameraDistance;
+        private LabelContent labelContent;
         private static readonly int ColorIndex = Shader.PropertyToID("_Color");
 
         private void ValidateData()
@@ -23,6 +28,7 @@ namespace BulletStorm.Editor.CustomEditors
             previewRenderUtility = new PreviewRenderUtility();
 
             previewRenderUtility.camera.farClipPlane = 10e5f;
+            previewRenderUtility.camera.clearFlags = CameraClearFlags.Skybox;
 
             viewPos = new Vector2(0, -10); 
             cameraDistance = 10;
@@ -30,9 +36,16 @@ namespace BulletStorm.Editor.CustomEditors
 
         public override void OnPreviewSettings()
         {
+            const int itemCount = 2;
+            var width = EditorGUIUtility.currentViewWidth / (itemCount * 2 + 3);
+            EditorGUIUtility.labelWidth = width;
+            EditorGUIUtility.fieldWidth = width;
+            
+            labelContent = (LabelContent)EditorGUILayout.EnumPopup("Label content", labelContent);
+            
             EditorGUI.BeginChangeCheck();
             previewObject =
-                EditorGUILayout.ObjectField("Preview object", previewObject, typeof(GameObject), false) as GameObject;
+                EditorGUILayout.ObjectField("Preview object", previewObject, typeof(GameObject), true) as GameObject;
             var changed = EditorGUI.EndChangeCheck();
             if (!objectChanged) objectChanged = changed;
         }
@@ -40,8 +53,6 @@ namespace BulletStorm.Editor.CustomEditors
         private void OnEnable()
         {
             ValidateData();
-            previewObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            previewObject.hideFlags = HideFlags.HideAndDontSave;
             shapeAsset = target as ShapeAsset;
         }
 
@@ -54,9 +65,7 @@ namespace BulletStorm.Editor.CustomEditors
             
             previewRenderUtility.BeginPreview(r, background);
             
-            Handles.SetCamera(previewRenderUtility.camera);
-            Handles.color = Color.magenta;
-            DrawShape();
+            var info = DrawShape();
             
             // move camera
             var transform = previewRenderUtility.camera.transform;
@@ -64,6 +73,10 @@ namespace BulletStorm.Editor.CustomEditors
             transform.position = transform.forward * -cameraDistance;
 
             previewRenderUtility.camera.Render();
+            
+            Handles.SetCamera(previewRenderUtility.camera);
+            DrawGizmos(info);
+            
             previewRenderUtility.EndAndDrawPreview(r);
         }
 
@@ -72,47 +85,97 @@ namespace BulletStorm.Editor.CustomEditors
             previewRenderUtility?.Cleanup();
         }
 
-        private void DrawShape()
+        /// <summary>
+        /// Draw preview meshes.
+        /// </summary>
+        /// <returns>Information to draw gizmos.</returns>
+        private IEnumerable<Tuple<Vector3, Quaternion, float>> DrawShape()
         {
-            if (!previewObject) return;
-            if (objectChanged)
+            if (!previewObject)    // Use default preview object if not set.
+            {
+                var asset = BulletStormEditorUtil.LoadDefaultAsset<GameObject>("PreviewCube.prefab");
+                previewObject = Instantiate(asset);
+                previewObject.hideFlags = HideFlags.HideAndDontSave;
+                objectChanged = true;
+            }
+            if (objectChanged)    // Get mesh and material from preview object.
             {
                 mesh = previewObject.GetComponent<MeshFilter>().sharedMesh;
                 material = previewObject.GetComponent<MeshRenderer>().sharedMaterial;
                 if (!mesh)
                 {
                     BulletStormLogger.LogWarning("Preview object mesh not set.");
-                    return;
+                    return null;
                 }
                 if (!material)
                 {
                     BulletStormLogger.LogWarning("Preview object material not set.");
-                    return;
+                    return null;
                 }
             }
 
+            var scale = previewObject.transform.localScale;
+            var rotation = previewObject.transform.rotation;
             var paramList = shapeAsset.shape.AsReadOnly();
+            var returnValue = new List<Tuple<Vector3, Quaternion, float>>();
 
             for (var i = 0; i < paramList.Count; i++)
             {
                 var position = paramList[i].position;
                 var speed = paramList[i].velocity.magnitude;
-                var rotation = speed == 0
+                var lookRotation = speed == 0
                     ? Quaternion.identity
                     : Quaternion.LookRotation(paramList[i].velocity);
-                var size = paramList[i].size.x == 0 || paramList[i].size.y == 0 || paramList[i].size.z == 0
-                    ? Vector3.one
-                    : paramList[i].size;
+                var size = paramList[i].DefaultSize
+                    ? scale
+                    : Vector3.Scale(paramList[i].size, scale);
                 var block = new MaterialPropertyBlock();
-                block.SetColor(ColorIndex, paramList[i].color);
+                block.SetColor(ColorIndex, paramList[i].DefaultColor ? Color.white : paramList[i].color);
                 
-                // draw meshes
-                Graphics.DrawMesh(mesh, Matrix4x4.TRS(position, rotation, size), material, 0,
+                Graphics.DrawMesh(mesh, Matrix4x4.TRS(position, lookRotation * rotation, size), material, 0,
                     previewRenderUtility.camera, 0, block);
                 
-                // draw gizmos
+                returnValue.Add(new Tuple<Vector3, Quaternion, float>(position, lookRotation, speed));
+            }
+
+            return returnValue;
+        }
+
+        /// <summary>
+        /// Draw gizmos on preview.
+        /// </summary>
+        /// <param name="prs">List of position, rotation and speed.</param>
+        private void DrawGizmos(IEnumerable<Tuple<Vector3, Quaternion, float>> prs)
+        {
+            var i = 0;
+            foreach (var (position, rotation, speed) in prs)
+            {
+                Handles.zTest = CompareFunction.Greater;
+                Handles.color = Color.red;
                 Handles.ArrowHandleCap(0, position, rotation, speed / 4, EventType.Repaint);
-                //Handles.Label(position, speed.ToString(CultureInfo.CurrentCulture));
+                Handles.zTest = CompareFunction.LessEqual;
+                Handles.color = Color.green;
+                Handles.ArrowHandleCap(0, position, rotation, speed / 4, EventType.Repaint);
+                
+                Handles.zTest = CompareFunction.Always;
+                string text;
+                switch (labelContent)
+                {
+                    case LabelContent.Index:
+                        text = i.ToString();
+                        break;
+                    case LabelContent.Speed:
+                        text = speed.ToString(CultureInfo.CurrentCulture);
+                        break;
+                    case LabelContent.Position:
+                        text = position.ToString();
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+                Handles.Label(position, text);
+                
+                i++;
             }
         }
 
@@ -155,9 +218,14 @@ namespace BulletStorm.Editor.CustomEditors
                         GUI.changed = true;
                     }
                     break;
-                default:
-                    break;
             }
+        }
+
+        private enum LabelContent
+        {
+            Index,
+            Speed,
+            Position
         }
     }
 }

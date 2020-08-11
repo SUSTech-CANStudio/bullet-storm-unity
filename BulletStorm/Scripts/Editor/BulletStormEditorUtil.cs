@@ -4,11 +4,14 @@ using BulletStorm.Util;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Object = UnityEngine.Object;
 
 namespace BulletStorm.Editor
 {
     internal static class BulletStormEditorUtil
     {
+        private static string _basePath;
+        
         /// <summary>
         /// Calculate total height all child properties.
         /// </summary>
@@ -70,18 +73,25 @@ namespace BulletStorm.Editor
         /// <returns></returns>
         public static string GetBasePath()
         {
+            if (!(_basePath is null) && _basePath.StartsWith("Assets/")) return _basePath;
+            
             var assets = AssetDatabase.FindAssets("BulletStorm t:asmdef");
             Assert.IsNotNull(assets);
 
             var selected = assets.ToList().ConvertAll(AssetDatabase.GUIDToAssetPath)
                 .Where(path => path.EndsWith("/BulletStorm.asmdef")).ToList();
 
-            if (selected.Count == 1) return selected[0].Substring(0, selected[0].LastIndexOf('/'));
+            if (selected.Count == 1)
+            {
+                _basePath = selected[0].Substring(0, selected[0].LastIndexOf('/'));
+                return _basePath;
+            }
             
             BulletStormLogger.LogError("Can't locate bullet storm assembly, find " + (selected.Count > 0
                 ? selected.Count + " items:\n" + selected.Aggregate((current, next) => current + "\n" + next)
                 : "0 item."));
-            return "Assets/BulletStorm";
+            _basePath = "Assets/BulletStorm";
+            return _basePath;
         }
 
         /// <summary>
@@ -98,5 +108,14 @@ namespace BulletStorm.Editor
             var attributes = memInfo[0].GetCustomAttributes(typeof(T), false);
             return attributes.Length > 0 ? (T) attributes[0] : null;
         }
+
+        /// <summary>
+        /// Load default asset in "BulletStorm/Config/DefaultItems".
+        /// </summary>
+        /// <param name="name">Asset name, including extension.</param>
+        /// <typeparam name="T">Asset type.</typeparam>
+        /// <returns></returns>
+        public static T LoadDefaultAsset<T>(string name) where T : Object =>
+            AssetDatabase.LoadAssetAtPath<T>(GetBasePath() + "/Config/DefaultItems/" + name);
     }
 }

@@ -15,6 +15,16 @@ namespace BulletStorm.Emission
         [Tooltip("Size of the bullet, Vector3.zero (0, 0, 0) will be override by bullet system default settings.")]
         public Vector3 size;
 
+        /// <summary>
+        /// Is color a default value?
+        /// </summary>
+        public bool DefaultColor => color == Color.clear;
+
+        /// <summary>
+        /// Is size a default value?
+        /// </summary>
+        public bool DefaultSize => size.x == 0 || size.y == 0 || size.z == 0;
+        
         public BulletEmitParam(Vector3 position)
         {
             this.position = position;
