@@ -34,7 +34,7 @@ namespace BulletStorm.Emitters
             var startTime = Time.time;
             for (var i = 0; i < emitTimes; i++)
             {
-                if (useShape) Emit(shape.shape.AsReadOnly(), bullet, Emitter);
+                if (useShape) Emit(shape.shape, bullet, Emitter);
                 else Emit(emitParam, bullet, Emitter);
                 yield return new WaitForSeconds(
                     emitInterval.Evaluate(Time.time - startTime) / intervalCurveTimeScale);

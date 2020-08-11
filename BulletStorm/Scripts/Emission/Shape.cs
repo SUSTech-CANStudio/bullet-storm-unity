@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
@@ -12,10 +13,9 @@ namespace BulletStorm.Emission
     /// </summary>
     /// In shoot'em up games, enemy's bullets usually arranged as some beautiful patterns.
     /// This class provides some basic patterns like ring, line, sphere... and provides functions to transform
-    /// them. You can use operator '+' to combine two <see cref="Shape"/>s, and call <see cref="AsReadOnly"/>
-    /// to get the list.
+    /// them. You can use operator '+' to combine two <see cref="Shape"/>s.
     [Serializable]
-    public class Shape
+    public class Shape : IReadOnlyList<BulletEmitParam>
     {
         [SerializeField]
         private List<BulletEmitParam> emitParams;
@@ -26,7 +26,7 @@ namespace BulletStorm.Emission
         public int Count => emitParams.Count;
         
         /// <summary>
-        /// Create an empty shape.
+        /// Creates an empty shape.
         /// </summary>
         /// <param name="num">Number of bullets in the shape.</param>
         public Shape(int num)
@@ -37,14 +37,24 @@ namespace BulletStorm.Emission
                 emitParams.Add(new BulletEmitParam(Vector3.zero));
             }
         }
+
+        /// <summary>
+        /// Copies a shape.
+        /// </summary>
+        /// <param name="shape">The original shape</param>
+        public Shape(Shape shape)
+        {
+            emitParams = new List<BulletEmitParam>(shape);
+        }
         
         private Shape([NotNull] List<BulletEmitParam> emitParams)
         {
             this.emitParams = emitParams;
         }
 
-        public IReadOnlyList<BulletEmitParam> AsReadOnly() => emitParams.AsReadOnly();
-        
+        // Shape generators, static functions that create a basic shape.
+        #region Generator
+
         /// <summary>
         /// Use Fibonacci sphere algorithm to generate an roughly equal-distance point sphere.
         /// </summary>
@@ -167,6 +177,11 @@ namespace BulletStorm.Emission
             return new Shape(list);
         }
 
+        #endregion
+
+        // Operations that modifies bullet positions.
+        #region Position operations
+
         /// <summary>
         /// Rotates the whole shape around a point.
         /// </summary>
@@ -218,6 +233,153 @@ namespace BulletStorm.Emission
             return this;
         }
 
+        #endregion
+
+        // Operations that modifies bullet velocities.
+        #region Velocity operations
+
+        /// <summary>
+        /// Add velocity to all bullets.
+        /// </summary>
+        /// <param name="velocity">Velocity increment.</param>
+        /// <returns></returns>
+        public Shape AddVelocity(Vector3 velocity)
+        {
+            Parallel.For(0, Count, i =>
+            {
+                var emitParam = emitParams[i];
+                emitParam.velocity += velocity;
+                emitParams[i] = emitParam;
+            });
+            return this;
+        }
+
+        /// <summary>
+        /// Add speed to all bullets, direction is the bullet target relative to origin.
+        /// </summary>
+        /// <param name="speed">Speed increment.</param>
+        /// <returns></returns>
+        public Shape AddSpeed(float speed)
+        {
+            Parallel.For(0, Count, i =>
+            {
+                var emitParam = emitParams[i];
+                emitParam.velocity += emitParam.position.normalized * speed;
+                emitParams[i] = emitParam;
+            });
+            return this;
+        }
+
+        /// <summary>
+        /// Add speed to bullets by their indexes, direction is the bullet target relative to origin.
+        /// </summary>
+        /// <param name="curve">X-axis 0~1 represents all indexes, y-axis is speed.</param>
+        /// <param name="multiplier">Multiplier for curve y-axis.</param>
+        /// <returns></returns>
+        public Shape AddSpeedByIndex(AnimationCurve curve, float multiplier)
+        {
+            Parallel.For(0, Count, i =>
+            {
+                var emitParam = emitParams[i];
+                emitParam.velocity += emitParam.position.normalized * (curve.Evaluate((float) i / Count) * multiplier);
+                emitParams[i] = emitParam;
+            });
+            return this;
+        }
+
+        /// <summary>
+        /// Add speed to all bullets, direction is from bullet target to target target.
+        /// </summary>
+        /// <param name="speed">Speed increment.</param>
+        /// <param name="target">Target position.</param>
+        /// <returns></returns>
+        public Shape AddSpeedTowards(float speed, Vector3 target)
+        {
+            Parallel.For(0, Count, i =>
+            {
+                var emitParam = emitParams[i];
+                emitParam.velocity += (target - emitParam.position).normalized * speed;
+                emitParams[i] = emitParam;
+            });
+            return this;
+        }
+        
+        #endregion
+
+        // Operations that modifies bullet colors.
+        #region Color operations
+
+        /// <summary>
+        /// Set color for all bullets.
+        /// </summary>
+        /// <param name="color"></param>
+        /// <returns></returns>
+        public Shape SetColor(Color color)
+        {
+            Parallel.For(0, Count, i =>
+            {
+                var emitParam = emitParams[i];
+                emitParam.color = color;
+                emitParams[i] = emitParam;
+            });
+            return this;
+        }
+
+        /// <summary>
+        /// Set bullet color according to bullet index.
+        /// </summary>
+        /// <param name="gradient">Color gradient.</param>
+        /// <returns></returns>
+        public Shape SetColorByIndex(Gradient gradient)
+        {
+            Parallel.For(0, Count, i =>
+            {
+                var emitParam = emitParams[i];
+                emitParam.color = gradient.Evaluate((float)i / Count);
+                emitParams[i] = emitParam;
+            });
+            return this;
+        }
+
+        #endregion
+
+        // Operations that modifies bullet sizes.
+        #region Size operations
+
+        /// <summary>
+        /// Set size for all bullets.
+        /// </summary>
+        /// <param name="size">Bullet size.</param>
+        /// <returns></returns>
+        public Shape SetSize(Vector3 size)
+        {
+            Parallel.For(0, Count, i =>
+            {
+                var emitParam = emitParams[i];
+                emitParam.size = size;
+                emitParams[i] = emitParam;
+            });
+            return this;
+        }
+
+        /// <summary>
+        /// Set size for all bullets.
+        /// </summary>
+        /// <param name="x">X scale.</param>
+        /// <param name="y">Y scale.</param>
+        /// <param name="z">z scale.</param>
+        /// <returns></returns>
+        public Shape SetSize(float x, float y, float z) => SetSize(new Vector3(x, y, z));
+
+        /// <summary>
+        /// Set size for all bullets.
+        /// </summary>
+        /// <param name="size">Bullet size.</param>
+        /// <returns></returns>
+        public Shape SetSize(float size) => SetSize(Vector3.one * size);
+        
+        #endregion
+        
         /// <summary>
         /// Sorts bullets in the shape.
         /// </summary>
@@ -242,5 +404,17 @@ namespace BulletStorm.Emission
             list.AddRange(second.emitParams);
             return new Shape(list);
         }
+
+        public IEnumerator<BulletEmitParam> GetEnumerator()
+        {
+            return emitParams.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable) emitParams).GetEnumerator();
+        }
+
+        public BulletEmitParam this[int index] => emitParams[index];
     }
 }

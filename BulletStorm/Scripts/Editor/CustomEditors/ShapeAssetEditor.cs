@@ -116,7 +116,7 @@ namespace BulletStorm.Editor.CustomEditors
 
             var scale = previewObject.transform.localScale;
             var rotation = previewObject.transform.rotation;
-            var paramList = shapeAsset.shape.AsReadOnly();
+            var paramList = shapeAsset.shape;
             var returnValue = new List<Tuple<Vector3, Quaternion, float>>();
 
             for (var i = 0; i < paramList.Count; i++)
