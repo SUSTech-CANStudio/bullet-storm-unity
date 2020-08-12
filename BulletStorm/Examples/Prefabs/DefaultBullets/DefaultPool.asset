@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adedb0cea00b4dada52eb1c0255302fa, type: 3}
+  m_Name: DefaultPool
+  m_EditorClassIdentifier: 
+  parentPool: {fileID: 0}
+  keys:
+  - GOBullet
+  - ParticleBullet
+  values:
+  - {fileID: 3992757158350249120, guid: 3c0d671807f7b654dbaa2d2d02cd7213, type: 3}
+  - {fileID: 5073983244936518281, guid: 91f027e5e56bad74d9b5300ce6cc8023, type: 3}
