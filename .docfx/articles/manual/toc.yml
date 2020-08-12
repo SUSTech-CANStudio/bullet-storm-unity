@@ -2,3 +2,5 @@
   href: intro.md
 - name: Quick start
   href: quick_start.md
+- name: Basic concepts
+  href: basic_concepts.md
