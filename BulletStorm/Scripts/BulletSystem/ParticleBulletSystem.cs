@@ -98,7 +98,10 @@ namespace BulletStorm.BulletSystem
 			PlayEmissionEffect(relative, emitter);
 		}
 
-		public override void Destroy() => StartCoroutine(WaitForDestroy());
+		public override void Destroy()
+		{
+			if(this) StartCoroutine(WaitForDestroy());
+		}
 
 		private IEnumerator WaitForDestroy()
 		{
