@@ -1,0 +1,1081 @@
+{
+  "homepages": [],
+  "source_base_path": "E:/OneDrive - Platinum/CANStudio/Games/particle-storm-unity/Assets/.docfx",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Resource",
+      "source_relative_path": "_site/articles/manual/quick_start.assets/image-20200812152616650.png",
+      "output": {
+        "resource": {
+          "relative_path": "_site/articles/manual/quick_start.assets/image-20200812152616650.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "_site/articles/manual/quick_start.assets/image-20200812153740078.png",
+      "output": {
+        "resource": {
+          "relative_path": "_site/articles/manual/quick_start.assets/image-20200812153740078.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "_site/articles/manual/quick_start.assets/image-20200812153857327.png",
+      "output": {
+        "resource": {
+          "relative_path": "_site/articles/manual/quick_start.assets/image-20200812153857327.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "_site/articles/manual/quick_start.assets/image-20200812154127668.png",
+      "output": {
+        "resource": {
+          "relative_path": "_site/articles/manual/quick_start.assets/image-20200812154127668.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "_site/articles/manual/quick_start.assets/image-20200812154429853.png",
+      "output": {
+        "resource": {
+          "relative_path": "_site/articles/manual/quick_start.assets/image-20200812154429853.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "_site/articles/manual/quick_start.assets/image-20200812154500973.png",
+      "output": {
+        "resource": {
+          "relative_path": "_site/articles/manual/quick_start.assets/image-20200812154500973.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "_site/articles/manual/quick_start.assets/image-20200812154740692.png",
+      "output": {
+        "resource": {
+          "relative_path": "_site/articles/manual/quick_start.assets/image-20200812154740692.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "_site/articles/manual/quick_start.assets/image-20200812155301666.png",
+      "output": {
+        "resource": {
+          "relative_path": "_site/articles/manual/quick_start.assets/image-20200812155301666.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "_site/articles/manual/quick_start.assets/image-20200812155423271.png",
+      "output": {
+        "resource": {
+          "relative_path": "_site/articles/manual/quick_start.assets/image-20200812155423271.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "_site/articles/manual/quick_start.assets/image-20200812155532706.png",
+      "output": {
+        "resource": {
+          "relative_path": "_site/articles/manual/quick_start.assets/image-20200812155532706.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "_site/articles/manual/quick_start.assets/image-20200812160320235.png",
+      "output": {
+        "resource": {
+          "relative_path": "_site/articles/manual/quick_start.assets/image-20200812160320235.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "_site/articles/manual/quick_start.assets/image-20200812160407068.png",
+      "output": {
+        "resource": {
+          "relative_path": "_site/articles/manual/quick_start.assets/image-20200812160407068.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.BulletSystem.BulletPool.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.BulletSystem.BulletPool.html",
+          "hash": "ExxraAcrqmfwFGu2kqZKGQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.BulletSystem.BulletSystemBase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.BulletSystem.BulletSystemBase.html",
+          "hash": "CRhG5w+Mef4U/wDZe59QNg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.BulletSystem.GameObjectBullet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.BulletSystem.GameObjectBullet.html",
+          "hash": "lXZrD9xp9lelmJmx1dXN4Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.BulletSystem.GameObjectBulletSystem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.BulletSystem.GameObjectBulletSystem.html",
+          "hash": "5sXiRiktnPPcwacgH6JDeQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.BulletSystem.IBulletController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.BulletSystem.IBulletController.html",
+          "hash": "hOa+ljKGmwd4wv23lV16Cg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.BulletSystem.IBulletSystem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.BulletSystem.IBulletSystem.html",
+          "hash": "6DrfieWA/r+vPIMrxpWVFQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.BulletSystem.ParticleBulletSystem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.BulletSystem.ParticleBulletSystem.html",
+          "hash": "1PuBs/IP5mo80tzGsj2mSg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.BulletSystem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.BulletSystem.html",
+          "hash": "Os5GV3z+NXitBcK2Cg3Sqw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Editor.BulletStormEditorSettings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Editor.BulletStormEditorSettings.html",
+          "hash": "dQkiANQx7HyHN1TkGTT5EA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Editor.BulletStormLanguage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Editor.BulletStormLanguage.html",
+          "hash": "kPfP8f0ki52WRCD5CwjD5g=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Editor.PropertyDrawers.TargetDrawer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Editor.PropertyDrawers.TargetDrawer.html",
+          "hash": "1/ixeKpal8DZb/oX8yc2xQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Editor.PropertyDrawers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Editor.PropertyDrawers.html",
+          "hash": "aa2prRY+78U363hiEN+DRg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Editor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Editor.html",
+          "hash": "2k363WzrZVRRTrx1kYnTDA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Emission.BulletEmitParam.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Emission.BulletEmitParam.html",
+          "hash": "DSUmb5fMYd+z42QT3FhhfA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Emission.ParamCompareItem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Emission.ParamCompareItem.html",
+          "hash": "Flt2Wa9vkQQOWuuX2kt4hQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Emission.ParamCompareOrder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Emission.ParamCompareOrder.html",
+          "hash": "HPbq7ZEKX+nUcATKE2NlfA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Emission.ParamComparer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Emission.ParamComparer.html",
+          "hash": "NmdYmD95jEPV7BsgxiXHWw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Emission.Shape.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Emission.Shape.html",
+          "hash": "T1qipP59QU5lKmELx8S8KQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Emission.ShapeAsset.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Emission.ShapeAsset.html",
+          "hash": "J9TtQWSegSQ1MpqRPdMnWA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Emission.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Emission.html",
+          "hash": "D4PYSZKVxt8m8kFDPP+oAQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Emitters.AutoBulletEmitter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Emitters.AutoBulletEmitter.html",
+          "hash": "X3Q+2siqMe3mL5LY2FQb6Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Emitters.AutoEmitterBase.AimOffsetModule.OffsetMode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Emitters.AutoEmitterBase.AimOffsetModule.OffsetMode.html",
+          "hash": "kdw6f9ug1SC4YHx1eNT99g=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Emitters.AutoEmitterBase.AimOffsetModule.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Emitters.AutoEmitterBase.AimOffsetModule.html",
+          "hash": "724ZZAn3hjyjM052fbJrSQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Emitters.AutoEmitterBase.AutoAimModule.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Emitters.AutoEmitterBase.AutoAimModule.html",
+          "hash": "VkW08/33/BVZuMcQJPulGA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Emitters.AutoEmitterBase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Emitters.AutoEmitterBase.html",
+          "hash": "vs+skc68tMWbGadLcdpa3Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Emitters.Emitter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Emitters.Emitter.html",
+          "hash": "kKi1X5C1Zr5Qmxrz1+gpag=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Emitters.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Emitters.html",
+          "hash": "++ei0IHgI+OvtgCxjjjIaQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Storm.Actions.Accelerate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Storm.Actions.Accelerate.html",
+          "hash": "MU/nlfMS5dLie4iv3l8mIQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Storm.Actions.Emit.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Storm.Actions.Emit.html",
+          "hash": "uSD/FhNkb88gTBvoB+DZ4Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Storm.Actions.Rotate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Storm.Actions.Rotate.html",
+          "hash": "ElxvUAHMDDbO4kcgvoEaYw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Storm.Actions.RotateTowards.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Storm.Actions.RotateTowards.html",
+          "hash": "Hb2QY+jFmbWPhV8iK+8neg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Storm.Actions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Storm.Actions.html",
+          "hash": "+zmisA4W96WsVoGWEah6jA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Storm.Events.Action.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Storm.Events.Action.html",
+          "hash": "6Y6FTnj4g91q7NAMUK9KlA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Storm.Events.BeginLoop.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Storm.Events.BeginLoop.html",
+          "hash": "F2RsebNonRXQDMQm5b5o5Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Storm.Events.EndLoop.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Storm.Events.EndLoop.html",
+          "hash": "tCSiCrlfcyQ5EzZpOrkJ1Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Storm.Events.Wait.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Storm.Events.Wait.html",
+          "hash": "miww7R6TwD7WKvCeDHRx9Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Storm.Events.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Storm.Events.html",
+          "hash": "LDMBhxUrtpkreMs1t4c4IA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Storm.IStormAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Storm.IStormAction.html",
+          "hash": "9hakZaTrrOIaBh298AzeSA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Storm.IStormEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Storm.IStormEvent.html",
+          "hash": "2VS1ZUIrCzkmMSYE/JzJ0g=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Storm.StormCompileException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Storm.StormCompileException.html",
+          "hash": "rvItwoB1qkS//NDLSdlKMA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Storm.StormEventType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Storm.StormEventType.html",
+          "hash": "sHwFKjXU4otG6s7yHvmnrQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Storm.StormExecutor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Storm.StormExecutor.html",
+          "hash": "eBPjK1twYE0eL4HDSVtJ6g=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Storm.StormInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Storm.StormInfo.html",
+          "hash": "vHgintR6gEZloa3sdqhNXA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Storm.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Storm.html",
+          "hash": "pUdS4dt4uD69pargMUnxYw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Util.BulletStormLogger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Util.BulletStormLogger.html",
+          "hash": "d84KrazUdTAgWNlZshoIow=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Util.BulletStormSettings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Util.BulletStormSettings.html",
+          "hash": "4DqJNcLwesf/S09k+JdN/w=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Util.ControllableCoroutine.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Util.ControllableCoroutine.html",
+          "hash": "5924hnekwEhvGCs0dqfUIg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Util.CoroutineStatus.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Util.CoroutineStatus.html",
+          "hash": "mA+8+uG4P2Dq1+AOXWV0UQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Util.EditorAttributes.CustomCurveAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Util.EditorAttributes.CustomCurveAttribute.html",
+          "hash": "xek737P2L6GByhlN1KUjSg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Util.EditorAttributes.EnumNameAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Util.EditorAttributes.EnumNameAttribute.html",
+          "hash": "Docsq5P7UWPADUIUFWgpbw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Util.EditorAttributes.LocalizedTooltipAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Util.EditorAttributes.LocalizedTooltipAttribute.html",
+          "hash": "EXPAIk5FAk1lb0cGI4MlRw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Util.EditorAttributes.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Util.EditorAttributes.html",
+          "hash": "WfxdDy370+WccTRpwSumeA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Util.Target.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Util.Target.html",
+          "hash": "d/nLdEwGuGUwFWs5O2MhzA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Util.TimeSequence.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Util.TimeSequence.html",
+          "hash": "lGPuC1QkaccmL68s8aeWHA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Util.Variable.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Util.Variable.html",
+          "hash": "3W7jVjCCQYD4iva957C5hA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BulletStorm.Util.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BulletStorm.Util.html",
+          "hash": "CreU2cEUbIo4BNP+3j1bLg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html",
+          "hash": "eAjNPzQWcp9qoIv0qqWAZw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "DLME9ESkF8Z+/L8sTlyFRw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/manual/intro.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/manual/intro.html",
+          "hash": "rhp7VTpgQDHLX45012AhRA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "articles/manual/quick_start.assets/image-20200812152616650.png",
+      "output": {
+        "resource": {
+          "relative_path": "articles/manual/quick_start.assets/image-20200812152616650.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "articles/manual/quick_start.assets/image-20200812153740078.png",
+      "output": {
+        "resource": {
+          "relative_path": "articles/manual/quick_start.assets/image-20200812153740078.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "articles/manual/quick_start.assets/image-20200812153857327.png",
+      "output": {
+        "resource": {
+          "relative_path": "articles/manual/quick_start.assets/image-20200812153857327.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "articles/manual/quick_start.assets/image-20200812154127668.png",
+      "output": {
+        "resource": {
+          "relative_path": "articles/manual/quick_start.assets/image-20200812154127668.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "articles/manual/quick_start.assets/image-20200812154429853.png",
+      "output": {
+        "resource": {
+          "relative_path": "articles/manual/quick_start.assets/image-20200812154429853.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "articles/manual/quick_start.assets/image-20200812154500973.png",
+      "output": {
+        "resource": {
+          "relative_path": "articles/manual/quick_start.assets/image-20200812154500973.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "articles/manual/quick_start.assets/image-20200812154740692.png",
+      "output": {
+        "resource": {
+          "relative_path": "articles/manual/quick_start.assets/image-20200812154740692.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "articles/manual/quick_start.assets/image-20200812155301666.png",
+      "output": {
+        "resource": {
+          "relative_path": "articles/manual/quick_start.assets/image-20200812155301666.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "articles/manual/quick_start.assets/image-20200812155423271.png",
+      "output": {
+        "resource": {
+          "relative_path": "articles/manual/quick_start.assets/image-20200812155423271.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "articles/manual/quick_start.assets/image-20200812155532706.png",
+      "output": {
+        "resource": {
+          "relative_path": "articles/manual/quick_start.assets/image-20200812155532706.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "articles/manual/quick_start.assets/image-20200812160320235.png",
+      "output": {
+        "resource": {
+          "relative_path": "articles/manual/quick_start.assets/image-20200812160320235.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "articles/manual/quick_start.assets/image-20200812160407068.png",
+      "output": {
+        "resource": {
+          "relative_path": "articles/manual/quick_start.assets/image-20200812160407068.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/manual/quick_start.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/manual/quick_start.html",
+          "hash": "rNnfl02T+5Tn+wyK8i0shg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/manual/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/manual/toc.html",
+          "hash": "4G02zQp5CS/9lzVHZSV7gA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "iR9tz8V45tkTfnZYl/EODg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "RVY/S3aRaICIx8SI6ySoaw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": true,
+        "incrementalPhase": "build",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {
+        "ConceptualDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build",
+          "total_file_count": 4,
+          "skipped_file_count": 3
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build",
+          "total_file_count": 56,
+          "skipped_file_count": 56
+        },
+        "ResourceDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": true,
+        "details": "Can support incremental post processing.",
+        "incrementalPhase": "postProcessing",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}
