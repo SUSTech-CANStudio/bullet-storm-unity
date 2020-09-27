@@ -1,5 +1,5 @@
 {
-    "name": "BulletStorm.Tests",
+    "name": "CANStudio.BulletStorm.Tests",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner"

@@ -1,5 +1,5 @@
 {
-    "name": "BulletStorm.Examples",
+    "name": "CANStudio.BulletStorm.Samples",
     "references": [
         "BulletStorm"
     ],
