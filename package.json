@@ -1,0 +1,25 @@
+{
+	"name": "canstudio.bullet-storm",
+	"displayName": "Bullet Storm",
+	"author": {
+		"name": "ifact",
+		"email": "xyyjxl@outlook.com",
+		"url": "https://sustech-canstudio.github.io/"
+	},
+	"version": "0.0.1",
+	"unity": "2018.4",
+
+	"keywords": [
+		"3d",
+		"particle",
+		"bullet",
+		"barrage",
+		"shoot'em up",
+		"stg",
+		"弹幕"
+	],
+
+	"dependencies": {
+
+	}
+}
