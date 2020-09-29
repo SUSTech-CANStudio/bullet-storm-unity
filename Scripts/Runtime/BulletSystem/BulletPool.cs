@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BulletStorm.Util.EditorAttributes;
+using CANStudio.BulletStorm.Util.EditorAttributes;
 using JetBrains.Annotations;
+using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 #if UNITY_EDITOR
-using UnityEditor;
+
 #endif
 
 #pragma warning disable 0649
 
-namespace BulletStorm.BulletSystem
+namespace CANStudio.BulletStorm.BulletSystem
 {
     /// <summary>
     /// A useful tool to manage bullets.
@@ -22,7 +23,7 @@ namespace BulletStorm.BulletSystem
     [CreateAssetMenu(menuName = "BulletStorm/BulletPool")]
     public sealed class BulletPool : ScriptableObject, ISerializationCallbackReceiver
     {
-        [LocalizedTooltip("Bullet pool can inherit bullets from other pool.")]
+        [Tooltip("Bullet pool can inherit bullets from other pool.")]
         [SerializeField] private BulletPool parentPool;
 
         [SerializeField] [HideInInspector] private List<string> keys;

@@ -1,8 +1,8 @@
-﻿using BulletStorm.Util.EditorAttributes;
+﻿using CANStudio.BulletStorm.Util.EditorAttributes;
 using UnityEditor;
 using UnityEngine;
 
-namespace BulletStorm.Editor.AttributeDrawers
+namespace CANStudio.BulletStorm.Editor.AttributeDrawers
 {
     [CustomPropertyDrawer(typeof(CustomCurveAttribute))]
     internal class CustomCurveDrawer : PropertyDrawer

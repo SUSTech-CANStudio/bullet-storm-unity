@@ -1,4 +1,4 @@
-﻿namespace BulletStorm.BulletSystem
+﻿namespace CANStudio.BulletStorm.BulletSystem
 {
     /// <summary>
     /// Classes implement this interface are bullet systems.

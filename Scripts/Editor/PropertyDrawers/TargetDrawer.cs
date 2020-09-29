@@ -1,8 +1,8 @@
-﻿using BulletStorm.Util;
+﻿using CANStudio.BulletStorm.Util;
 using UnityEditor;
 using UnityEngine;
 
-namespace BulletStorm.Editor.PropertyDrawers
+namespace CANStudio.BulletStorm.Editor.PropertyDrawers
 {
     [CustomPropertyDrawer(typeof(Target))]
     public class TargetDrawer : PropertyDrawer

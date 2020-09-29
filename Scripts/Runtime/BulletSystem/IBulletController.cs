@@ -1,8 +1,8 @@
 ﻿using System;
-using BulletStorm.Emission;
+using CANStudio.BulletStorm.Emission;
 using UnityEngine;
 
-namespace BulletStorm.BulletSystem
+namespace CANStudio.BulletStorm.BulletSystem
 {
     public interface IBulletController
     {

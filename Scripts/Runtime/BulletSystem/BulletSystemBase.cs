@@ -1,20 +1,19 @@
 ﻿using System;
-using BulletStorm.BulletSystem.Modules;
-using BulletStorm.Emission;
-using BulletStorm.Util.EditorAttributes;
+using CANStudio.BulletStorm.BulletSystem.Modules;
+using CANStudio.BulletStorm.Emission;
+using CANStudio.BulletStorm.Util.EditorAttributes;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
-namespace BulletStorm.BulletSystem
+namespace CANStudio.BulletStorm.BulletSystem
 {
     /// <summary>
     /// A more convenient base class for <see cref="MonoBehaviour"/> based particle systems.
     /// </summary>
     public abstract class BulletSystemBase : MonoBehaviour, IBulletSystem, IBulletController
     {
-        [LocalizedTooltip("Play particle effect when emitting.")]
+        [Tooltip("Play particle effect when emitting.")]
         [SerializeField] private EmissionEffectModule emissionEffect;
-        [LocalizedTooltip("Bullets trace a target.")]
+        [Tooltip("Bullets trace a target.")]
         [SerializeField] private TracingModule tracing;
         
         public virtual string Name => name;

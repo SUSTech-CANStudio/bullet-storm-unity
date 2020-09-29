@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using BulletStorm.Util;
+using CANStudio.BulletStorm.Util;
 
-namespace BulletStorm.Storm.Events
+namespace CANStudio.BulletStorm.Storm.Events
 {
     /// <summary>
     /// Event contains an action.

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace BulletStorm.Util
+namespace CANStudio.BulletStorm.Util
 {
     /// <summary>
     /// Runtime settings.

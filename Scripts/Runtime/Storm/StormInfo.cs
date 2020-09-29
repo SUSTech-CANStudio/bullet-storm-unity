@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using BulletStorm.BulletSystem;
-using BulletStorm.Util;
+using CANStudio.BulletStorm.BulletSystem;
+using CANStudio.BulletStorm.Util;
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace BulletStorm.Storm
+namespace CANStudio.BulletStorm.Storm
 {
     public class StormInfo
     {

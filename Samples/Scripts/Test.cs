@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace BulletStorm.Examples.Scripts
+namespace CANStudio.BulletStorm.Samples.Scripts
 {
     public class Test : MonoBehaviour
     {

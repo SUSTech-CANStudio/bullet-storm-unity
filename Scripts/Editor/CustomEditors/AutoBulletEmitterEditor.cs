@@ -1,7 +1,7 @@
-﻿using BulletStorm.Emitters;
+﻿using CANStudio.BulletStorm.Emitters;
 using UnityEditor;
 
-namespace BulletStorm.Editor.CustomEditors
+namespace CANStudio.BulletStorm.Editor.CustomEditors
 {
     [CustomEditor(typeof(AutoBulletEmitter))]
     internal class AutoBulletEmitterEditor : UnityEditor.Editor

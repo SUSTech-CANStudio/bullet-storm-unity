@@ -1,4 +1,4 @@
-﻿namespace BulletStorm.Storm
+﻿namespace CANStudio.BulletStorm.Storm
 {
     public enum StormEventType
     {

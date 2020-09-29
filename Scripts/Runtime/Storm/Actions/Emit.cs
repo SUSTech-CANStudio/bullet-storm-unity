@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using BulletStorm.BulletSystem;
-using BulletStorm.Emission;
-using BulletStorm.Util;
+using CANStudio.BulletStorm.BulletSystem;
+using CANStudio.BulletStorm.Emission;
+using CANStudio.BulletStorm.Util;
 using UnityEngine;
 
-namespace BulletStorm.Storm.Actions
+namespace CANStudio.BulletStorm.Storm.Actions
 {
     /// <summary>
     /// Emits bullets with given parameters.

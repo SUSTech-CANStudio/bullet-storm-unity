@@ -2,13 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using BulletStorm.Emission;
-using BulletStorm.Util.EditorAttributes;
+using CANStudio.BulletStorm.Emission;
+using CANStudio.BulletStorm.Util.EditorAttributes;
 using UnityEngine;
 
 #pragma warning disable 0649
 
-namespace BulletStorm.BulletSystem
+namespace CANStudio.BulletStorm.BulletSystem
 {
     /// <summary>
     /// A bullet system based on <see cref="GameObject"/>. It emits game objects as bullets,
@@ -28,11 +28,11 @@ namespace BulletStorm.BulletSystem
         private List<GameObjectBullet> bullets = new List<GameObjectBullet>();
         private bool bulletsCleared;
 
-        [LocalizedTooltip("The game object to emit as bullet.")]
+        [Tooltip("The game object to emit as bullet.")]
         [SerializeField] private GameObject bullet;
-        [LocalizedTooltip("If disabled, bullets won't auto destroy.")]
+        [Tooltip("If disabled, bullets won't auto destroy.")]
         [SerializeField] private bool enableLifetime = true;
-        [LocalizedTooltip("Default lifetime of bullets.")]
+        [Tooltip("Default lifetime of bullets.")]
         [SerializeField] private float bulletLifeTime = 100;
 
         public override void ChangePosition(Func<Vector3, Vector3, Vector3> operation)

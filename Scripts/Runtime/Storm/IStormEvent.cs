@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using BulletStorm.Util;
+using CANStudio.BulletStorm.Util;
 using JetBrains.Annotations;
 
-namespace BulletStorm.Storm
+namespace CANStudio.BulletStorm.Storm
 {
     public interface IStormEvent
     {

@@ -1,23 +1,23 @@
 ﻿using System;
-using BulletStorm.Emission;
-using BulletStorm.Util.EditorAttributes;
+using CANStudio.BulletStorm.Emission;
+using CANStudio.BulletStorm.Util.EditorAttributes;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
 #pragma warning disable 0649
 
-namespace BulletStorm.BulletSystem.Modules
+namespace CANStudio.BulletStorm.BulletSystem.Modules
 {
     [Serializable]
     internal struct EmissionEffectModule
     {
-        [LocalizedTooltip("Enable playing effect when emitting bullets.")]
+        [Tooltip("Enable playing effect when emitting bullets.")]
         [SerializeField] private bool enabled;
-        [LocalizedTooltip("Particle effect to play when bullets emitted.")]
+        [Tooltip("Particle effect to play when bullets emitted.")]
         [SerializeField] private ParticleSystem effect;
-        [LocalizedTooltip("Where to play the effect.")]
+        [Tooltip("Where to play the effect.")]
         [SerializeField] private EffectPosition position;
-        [LocalizedTooltip("How to rotate the effect.")]
+        [Tooltip("How to rotate the effect.")]
         [SerializeField] private EffectRotation rotation;
         
         public void OnEmit(BulletEmitParam relative, Transform emitter)

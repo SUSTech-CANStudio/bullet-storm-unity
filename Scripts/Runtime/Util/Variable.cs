@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BulletStorm.Util
+namespace CANStudio.BulletStorm.Util
 {
     /// <summary>
     /// Stores a single value of any type.

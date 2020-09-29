@@ -1,8 +1,8 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+
 // ReSharper disable Unity.InefficientPropertyAccess
 
-namespace BulletStorm.Examples.Scripts
+namespace CANStudio.BulletStorm.Samples.Scripts
 {
     [RequireComponent(typeof(Camera))]
     public class FreeCamera : MonoBehaviour

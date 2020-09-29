@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections;
-using BulletStorm.BulletSystem;
+using CANStudio.BulletStorm.BulletSystem;
 using UnityEngine;
 
-namespace BulletStorm.Storm.Actions
+namespace CANStudio.BulletStorm.Storm.Actions
 {
     /// <summary>
     /// Rotate bullet velocity towards a transform or position.

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using BulletStorm.Util.EditorAttributes;
+using CANStudio.BulletStorm.Util.EditorAttributes;
 using UnityEditor;
 using UnityEngine;
 
 #pragma warning disable 0649
 
-namespace BulletStorm.Editor
+namespace CANStudio.BulletStorm.Editor
 {
     /// <summary>
     /// Editor settings of bullet storm.

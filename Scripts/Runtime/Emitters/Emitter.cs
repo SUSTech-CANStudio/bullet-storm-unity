@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using BulletStorm.BulletSystem;
-using BulletStorm.Emission;
-using BulletStorm.Storm;
+using CANStudio.BulletStorm.BulletSystem;
+using CANStudio.BulletStorm.Emission;
+using CANStudio.BulletStorm.Storm;
 using UnityEngine;
 
-namespace BulletStorm.Emitters
+namespace CANStudio.BulletStorm.Emitters
 {
     /// <summary>
     /// The basic emitter, all other emitters inherit this.

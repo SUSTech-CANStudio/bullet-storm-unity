@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using BulletStorm.Emission;
-using BulletStorm.Util;
+using CANStudio.BulletStorm.Emission;
+using CANStudio.BulletStorm.Util;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-namespace BulletStorm.Editor.CustomEditors
+namespace CANStudio.BulletStorm.Editor.CustomEditors
 {
     [CustomEditor(typeof(ShapeAsset))]
     internal class ShapeAssetEditor : UnityEditor.Editor

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Threading.Tasks;
-using BulletStorm.Emission;
+using CANStudio.BulletStorm.Emission;
 using UnityEngine;
 
-namespace BulletStorm.BulletSystem
+namespace CANStudio.BulletStorm.BulletSystem
 {
 	/// <summary>
 	/// A bullet system implemented using Unity <see cref="ParticleSystem"/>.

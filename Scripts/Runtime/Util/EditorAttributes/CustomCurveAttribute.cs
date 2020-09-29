@@ -1,7 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace BulletStorm.Util.EditorAttributes
+namespace CANStudio.BulletStorm.Util.EditorAttributes
 {
     public class CustomCurveAttribute : PropertyAttribute
     {

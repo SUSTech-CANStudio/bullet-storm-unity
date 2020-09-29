@@ -1,8 +1,8 @@
 ﻿using System.Collections;
-using BulletStorm.BulletSystem;
+using CANStudio.BulletStorm.BulletSystem;
 using UnityEngine;
 
-namespace BulletStorm.Storm
+namespace CANStudio.BulletStorm.Storm
 {
     public interface IStormAction
     {

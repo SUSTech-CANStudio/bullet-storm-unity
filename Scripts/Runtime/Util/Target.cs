@@ -1,10 +1,9 @@
 ﻿using System;
-using BulletStorm.Util.EditorAttributes;
 using UnityEngine;
 
 #pragma warning disable 0649
 
-namespace BulletStorm.Util
+namespace CANStudio.BulletStorm.Util
 {
     /// <summary>
     /// Describes a transform in different ways.
@@ -79,11 +78,11 @@ namespace BulletStorm.Util
         
         private enum FindMethod
         {
-            [LocalizedTooltip("Set the transform directly.")]
+            [Tooltip("Set the transform directly.")]
             Transform = 0,
-            [LocalizedTooltip("Use game object name in scene to find the transform.")]
+            [Tooltip("Use game object name in scene to find the transform.")]
             Name = 1,
-            [LocalizedTooltip("Use tag to find the transform.")]
+            [Tooltip("Use tag to find the transform.")]
             Tag = 2
         }
     }

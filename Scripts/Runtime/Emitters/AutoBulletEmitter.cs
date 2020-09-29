@@ -1,29 +1,29 @@
 ﻿using System.Collections;
-using BulletStorm.BulletSystem;
-using BulletStorm.Emission;
-using BulletStorm.Util;
-using BulletStorm.Util.EditorAttributes;
+using CANStudio.BulletStorm.BulletSystem;
+using CANStudio.BulletStorm.Emission;
+using CANStudio.BulletStorm.Util;
+using CANStudio.BulletStorm.Util.EditorAttributes;
 using UnityEngine;
 
 #pragma warning disable 0649
 
-namespace BulletStorm.Emitters
+namespace CANStudio.BulletStorm.Emitters
 {
     [AddComponentMenu("BulletStorm/AutoBulletEmitter")]
     public class AutoBulletEmitter : AutoEmitterBase
     {
         [Header("Bullet emitter")]
-        [LocalizedTooltip("Bullet system prefab to emit bullets.")]
+        [Tooltip("Bullet system prefab to emit bullets.")]
         [SerializeField] private BulletSystemBase bullet;
-        [LocalizedTooltip("Total emit times.")]
+        [Tooltip("Total emit times.")]
         public int emitTimes = 10;
-        [LocalizedTooltip("Interval between two emits.")]
+        [Tooltip("Interval between two emits.")]
         public ParticleSystem.MinMaxCurve emitInterval;
-        [LocalizedTooltip("When using curve, the time in seconds that curve x-axis 0~1 represents.")]
+        [Tooltip("When using curve, the time in seconds that curve x-axis 0~1 represents.")]
         public float intervalCurveTimeScale = 1;
 
         [Header("Bullet parameter")]
-        [LocalizedTooltip("Emit shapes instead of single bullets.")]
+        [Tooltip("Emit shapes instead of single bullets.")]
         public bool useShape;
         public ShapeAsset shape;
         public BulletEmitParam emitParam;

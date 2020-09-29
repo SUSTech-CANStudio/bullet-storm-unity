@@ -1,8 +1,8 @@
-﻿using BulletStorm.Emitters;
+﻿using CANStudio.BulletStorm.Emitters;
 using UnityEditor;
 using UnityEngine;
 
-namespace BulletStorm.Editor.PropertyDrawers
+namespace CANStudio.BulletStorm.Editor.PropertyDrawers
 {
     [CustomPropertyDrawer(typeof(AutoEmitterBase.AimOffsetModule))]
     internal class AimOffsetModuleDrawer : PropertyDrawer

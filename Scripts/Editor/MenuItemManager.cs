@@ -1,11 +1,11 @@
-﻿using BulletStorm.BulletSystem;
-using BulletStorm.Emitters;
-using BulletStorm.Util;
+﻿using CANStudio.BulletStorm.BulletSystem;
+using CANStudio.BulletStorm.Emitters;
+using CANStudio.BulletStorm.Util;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace BulletStorm.Editor
+namespace CANStudio.BulletStorm.Editor
 {
     internal static class MenuItemManager
     {

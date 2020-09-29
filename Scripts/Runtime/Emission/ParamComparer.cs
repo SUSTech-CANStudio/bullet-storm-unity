@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BulletStorm.Emission
+namespace CANStudio.BulletStorm.Emission
 {
     /// <summary>
     /// Item to be compared.

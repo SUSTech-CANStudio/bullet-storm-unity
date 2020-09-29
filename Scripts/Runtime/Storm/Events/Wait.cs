@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using BulletStorm.Util;
+using CANStudio.BulletStorm.Util;
 using UnityEngine;
 
-namespace BulletStorm.Storm.Events
+namespace CANStudio.BulletStorm.Storm.Events
 {
     /// <summary>
     /// Wait before next event.

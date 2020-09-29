@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
-using BulletStorm.Util;
+using CANStudio.BulletStorm.Util;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
 
-namespace BulletStorm.Editor
+namespace CANStudio.BulletStorm.Editor
 {
     internal static class BulletStormEditorUtil
     {

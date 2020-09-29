@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace BulletStorm.Emission
+namespace CANStudio.BulletStorm.Emission
 {
     [Serializable]
     public struct BulletEmitParam

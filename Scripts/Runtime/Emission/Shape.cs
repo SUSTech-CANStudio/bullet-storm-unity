@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace BulletStorm.Emission
+namespace CANStudio.BulletStorm.Emission
 {
     /// <summary>
     /// Shape is a list of <see cref="BulletEmitParam"/>s.

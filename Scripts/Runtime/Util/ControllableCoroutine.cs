@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace BulletStorm.Util
+namespace CANStudio.BulletStorm.Util
 {
     /// <summary>
     /// Provides more APIs than Unity standard coroutine.

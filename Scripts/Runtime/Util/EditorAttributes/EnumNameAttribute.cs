@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace BulletStorm.Util.EditorAttributes
+namespace CANStudio.BulletStorm.Util.EditorAttributes
 {
     /// <summary>
     /// Change display enum name on GUI.

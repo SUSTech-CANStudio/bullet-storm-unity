@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using UnityEditor;
+using UnityEngine;
 #if UNITY_EDITOR
-using UnityEditor;
+
 #endif
 
-namespace BulletStorm.Emission
+namespace CANStudio.BulletStorm.Emission
 {
     [CreateAssetMenu(menuName = "BulletStorm/ShapeAsset")]
     public class ShapeAsset : ScriptableObject

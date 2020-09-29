@@ -1,8 +1,8 @@
-﻿using BulletStorm.BulletSystem;
+﻿using CANStudio.BulletStorm.BulletSystem;
 using UnityEditor;
 using UnityEngine;
 
-namespace BulletStorm.Editor.CustomEditors
+namespace CANStudio.BulletStorm.Editor.CustomEditors
 {
     [CustomEditor(typeof(BulletPool))]
     internal class BulletPoolEditor : UnityEditor.Editor

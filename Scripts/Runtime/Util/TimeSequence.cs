@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine.Assertions;
 
-namespace BulletStorm.Util
+namespace CANStudio.BulletStorm.Util
 {
     public class TimeSequence
     {

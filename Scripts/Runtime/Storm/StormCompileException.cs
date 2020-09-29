@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BulletStorm.Storm
+namespace CANStudio.BulletStorm.Storm
 {
     public class StormCompileException : Exception
     {

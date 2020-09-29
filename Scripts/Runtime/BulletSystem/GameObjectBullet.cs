@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 
-namespace BulletStorm.BulletSystem
+namespace CANStudio.BulletStorm.BulletSystem
 {
     [SuppressMessage("ReSharper", "ParameterHidesMember")]
     [DisallowMultipleComponent]

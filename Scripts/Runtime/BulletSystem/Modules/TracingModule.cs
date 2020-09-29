@@ -1,20 +1,20 @@
 ﻿using System;
-using BulletStorm.Util;
-using BulletStorm.Util.EditorAttributes;
+using CANStudio.BulletStorm.Util;
+using CANStudio.BulletStorm.Util.EditorAttributes;
 using UnityEngine;
 
 #pragma warning disable 0649
 
-namespace BulletStorm.BulletSystem.Modules
+namespace CANStudio.BulletStorm.BulletSystem.Modules
 {
     [Serializable]
     internal struct TracingModule
     {
-        [LocalizedTooltip("Enable bullets tracing some game object.")]
+        [Tooltip("Enable bullets tracing some game object.")]
         [SerializeField] private bool enabled;
-        [LocalizedTooltip("Tracing target.")]
+        [Tooltip("Tracing target.")]
         [SerializeField] private Target target;
-        [LocalizedTooltip("Max rotating angle per second.")]
+        [Tooltip("Max rotating angle per second.")]
         [Range(0, 180)]
         [SerializeField] private float tracingRate;
 
