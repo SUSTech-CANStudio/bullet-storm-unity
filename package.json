@@ -1,0 +1,22 @@
+{
+  "name": "canstudio.bullet-storm",
+  "displayName": "Bullet Storm",
+  "author": {
+    "name": "CANStudio",
+    "email": "xyyjxl@outlook.com",
+    "url": "https://sustech-canstudio.github.io/"
+  },
+  "version": "0.0.1",
+  "unity": "2018.4",
+  "keywords": [
+    "3d",
+    "particle",
+    "bullet",
+    "barrage",
+    "shoot'em up",
+    "stg",
+    "\u5f39\u5e55"
+  ],
+  "type": "tool",
+  "description": "Better particle system for 3D STG games."
+}
