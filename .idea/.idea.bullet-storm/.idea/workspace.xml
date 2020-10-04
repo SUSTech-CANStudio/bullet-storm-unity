@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="a247c111-98d6-4502-8852-38e2a3708778" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/9584DE34-44B5-42AB-BB1A-D4BB43A7137F/42/8c81fe5f/TooltipAttribute.cs" root0="SKIP_HIGHLIGHTING" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/../bullet-storm-unity/Scripts/Runtime/Util/Localization.cs" />
+        <option value="$PROJECT_DIR$/../bullet-storm-unity/Samples/Scripts/FreeCamera.cs" />
+        <option value="$PROJECT_DIR$/../bullet-storm-unity/Scripts/Runtime/Util/ControllableCoroutine.cs" />
+        <option value="$PROJECT_DIR$/../bullet-storm-unity/Scripts/Runtime/Util/Target.cs" />
+        <option value="$PROJECT_DIR$/../bullet-storm-unity/Scripts/Editor/CANStudio.BulletStorm.Editor.asmdef" />
+        <option value="$PROJECT_DIR$/../bullet-storm-unity/Scripts/Editor/MenuItemManager.cs" />
+        <option value="$PROJECT_DIR$/../bullet-storm-unity/Scripts/Editor/BulletStormEditorUtil.cs" />
+        <option value="$PROJECT_DIR$/../bullet-storm-unity/Scripts/Editor/BulletStormEditorSettings.cs" />
+        <option value="$PROJECT_DIR$/../bullet-storm-unity/Scripts/Editor/PropertyDrawers/AimOffsetModuleDrawer.cs" />
+        <option value="$PROJECT_DIR$/../bullet-storm-unity/Scripts/Editor/PropertyDrawers/AutoAimModuleDrawer.cs" />
+        <option value="$PROJECT_DIR$/../bullet-storm-unity/Scripts/Editor/PropertyDrawers/TargetDrawer.cs" />
+        <option value="$PROJECT_DIR$/../bullet-storm-unity/Scripts/Editor/CustomEditors/AutoBulletEmitterEditor.cs" />
+        <option value="$PROJECT_DIR$/../bullet-storm-unity/Scripts/Editor/CustomEditors/BulletPoolEditor.cs" />
+        <option value="$PROJECT_DIR$/../bullet-storm-unity/Scripts/Editor/CustomEditors/ShapeAssetEditor.cs" />
+        <option value="$PROJECT_DIR$/../bullet-storm-unity/Scripts/Editor/AttributeDrawers/CustomCurveDrawer.cs" />
+        <option value="$PROJECT_DIR$/../bullet-storm-unity/Scripts/Editor/AttributeDrawers/EnumNameDrawer.cs" />
+        <option value="$PROJECT_DIR$/../bullet-storm-unity/Tests/TestUtil.cs" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1i5XFRkT5uxrLwuFrB7hkhaAIio" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="Discover.Launch.Via.Unity" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="RiderUnityLiveTemplatesSettings" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
+    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+      <option name="allowRunningInParallel" value="false" />
+      <option name="listenPortForConnections" value="false" />
+      <option name="pid" />
+      <option name="selectedOptions">
+        <set />
+      </option>
+      <method v="2" />
+    </configuration>
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+      <option name="allowRunningInParallel" value="false" />
+      <option name="listenPortForConnections" value="false" />
+      <option name="pid" />
+      <option name="selectedOptions">
+        <set />
+      </option>
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a247c111-98d6-4502-8852-38e2a3708778" name="Default Changelist" comment="" />
+      <created>1601198333827</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1601198333827</updated>
+      <workItem from="1601198356412" duration="252000" />
+      <workItem from="1601200586965" duration="3396000" />
+      <workItem from="1601375553746" duration="268000" />
+      <workItem from="1601395713187" duration="1578000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
+  <component name="UnityUnitTestConfiguration" currentTestLauncher="EditMode" />
+  <component name="VcsManagerConfiguration">
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="701" y="194" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1601203681474">
+      <screen x="0" y="0" width="2495" height="1080" />
+    </state>
+    <state x="701" y="194" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2495.1080@0.0.2495.1080" timestamp="1601203681474" />
+    <state x="820" y="245" width="741" height="548" key="LayersDialog" timestamp="1601204713982">
+      <screen x="0" y="0" width="2495" height="1080" />
+    </state>
+    <state x="820" y="245" width="741" height="548" key="LayersDialog/0.0.2495.1080@0.0.2495.1080" timestamp="1601204713982" />
+    <state x="672" y="163" key="SettingsEditor" timestamp="1601204997023">
+      <screen x="0" y="0" width="2495" height="1080" />
+    </state>
+    <state x="672" y="163" key="SettingsEditor/0.0.2495.1080@0.0.2495.1080" timestamp="1601204997023" />
+    <state x="875" y="94" width="744" height="891" key="find.popup" timestamp="1601396198848">
+      <screen x="0" y="0" width="2495" height="1080" />
+    </state>
+    <state x="875" y="94" width="744" height="891" key="find.popup/0.0.2495.1080@0.0.2495.1080" timestamp="1601396198848" />
+    <state x="910" y="235" width="672" height="678" key="search.everywhere.popup" timestamp="1601396181756">
+      <screen x="0" y="0" width="2495" height="1080" />
+    </state>
+    <state x="910" y="235" width="672" height="678" key="search.everywhere.popup/0.0.2495.1080@0.0.2495.1080" timestamp="1601396181756" />
+  </component>
+</project>
