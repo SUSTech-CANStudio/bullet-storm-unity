@@ -31,7 +31,7 @@ jobs:
           rm -f Samples.meta
           git config --global user.name 'github-bot'
           git config --global user.email 'github-bot@users.noreply.github.com'
-          git commit -am "fix: Samples => Samples~"
+          git commit -am "Auto rename: Samples => Samples~"
         fi
         git push -f -u origin upm
       env:
@@ -42,4 +42,4 @@ jobs:
         git tag $TAG upm
         git push origin --tags
       env:
-        TAG: upm/v${{ steps.semantic.outputs.new_release_version }}
+        TAG: upm/${{ steps.semantic.outputs.new_release_version }}
