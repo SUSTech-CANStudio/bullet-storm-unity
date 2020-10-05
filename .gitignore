@@ -29,6 +29,9 @@
 # Rider directory
 .idea/
 
+# Rider namespace configures
+*.DotSettings
+
 # Gradle cache directory
 .gradle/
 
