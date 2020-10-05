@@ -1,4 +1,4 @@
-name: CD
+name: Split and release
 on:
   push:
     branches:
@@ -18,7 +18,6 @@ jobs:
         extra_plugins: |
           @semantic-release/changelog
           @semantic-release/git
-        branch: master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Create upm branch
