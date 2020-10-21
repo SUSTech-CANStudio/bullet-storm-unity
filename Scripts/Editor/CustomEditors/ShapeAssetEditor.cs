@@ -14,10 +14,6 @@ namespace CANStudio.BulletStorm.Editor.CustomEditors
     {
         private ShapeAsset shapeAsset;
         private PreviewRenderUtility previewRenderUtility;
-        private GameObject previewObject;
-        private bool objectChanged = true;
-        private Mesh mesh;
-        private Material material;
         private Vector2 viewPos;
         private float cameraDistance;
         private LabelContent labelContent;
@@ -36,18 +32,17 @@ namespace CANStudio.BulletStorm.Editor.CustomEditors
 
         public override void OnPreviewSettings()
         {
-            const int itemCount = 2;
+            const int itemCount = 3;
             var width = EditorGUIUtility.currentViewWidth / (itemCount * 2 + 3);
             EditorGUIUtility.labelWidth = width;
             EditorGUIUtility.fieldWidth = width;
             
             labelContent = (LabelContent)EditorGUILayout.EnumPopup("Label content", labelContent);
-            
-            EditorGUI.BeginChangeCheck();
-            previewObject =
-                EditorGUILayout.ObjectField("Preview object", previewObject, typeof(GameObject), true) as GameObject;
-            var changed = EditorGUI.EndChangeCheck();
-            if (!objectChanged) objectChanged = changed;
+
+            Caches.Instance.shapePreviewMesh =
+                EditorGUILayout.ObjectField(Caches.Instance.shapePreviewMesh, typeof(Mesh), false) as Mesh;
+            Caches.Instance.shapePreviewMaterial =
+                EditorGUILayout.ObjectField(Caches.Instance.shapePreviewMaterial, typeof(Material), false) as Material;
         }
 
         private void OnEnable()
@@ -66,17 +61,20 @@ namespace CANStudio.BulletStorm.Editor.CustomEditors
             previewRenderUtility.BeginPreview(r, background);
             
             var info = DrawShape();
-            
-            // move camera
-            var transform = previewRenderUtility.camera.transform;
-            transform.rotation = Quaternion.Euler(-viewPos.y, -viewPos.x, 0);
-            transform.position = transform.forward * -cameraDistance;
 
-            previewRenderUtility.camera.Render();
-            
-            Handles.SetCamera(previewRenderUtility.camera);
-            DrawGizmos(info);
-            
+            if (!(info is null))
+            {
+                // move camera
+                var transform = previewRenderUtility.camera.transform;
+                transform.rotation = Quaternion.Euler(-viewPos.y, -viewPos.x, 0);
+                transform.position = transform.forward * -cameraDistance;
+
+                previewRenderUtility.camera.Render();
+
+                Handles.SetCamera(previewRenderUtility.camera);
+                DrawGizmos(info);
+            }
+
             previewRenderUtility.EndAndDrawPreview(r);
         }
 
@@ -91,29 +89,11 @@ namespace CANStudio.BulletStorm.Editor.CustomEditors
         /// <returns>Information to draw gizmos.</returns>
         private IEnumerable<Tuple<Vector3, Quaternion, float>> DrawShape()
         {
-            if (!previewObject)    // Use default preview object if not set.
+            if (!Caches.Instance.shapePreviewMesh || !Caches.Instance.shapePreviewMaterial)
             {
-                previewObject = BulletStormEditorUtil.LoadDefaultAsset<GameObject>("PreviewCube.prefab");
-                objectChanged = true;
-            }
-            if (objectChanged)    // Get mesh and material from preview object.
-            {
-                mesh = previewObject.GetComponent<MeshFilter>().sharedMesh;
-                material = previewObject.GetComponent<MeshRenderer>().sharedMaterial;
-                if (!mesh)
-                {
-                    BulletStormLogger.LogWarning("Preview object mesh not set.");
-                    return null;
-                }
-                if (!material)
-                {
-                    BulletStormLogger.LogWarning("Preview object material not set.");
-                    return null;
-                }
+                return null;
             }
 
-            var scale = previewObject.transform.localScale;
-            var rotation = previewObject.transform.rotation;
             var paramList = shapeAsset.shape;
             var returnValue = new List<Tuple<Vector3, Quaternion, float>>();
 
@@ -125,13 +105,13 @@ namespace CANStudio.BulletStorm.Editor.CustomEditors
                     ? Quaternion.identity
                     : Quaternion.LookRotation(paramList[i].velocity);
                 var size = paramList[i].DefaultSize
-                    ? scale
-                    : Vector3.Scale(paramList[i].size, scale);
+                    ? Vector3.one
+                    : paramList[i].size;
                 var block = new MaterialPropertyBlock();
                 block.SetColor(ColorIndex, paramList[i].DefaultColor ? Color.white : paramList[i].color);
-                
-                Graphics.DrawMesh(mesh, Matrix4x4.TRS(position, lookRotation * rotation, size), material, 0,
-                    previewRenderUtility.camera, 0, block);
+
+                Graphics.DrawMesh(Caches.Instance.shapePreviewMesh, Matrix4x4.TRS(position, lookRotation, size),
+                    Caches.Instance.shapePreviewMaterial, 0, previewRenderUtility.camera, 0, block);
                 
                 returnValue.Add(new Tuple<Vector3, Quaternion, float>(position, lookRotation, speed));
             }
@@ -167,6 +147,9 @@ namespace CANStudio.BulletStorm.Editor.CustomEditors
                         break;
                     case LabelContent.Position:
                         text = position.ToString();
+                        break;
+                    case LabelContent.None:
+                        text = "";
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -221,6 +204,7 @@ namespace CANStudio.BulletStorm.Editor.CustomEditors
 
         private enum LabelContent
         {
+            None,
             Index,
             Speed,
             Position
