@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using CANStudio.BulletStorm.Emission;
-using CANStudio.BulletStorm.Util;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
