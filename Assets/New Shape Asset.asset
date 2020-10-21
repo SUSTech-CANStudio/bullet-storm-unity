@@ -15,10 +15,10 @@ MonoBehaviour:
   shape:
     emitParams:
     - position: {x: 1.29, y: 0, z: 0}
-      velocity: {x: 0, y: 0, z: 0}
-      color: {r: 0, g: 0, b: 0, a: 0}
+      velocity: {x: 3.59, y: 0, z: 0}
+      color: {r: 0.6886792, g: 0.1786668, b: 0.1786668, a: 0}
       size: {x: 0, y: 0, z: 0}
     - position: {x: 0, y: 0, z: 0}
-      velocity: {x: 0, y: 0, z: 0}
+      velocity: {x: 0, y: 2.82, z: 0}
       color: {r: 0, g: 0, b: 0, a: 0}
-      size: {x: 0, y: 0, z: 0}
+      size: {x: 0.74, y: 0.43, z: 0.74}

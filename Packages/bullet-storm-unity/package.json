@@ -1,5 +1,5 @@
 {
-  "name": "canstudio.bullet-storm",
+  "name": "com.canstudio.bullet-storm",
   "displayName": "Bullet Storm",
   "author": {
     "name": "CANStudio",
@@ -18,5 +18,18 @@
     "弹幕"
   ],
   "type": "tool",
-  "description": "Better particle system for 3D STG games."
+  "description": "Better particle system for 3D STG games.",
+  "dependencies": {
+    "com.dbrizov.naughtyattributes": "2.0.7"
+  },
+  "scopedRegistries": [
+    {
+      "name": "package.openupm.com",
+      "url": "https://package.openupm.com",
+      "scopes": [
+        "com.dbrizov.naughtyattributes",
+        "com.openupm"
+      ]
+    }
+]
 }
