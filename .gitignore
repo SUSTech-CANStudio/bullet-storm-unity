@@ -26,6 +26,12 @@
 # Visual Studio cache directory
 .vs/
 
+# Rider directory
+.idea/
+
+# Rider namespace configures
+*.DotSettings
+
 # Gradle cache directory
 .gradle/
 

@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CANStudio.BulletStorm.Util.EditorAttributes;
 using JetBrains.Annotations;
-using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
-#if UNITY_EDITOR
 
+#if UNITY_EDITOR
+using UnityEditor;
 #endif
 
 #pragma warning disable 0649
