@@ -1,6 +1,5 @@
 ﻿using System;
 using CANStudio.BulletStorm.Emission;
-using CANStudio.BulletStorm.Util.EditorAttributes;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
