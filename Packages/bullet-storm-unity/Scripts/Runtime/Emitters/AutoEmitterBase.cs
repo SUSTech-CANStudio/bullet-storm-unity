@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using CANStudio.BulletStorm.Util;
-using CANStudio.BulletStorm.Util.EditorAttributes;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace CANStudio.BulletStorm.Emitters
@@ -14,17 +14,24 @@ namespace CANStudio.BulletStorm.Emitters
     [DisallowMultipleComponent]
     public abstract class AutoEmitterBase : Emitter
     {
-        [Header("Automation")]
         [Tooltip("Begin to emit bullets on start.")]
         public bool emitOnStart;
         [Tooltip("Auto destroy the emitter when emission finished.")]
         public bool destroyOnFinish;
+        
+        [BoxGroup("Auto aim"), Label("Enable")]
         [Tooltip("Auto rotates the emitter to aim at a target.")]
+        public bool enableAutoAim;
+        [BoxGroup("Auto aim"), Label("Detail"), EnableIf("enableAutoAim")]
         public AutoAimModule autoAim = new AutoAimModule
         {
             followRateMultiplier = 1
         };
+
+        [BoxGroup("Aim offset"), Label("Enable")]
         [Tooltip("Enables the emitter to emit towards customized direction, otherwise it will always emit forward.")]
+        public bool enableAimOffset;
+        [BoxGroup("Aim offset"), Label("Detail"), EnableIf("enableAimOffset")]
         public AimOffsetModule aimOffset = new AimOffsetModule
         {
             curveTimeScale = 1
@@ -38,17 +45,22 @@ namespace CANStudio.BulletStorm.Emitters
         /// <summary>
         /// Transform used to emit bullets.
         /// </summary>
-        protected Transform Emitter => aimOffset.enabled ? subEmitter : transform;
+        protected Transform Emitter => enableAimOffset ? subEmitter : transform;
 
         /// <summary>
         /// Is the emitter doing an emission?
         /// </summary>
-        public bool IsEmitting => coroutine.Status == CoroutineStatus.Running;
+        public bool IsEmitting => !(coroutine is null) && coroutine.Status == CoroutineStatus.Running;
         
+        /// <summary>
+        /// Call this function to start the emitter.
+        /// You can start the emitter only when it is not <see cref="IsEmitting"/>.
+        /// After started, the emitter will behave as configured in the inspector.
+        /// </summary>
         public void StartEmission()
         {
             // auto aim
-            if (autoAim.enabled && autoAim.aimOnEmissionStart && autoAim.target.Check())
+            if (enableAutoAim && autoAim.aimOnEmissionStart && autoAim.target.Check())
             {
                 transform.LookAt(autoAim.target);
             }
@@ -78,7 +90,7 @@ namespace CANStudio.BulletStorm.Emitters
         }
 
         /// <summary>
-        /// Begins after <see cref="StartEmission"/> called.
+        /// Begins after <see cref="StartEmission"/> is called.
         /// </summary>
         /// <returns></returns>
         protected abstract IEnumerator StartEmitCoroutine();
@@ -93,7 +105,7 @@ namespace CANStudio.BulletStorm.Emitters
             if (coroutine.Status != CoroutineStatus.Running) return;
             
             // auto aim
-            if (autoAim.enabled && autoAim.target)
+            if (enableAutoAim && autoAim.target)
             {
                 var t = transform;
                 var expected = autoAim.target.AsTransform.position - t.position;
@@ -104,7 +116,7 @@ namespace CANStudio.BulletStorm.Emitters
             }
 
             // aim offset
-            if (aimOffset.enabled)
+            if (enableAimOffset)
             {
                 aimOffset.Tick(Time.deltaTime);
                 subEmitter.localEulerAngles = aimOffset.TotalOffset;
@@ -114,8 +126,6 @@ namespace CANStudio.BulletStorm.Emitters
         [Serializable]
         public struct AutoAimModule
         {
-            public bool enabled;
-            
             [Tooltip("The game object should the emitter aim at.")]
             public Target target;
             [Tooltip("When start emitting, aim at the target.")]
@@ -123,17 +133,17 @@ namespace CANStudio.BulletStorm.Emitters
             
             [Header("Follow rate")]
             [Tooltip("Use a curve to describe follow rate.")]
-            public bool followRateUseCurve;
-            [Tooltip("Max rotation angle per second during emission to follow target.")]
+            public bool useCurve;
+            [Tooltip("Max rotation angle per second during emission to follow target."), HideIf("useCurve"), AllowNesting, Label("Follow rate")]
             public float followRateConst;
-            [CustomCurve(0, 0, 180, 2)]
             [Tooltip("X-axis is the angle between target and current aim direction, Y-axis is rotation rate.")]
+            [CurveRange(0, 0, 180, 2), ShowIf("useCurve"), AllowNesting, Label("Follow rate")]
             public AnimationCurve followRateCurve;
-            [Tooltip("Multiplier for follow rate curve.")]
+            [Tooltip("Multiplier for follow rate curve."), ShowIf("useCurve"), AllowNesting, Label("Multiplier")]
             public float followRateMultiplier;
 
             public float GetFollowRate(float angleDiff) =>
-                followRateUseCurve
+                useCurve
                     ? followRateCurve.Evaluate(angleDiff) * followRateMultiplier
                     : followRateConst;
         }
@@ -141,7 +151,6 @@ namespace CANStudio.BulletStorm.Emitters
         [Serializable]
         public struct AimOffsetModule
         {
-            public bool enabled;
             [Tooltip("XYZ rotation offset when an emission starts in euler angles.")]
             public Vector3 offsetOnStart;
             [Tooltip("When using curve, the time in seconds that curve x-axis 0~1 represents.")]

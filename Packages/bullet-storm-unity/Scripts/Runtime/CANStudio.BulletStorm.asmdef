@@ -1,7 +1,9 @@
 {
     "name": "CANStudio.BulletStorm",
     "rootNamespace": "CANStudio.BulletStorm",
-    "references": [],
+    "references": [
+        "NaughtyAttributes.Core"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

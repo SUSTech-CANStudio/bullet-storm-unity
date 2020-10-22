@@ -2,7 +2,6 @@
 using CANStudio.BulletStorm.BulletSystem;
 using CANStudio.BulletStorm.Emission;
 using CANStudio.BulletStorm.Util;
-using CANStudio.BulletStorm.Util.EditorAttributes;
 using UnityEngine;
 
 #pragma warning disable 0649

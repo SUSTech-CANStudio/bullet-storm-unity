@@ -1,7 +1,6 @@
 ﻿using System;
 using CANStudio.BulletStorm.BulletSystem.Modules;
 using CANStudio.BulletStorm.Emission;
-using CANStudio.BulletStorm.Util.EditorAttributes;
 using UnityEngine;
 
 namespace CANStudio.BulletStorm.BulletSystem
