@@ -105,7 +105,7 @@ namespace CANStudio.BulletStorm.Emitters
 
             foreach (var param in paramList)
             {
-                Emit(param, bullet, Emitter);
+                Emit(param, bullet);
             }
         }
         

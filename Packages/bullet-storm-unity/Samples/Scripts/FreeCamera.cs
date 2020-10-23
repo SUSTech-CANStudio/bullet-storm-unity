@@ -15,7 +15,11 @@ namespace CANStudio.BulletStorm.Samples.Scripts
         private void Update()
         {
             var distance = Time.deltaTime * cameraSpeed;
-            var view = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")) * mouseSensitive;
+            var view = Vector2.zero;
+            if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
+            {
+                view = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")) * mouseSensitive;
+            }
             var move = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * distance;
             var scroll = Input.GetAxis("Mouse ScrollWheel");
             var up = Input.GetKey(KeyCode.LeftShift);
