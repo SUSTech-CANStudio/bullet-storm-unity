@@ -2,6 +2,7 @@
 using CANStudio.BulletStorm.BulletSystem;
 using CANStudio.BulletStorm.Emission;
 using CANStudio.BulletStorm.Storm;
+using CANStudio.BulletStorm.Util;
 using UnityEngine;
 
 namespace CANStudio.BulletStorm.Emitters
@@ -63,14 +64,15 @@ namespace CANStudio.BulletStorm.Emitters
         /// <param name="bullet">The bullet type to emit</param>
         /// <param name="emitter">Bullet will be emitted relative to it</param>
         public void Emit(BulletEmitParam emitParam, IBulletSystem bullet, Transform emitter) =>
-            GetBulletSystem(bullet).Emit(emitParam, emitter);
+            GetBulletController(bullet).Emit(emitParam, emitter);
         
         protected virtual void OnDestroy()
         {
+            BulletStormLogger.Log($"Emitter {this} destroyed.");
             foreach (var copied in bulletSystems.Values) copied.Destroy();
         }
 
-        private IBulletController GetBulletSystem(IBulletSystem bullet)
+        private IBulletController GetBulletController(IBulletSystem bullet)
         {
             if (bulletSystems.TryGetValue(bullet, out var result)) return result;
             result = bullet.GetController();

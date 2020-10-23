@@ -57,6 +57,7 @@ namespace CANStudio.BulletStorm.Emitters
         /// You can start the emitter only when it is not <see cref="IsEmitting"/>.
         /// After started, the emitter will behave as configured in the inspector.
         /// </summary>
+        [Button("Start", EButtonEnableMode.Playmode)]
         public void StartEmission()
         {
             // auto aim
@@ -134,12 +135,17 @@ namespace CANStudio.BulletStorm.Emitters
             [Header("Follow rate")]
             [Tooltip("Use a curve to describe follow rate.")]
             public bool useCurve;
-            [Tooltip("Max rotation angle per second during emission to follow target."), HideIf("useCurve"), AllowNesting, Label("Follow rate")]
+
+            [Tooltip("Max rotation angle per second during emission to follow target."), HideIf("useCurve"),
+             AllowNesting, Label("Follow rate"), MinValue(0)]
             public float followRateConst;
+            
             [Tooltip("X-axis is the angle between target and current aim direction, Y-axis is rotation rate.")]
             [CurveRange(0, 0, 180, 2), ShowIf("useCurve"), AllowNesting, Label("Follow rate")]
             public AnimationCurve followRateCurve;
-            [Tooltip("Multiplier for follow rate curve."), ShowIf("useCurve"), AllowNesting, Label("Multiplier")]
+
+            [Tooltip("Multiplier for follow rate curve."), ShowIf("useCurve"), AllowNesting, Label("Multiplier"),
+             MinValue(0)]
             public float followRateMultiplier;
 
             public float GetFollowRate(float angleDiff) =>
