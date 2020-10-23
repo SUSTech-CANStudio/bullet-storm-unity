@@ -1,97 +1,145 @@
 ﻿using System;
-using System.Linq;
-using CANStudio.BulletStorm.Util;
+using System.Collections.Generic;
+using System.Globalization;
+using CANStudio.BulletStorm.Emission;
+using JetBrains.Annotations;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Assertions;
-using Object = UnityEngine.Object;
+using UnityEngine.Rendering;
 
 namespace CANStudio.BulletStorm.Editor
 {
     internal static class BulletStormEditorUtil
     {
-        private static string _basePath;
+        private static readonly int ColorIndex = Shader.PropertyToID("_Color");
         
         /// <summary>
-        /// Calculate total height all child properties.
+        /// Draw shape preview meshes and gizmos.
         /// </summary>
-        /// <param name="property">The parent property.</param>
-        /// <param name="except">Don't calculate properties in these names.</param>
-        /// <returns>Total height.</returns>
-        public static float ChildPropertiesHeight(SerializedProperty property, params string[] except)
+        /// <param name="shape">The shape to draw.</param>
+        /// <param name="camera"></param>
+        /// <param name="content"></param>
+        /// <returns>Information to draw gizmos.</returns>
+        public static void DrawShapePreview([NotNull] Shape shape, [NotNull] Camera camera, LabelContent content)
         {
-            var refProperty = property.Copy();
-            var nextProperty = property.Copy();
-            var height = 0f;
-            var shouldBreak = nextProperty.NextVisible(false);
-            if (refProperty.NextVisible(true)) do
+            if (!Caches.Instance.shapePreviewMesh || !Caches.Instance.shapePreviewMaterial) return;
+
+            var paramList = shape;
+            var prs = new List<Tuple<Vector3, Quaternion, float>>();
+
+            for (var i = 0; i < paramList.Count; i++)
             {
-                if (shouldBreak && refProperty.propertyPath == nextProperty.propertyPath) break;
-                if (except.Contains(refProperty.name)) continue;
-                height += EditorGUI.GetPropertyHeight(refProperty) + EditorGUIUtility.standardVerticalSpacing;
-            } while (refProperty.NextVisible(false));
-            
-            return height;
-        }
+                var position = paramList[i].position;
+                var speed = paramList[i].velocity.magnitude;
+                var lookRotation = speed == 0
+                    ? Quaternion.identity
+                    : Quaternion.LookRotation(paramList[i].velocity);
+                var size = paramList[i].DefaultSize
+                    ? Vector3.one
+                    : paramList[i].size;
+                var block = new MaterialPropertyBlock();
+                block.SetColor(ColorIndex, paramList[i].DefaultColor ? Color.white : paramList[i].color);
 
-        /// <summary>
-        /// Draw all child properties of a given property.
-        /// </summary>
-        /// <param name="position">Position of the property.</param>
-        /// <param name="property">The parent property.</param>
-        /// <param name="except">Don't draw properties in these names.</param>
-        public static void DrawChildProperties(Rect position, SerializedProperty property, params string[] except)
-        {
-            var refProperty = property.Copy();
-            var nextProperty = property.Copy();
-            var shouldBreak = nextProperty.NextVisible(false);
-            if (refProperty.NextVisible(true)) do
-            {
-                if (shouldBreak && refProperty.propertyPath == nextProperty.propertyPath) break;
-                if (except.Contains(refProperty.name)) continue;
-                EditorGUI.PropertyField(GetPropertyPosition(ref position, refProperty), refProperty);
-            } while (refProperty.NextVisible(false));
-        }
-
-        /// <summary>
-        /// Get position for a property and move current rect forward.
-        /// </summary>
-        /// <param name="current">Current position rect</param>
-        /// <param name="property">Property to draw</param>
-        /// <returns>Position for the property</returns>
-        public static Rect GetPropertyPosition(ref Rect current, SerializedProperty property)
-        {
-            var result = new Rect(current) {height = EditorGUI.GetPropertyHeight(property, false)};
-            current.yMin += result.height + EditorGUIUtility.standardVerticalSpacing;
-            // if (current.height < 0) BulletStormLogger.LogWarning("Property position exceeded: " + current.height);
-            return result;
-        }
-
-        /// <summary>
-        /// Gets path of bullet storm folder.
-        /// </summary>
-        /// <returns></returns>
-        public static string GetBasePath()
-        {
-            if (!(_basePath is null) && _basePath.StartsWith("Assets/")) return _basePath;
-            
-            var assets = AssetDatabase.FindAssets("BulletStorm t:asmdef");
-            Assert.IsNotNull(assets);
-
-            var selected = assets.ToList().ConvertAll(AssetDatabase.GUIDToAssetPath)
-                .Where(path => path.EndsWith("/BulletStorm.asmdef")).ToList();
-
-            if (selected.Count == 1)
-            {
-                _basePath = selected[0].Substring(0, selected[0].LastIndexOf('/'));
-                return _basePath;
+                Graphics.DrawMesh(Caches.Instance.shapePreviewMesh, Matrix4x4.TRS(position, lookRotation, size),
+                    Caches.Instance.shapePreviewMaterial, 0, camera, 0, block);
+                
+                prs.Add(new Tuple<Vector3, Quaternion, float>(position, lookRotation, speed));
             }
-            
-            BulletStormLogger.LogError("Can't locate bullet storm assembly, find " + (selected.Count > 0
-                ? selected.Count + " items:\n" + selected.Aggregate((current, next) => current + "\n" + next)
-                : "0 item."));
-            _basePath = "Assets/BulletStorm";
-            return _basePath;
+
+            // clear depth
+            camera.Render();
+
+            // draw gizmos
+            Handles.SetCamera(camera);
+            var index = 0;
+            foreach (var (position1, rotation, speed1) in (IEnumerable<Tuple<Vector3, Quaternion, float>>) prs)
+            {
+                Handles.zTest = CompareFunction.Greater;
+                Handles.color = Color.red;
+                Handles.ArrowHandleCap(0, position1, rotation, speed1 / 4, EventType.Repaint);
+                Handles.zTest = CompareFunction.LessEqual;
+                Handles.color = Color.green;
+                Handles.ArrowHandleCap(0, position1, rotation, speed1 / 4, EventType.Repaint);
+                
+                Handles.zTest = CompareFunction.Always;
+                string text;
+                switch (content)
+                {
+                    case LabelContent.Index:
+                        text = index.ToString();
+                        break;
+                    case LabelContent.Speed:
+                        text = speed1.ToString(CultureInfo.CurrentCulture);
+                        break;
+                    case LabelContent.Position:
+                        text = position1.ToString();
+                        break;
+                    case LabelContent.None:
+                        text = "";
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+                Handles.Label(position1, text);
+                
+                index++;
+            }
+        }
+
+        public enum LabelContent
+        {
+            None,
+            Index,
+            Speed,
+            Position
+        }
+
+        /// <summary>
+        /// Receives mouse input in given rectangle.
+        /// </summary>
+        /// <param name="position">Rectangle range to receive input.</param>
+        /// <param name="distance">Camera distance, controlled by scroll wheel.</param>
+        /// <param name="view">Camera view position, controlled by mouse drag.</param>
+        public static void ReceiveInput(Rect position, ref float distance, ref Vector2 view)
+        {
+            var controlID = GUIUtility.GetControlID("Slider".GetHashCode(), FocusType.Passive);
+            var current = Event.current;
+            switch (current.GetTypeForControl(controlID))
+            {
+                case EventType.ScrollWheel:
+                    if (position.Contains(current.mousePosition))
+                    {
+                        distance += current.delta.y;
+                        if (distance < 0) distance = 0;
+                        current.Use();
+                        GUI.changed = true;
+                    }
+                    break;
+                case EventType.MouseDown:
+                    if (position.Contains(current.mousePosition) && position.width > 50f)
+                    {
+                        GUIUtility.hotControl = controlID;
+                        current.Use();
+                        EditorGUIUtility.SetWantsMouseJumping(1);
+                    }
+                    break;
+                case EventType.MouseUp:
+                    if (GUIUtility.hotControl == controlID)
+                    {
+                        GUIUtility.hotControl = 0;
+                    }
+                    EditorGUIUtility.SetWantsMouseJumping(0);
+                    break;
+                case EventType.MouseDrag:
+                    if (GUIUtility.hotControl == controlID)
+                    {
+                        view -= current.delta / Mathf.Min(position.width, position.height) * 140f;
+                        view.y = Mathf.Clamp(view.y, -90f, 90f);
+                        current.Use();
+                        GUI.changed = true;
+                    }
+                    break;
+            }
         }
     }
 }

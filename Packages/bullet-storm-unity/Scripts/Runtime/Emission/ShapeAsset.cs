@@ -8,7 +8,7 @@ using UnityEditor;
 namespace CANStudio.BulletStorm.Emission
 {
     [CreateAssetMenu(menuName = "BulletStorm/ShapeAsset")]
-    public class ShapeAsset : NodeGraph
+    public class ShapeAsset : NodeGraph, IShapeContainer
     {
         public Shape shape;
 
@@ -28,5 +28,7 @@ namespace CANStudio.BulletStorm.Emission
             return;
 #endif
         }
+
+        public Shape GetShape() => shape;
     }
 }
