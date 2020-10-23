@@ -239,6 +239,22 @@ namespace CANStudio.BulletStorm.Emission
         #region Velocity operations
 
         /// <summary>
+        /// Set velocity to all bullets.
+        /// </summary>
+        /// <param name="velocity">Given velocity.</param>
+        /// <returns></returns>
+        public Shape SetVelocity(Vector3 velocity)
+        {
+            Parallel.For(0, Count, i =>
+            {
+                var emitParam = emitParams[i];
+                emitParam.velocity = velocity;
+                emitParams[i] = emitParam;
+            });
+            return this;
+        }
+        
+        /// <summary>
         /// Add velocity to all bullets.
         /// </summary>
         /// <param name="velocity">Velocity increment.</param>
@@ -255,7 +271,29 @@ namespace CANStudio.BulletStorm.Emission
         }
 
         /// <summary>
-        /// Add speed to all bullets, direction is the bullet target relative to origin.
+        /// Set speed to all bullets, direction is original direction.
+        /// <para/>
+        /// This requires bullets to have speed formally, if original speed is 0,
+        /// this function won't change the speed.
+        /// </summary>
+        /// <param name="speed"></param>
+        /// <returns></returns>
+        public Shape SetSpeed(float speed)
+        {
+            Parallel.For(0, Count, i =>
+            {
+                var emitParam = emitParams[i];
+                if (!Mathf.Approximately(emitParam.velocity.magnitude, 0f))
+                {
+                    emitParam.velocity = emitParam.velocity.normalized * speed;
+                }
+                emitParams[i] = emitParam;
+            });
+            return this;
+        }
+
+        /// <summary>
+        /// Add speed to all bullets, direction is from origin to the bullet.
         /// </summary>
         /// <param name="speed">Speed increment.</param>
         /// <returns></returns>
@@ -271,7 +309,7 @@ namespace CANStudio.BulletStorm.Emission
         }
 
         /// <summary>
-        /// Add speed to bullets by their indexes, direction is the bullet target relative to origin.
+        /// Add speed to bullets by their indexes, direction is from origin to the bullet.
         /// </summary>
         /// <param name="curve">X-axis 0~1 represents all indexes, y-axis is speed.</param>
         /// <param name="multiplier">Multiplier for curve y-axis.</param>
@@ -288,7 +326,7 @@ namespace CANStudio.BulletStorm.Emission
         }
 
         /// <summary>
-        /// Add speed to all bullets, direction is from bullet target to target target.
+        /// Add speed to all bullets, direction is from bullet to target.
         /// </summary>
         /// <param name="speed">Speed increment.</param>
         /// <param name="target">Target position.</param>

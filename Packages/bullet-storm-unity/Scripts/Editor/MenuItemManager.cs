@@ -27,9 +27,14 @@ namespace CANStudio.BulletStorm.Editor
             CreateGameObject<AutoBulletEmitter>();
         }
         
+        [MenuItem("GameObject/3D Object/BulletStorm/AutoShapeEmitter")]
+        public static void CreateAutoShapeEmitter()
+        {
+            CreateGameObject<AutoShapeEmitter>();
+        }
         
         /// <summary>
-        /// Create a game object scene.
+        /// Create a game object in scene.
         /// </summary>
         /// <typeparam name="T">Script type.</typeparam>
         private static void CreateGameObject<T>() where T : MonoBehaviour
@@ -43,7 +48,6 @@ namespace CANStudio.BulletStorm.Editor
             {
                 foreach (var transform in Selection.transforms)
                 {
-                    
                     var go = new GameObject(typeof(T).Name, typeof(T));
                     go.transform.SetParent(transform, false);
                 }
