@@ -53,7 +53,15 @@ namespace CANStudio.BulletStorm.Emitters
         /// <summary>
         /// Transform used to emit bullets.
         /// </summary>
-        public Transform Emitter => enableAimOffset ? subEmitter : transform;
+        public Transform Emitter
+        {
+            get
+            {
+                if (!enableAimOffset) return transform;
+                if (!subEmitter) InitAimOffset();
+                return subEmitter;
+            }
+        }
 
         /// <summary>
         /// Is the emitter doing an emission?
@@ -68,20 +76,13 @@ namespace CANStudio.BulletStorm.Emitters
         [Button("Start", EButtonEnableMode.Playmode)]
         public void StartEmission()
         {
-            // auto aim
+            // init auto aim
             if (enableAutoAim && autoAim.aimOnEmissionStart && autoAim.target.Check())
             {
                 transform.LookAt(autoAim.target);
             }
-            
-            // aim offset
-            aimOffset.Reset();
-            if (subEmitter is null)
-            {
-                subEmitter = new GameObject().transform;
-                subEmitter.SetParent(transform);
-                subEmitter.localPosition = Vector3.zero;
-            }
+
+            InitAimOffset();
             
             // start coroutine
             if (coroutine is null || coroutine.Status == CoroutineStatus.Finished)
@@ -132,9 +133,20 @@ namespace CANStudio.BulletStorm.Emitters
             // aim offset
             if (enableAimOffset)
             {
+                if (!subEmitter) InitAimOffset();
                 aimOffset.Tick(Time.deltaTime);
                 subEmitter.localEulerAngles = aimOffset.TotalOffset;
             }
+        }
+
+        private void InitAimOffset()
+        {
+            aimOffset.Reset();
+            if (!(subEmitter is null)) return;
+            subEmitter = new GameObject().transform;
+            subEmitter.name = "Sub emitter";
+            subEmitter.SetParent(transform);
+            subEmitter.localPosition = Vector3.zero;
         }
 
         [Serializable]
@@ -172,7 +184,9 @@ namespace CANStudio.BulletStorm.Emitters
         {
             [Tooltip("XYZ rotation offset when an emission starts in euler angles.")]
             public Vector3 offsetOnStart;
-            [Tooltip("When using curve, the time in seconds that curve x-axis 0~1 represents.")]
+            
+            [Tooltip("When using curve, the time in seconds that curve x-axis 0~1 represents."),
+             MinValue(1), ShowIf("ShowCurveTimeScale"), AllowNesting]
             public float curveTimeScale;
             
             [Header("X-axis")]
@@ -195,6 +209,15 @@ namespace CANStudio.BulletStorm.Emitters
 
             private float time;
             public Vector3 TotalOffset { get; private set; }
+
+            // for inspector use
+            // ReSharper disable once UnusedMember.Local
+            private bool ShowCurveTimeScale => xOffset.mode == ParticleSystemCurveMode.Curve ||
+                                               xOffset.mode == ParticleSystemCurveMode.TwoCurves ||
+                                               yOffset.mode == ParticleSystemCurveMode.Curve ||
+                                               yOffset.mode == ParticleSystemCurveMode.TwoCurves ||
+                                               zOffset.mode == ParticleSystemCurveMode.Curve ||
+                                               zOffset.mode == ParticleSystemCurveMode.TwoCurves;
 
             /// <summary>
             /// Call this on emission starts.
@@ -231,7 +254,7 @@ namespace CANStudio.BulletStorm.Emitters
                         throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
                 }
             }
-
+            
             public enum OffsetMode
             {
                 [Tooltip("Use exactly this angle value.")]
