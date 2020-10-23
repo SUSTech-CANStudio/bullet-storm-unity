@@ -94,7 +94,8 @@ namespace CANStudio.BulletStorm.Emitters
         private void EmitOnce(float emitSpeed, Color emitColor, float emitSize)
         {
             // 0 <= seq < cnt
-            static float SeqTo01(int seq, int cnt) => seq == 0 ? 0 : (float)seq / (cnt - 1);
+            // ReSharper disable once LocalFunctionCanBeMadeStatic
+            float SeqTo01(int seq, int cnt) => seq == 0 ? 0 : (float)seq / (cnt - 1);
 
             var paramList = new List<BulletEmitParam>[rows.Count];
             
