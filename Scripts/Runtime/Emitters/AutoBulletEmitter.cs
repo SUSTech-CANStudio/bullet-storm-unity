@@ -35,6 +35,9 @@ namespace CANStudio.BulletStorm.Emitters
         [Tooltip("When using curve or gradient, the time in seconds that curve x-axis 0~1 represents."),
          MinValue(1), ShowIf("ShowCurveTimeScale")]
         public float curveTimeScale = 1;
+        
+        [SerializeField, ProgressBar("Emission process", "EmitTimes")]
+        private int emitCount;
 
         [Header("Each emission")]
 
@@ -46,7 +49,8 @@ namespace CANStudio.BulletStorm.Emitters
          Tooltip("Rows are sorted from top to down (y-axis), every row contains a row of bullets.")]
         private List<Row> rows;
 
-        // for inspector use
+        #region reflection use only
+
         // ReSharper disable once UnusedMember.Local
         private bool ShowCurveTimeScale => emitInterval.mode == ParticleSystemCurveMode.Curve ||
                                            emitInterval.mode == ParticleSystemCurveMode.TwoCurves ||
@@ -56,16 +60,23 @@ namespace CANStudio.BulletStorm.Emitters
                                            color.mode == ParticleSystemGradientMode.TwoGradients ||
                                            size.mode == ParticleSystemCurveMode.Curve ||
                                            size.mode == ParticleSystemCurveMode.TwoCurves;
+        
+        // ReSharper disable once UnusedMember.Local
+        private float EmitTimes => emitTimes;
+
+        #endregion
 
         protected override IEnumerator StartEmitCoroutine()
         {
             if (!CheckBullet()) yield break;
             var startTime = Time.time;
+            emitCount = 0;
             for (var i = 0; i < emitTimes; i++)
             {
                 var evaluateTime = (Time.time - startTime) / curveTimeScale;
                 EmitOnce(speed.Evaluate(evaluateTime, Random.value), color.Evaluate(evaluateTime, Random.value),
                     size.Evaluate(evaluateTime, Random.value));
+                emitCount++;
                 yield return new WaitForSeconds(emitInterval.Evaluate(evaluateTime, Random.value));
             }
         }

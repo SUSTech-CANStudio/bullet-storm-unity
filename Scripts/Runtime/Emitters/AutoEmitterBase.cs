@@ -73,7 +73,7 @@ namespace CANStudio.BulletStorm.Emitters
         /// You can start the emitter only when it is not <see cref="IsEmitting"/>.
         /// After started, the emitter will behave as configured in the inspector.
         /// </summary>
-        [Button("Start", EButtonEnableMode.Playmode)]
+        [Button("Start Emission", EButtonEnableMode.Playmode)]
         public void StartEmission()
         {
             // init auto aim
@@ -95,7 +95,7 @@ namespace CANStudio.BulletStorm.Emitters
             }
             else
             {
-                BulletStormLogger.LogWarning("Emitter is emitting now.");
+                BulletStormLogger.LogWarning($"Emitter {this} is emitting now.");
             }
         }
 
@@ -210,7 +210,8 @@ namespace CANStudio.BulletStorm.Emitters
             private float time;
             public Vector3 TotalOffset { get; private set; }
 
-            // for inspector use
+            #region reflection use only
+
             // ReSharper disable once UnusedMember.Local
             private bool ShowCurveTimeScale => xOffset.mode == ParticleSystemCurveMode.Curve ||
                                                xOffset.mode == ParticleSystemCurveMode.TwoCurves ||
@@ -218,6 +219,8 @@ namespace CANStudio.BulletStorm.Emitters
                                                yOffset.mode == ParticleSystemCurveMode.TwoCurves ||
                                                zOffset.mode == ParticleSystemCurveMode.Curve ||
                                                zOffset.mode == ParticleSystemCurveMode.TwoCurves;
+
+            #endregion
 
             /// <summary>
             /// Call this on emission starts.

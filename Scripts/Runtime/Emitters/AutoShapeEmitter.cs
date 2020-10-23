@@ -16,14 +16,27 @@ namespace CANStudio.BulletStorm.Emitters
     [AddComponentMenu("BulletStorm/AutoShapeEmitter")]
     public class AutoShapeEmitter : AutoEmitterBase
     {
+        [Header("Shape emitter")]
+        
         [Tooltip("Bullet system prefab to emit bullets."), SerializeField, Required]
         private BulletSystemBase bullet;
 
+        [SerializeField, ProgressBar("Emission progress", "EmitTimes")]
+        private int emitCount;
+        
         [Tooltip("A list where you can config every emission here."), ReorderableList, SerializeField]
         private ShapeConfig[] emissions;
+
+        #region reflection use only
+
+        // ReSharper disable once UnusedMember.Local
+        private float EmitTimes => emissions.Length;
+
+        #endregion
         
         protected override IEnumerator StartEmitCoroutine()
         {
+            emitCount = 0;
             foreach (var emission in emissions)
             {
                 if (!emission.oneByOne) Emit(emission.OverridenShape, bullet);
@@ -35,6 +48,8 @@ namespace CANStudio.BulletStorm.Emitters
                         yield return new WaitForSeconds(emission.interval);
                     }
                 }
+
+                emitCount++;
                 yield return new WaitForSeconds(emission.wait);
             }
         }
