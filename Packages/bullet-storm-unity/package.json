@@ -20,7 +20,8 @@
   "type": "tool",
   "description": "Better particle system for 3D STG games.",
   "dependencies": {
-    "com.dbrizov.naughtyattributes": "2.0.7"
+    "com.dbrizov.naughtyattributes": "2.0.7",
+    "com.github.siccity.xnode": "1.8.0"
   },
   "scopedRegistries": [
     {
@@ -28,6 +29,7 @@
       "url": "https://package.openupm.com",
       "scopes": [
         "com.dbrizov.naughtyattributes",
+        "com.github.siccity.xnode",
         "com.openupm"
       ]
     }
