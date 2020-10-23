@@ -3,9 +3,12 @@
     "rootNamespace": "CANStudio.BulletStorm.Editor",
     "references": [
         "CANStudio.BulletStorm",
-        "XNode"
+        "XNode",
+        "XNodeEditor"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
