@@ -2,7 +2,6 @@
 using CANStudio.BulletStorm.BulletSystem;
 using CANStudio.BulletStorm.Emission;
 using CANStudio.BulletStorm.Storm;
-using CANStudio.BulletStorm.Util;
 using UnityEngine;
 
 namespace CANStudio.BulletStorm.Emitters
@@ -21,7 +20,7 @@ namespace CANStudio.BulletStorm.Emitters
         /// Emits a storm from this emitter.
         /// </summary>
         /// <param name="storm">The storm.</param>
-        public void Emit(StormInfo storm) => Emit(storm, transform);
+        public virtual void Emit(StormInfo storm) => Emit(storm, transform);
         
         /// <summary>
         /// Emits a storm.
@@ -35,7 +34,7 @@ namespace CANStudio.BulletStorm.Emitters
         /// </summary>
         /// <param name="shape">Bullet parameters</param>
         /// <param name="bullet">The bullet type to emit</param>
-        public void Emit(IEnumerable<BulletEmitParam> shape, IBulletSystem bullet) =>
+        public virtual void Emit(IEnumerable<BulletEmitParam> shape, IBulletSystem bullet) =>
             Emit(shape, bullet, transform);
 
         /// <summary>
@@ -54,7 +53,7 @@ namespace CANStudio.BulletStorm.Emitters
         /// </summary>
         /// <param name="emitParam">Parameters of the bullet</param>
         /// <param name="bullet">The bullet type to emit</param>
-        public void Emit(BulletEmitParam emitParam, IBulletSystem bullet) =>
+        public virtual void Emit(BulletEmitParam emitParam, IBulletSystem bullet) =>
             Emit(emitParam, bullet, transform);
 
         /// <summary>
@@ -68,7 +67,6 @@ namespace CANStudio.BulletStorm.Emitters
         
         protected virtual void OnDestroy()
         {
-            BulletStormLogger.Log($"Emitter {this} destroyed.");
             foreach (var copied in bulletSystems.Values) copied.Destroy();
         }
 

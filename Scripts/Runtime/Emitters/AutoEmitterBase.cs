@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using CANStudio.BulletStorm.BulletSystem;
+using CANStudio.BulletStorm.Emission;
+using CANStudio.BulletStorm.Storm;
 using CANStudio.BulletStorm.Util;
 using NaughtyAttributes;
 using UnityEngine;
@@ -8,9 +12,13 @@ namespace CANStudio.BulletStorm.Emitters
 {
     /// <summary>
     /// Base class of all auto emitters.
-    /// </summary>
+    /// <para/>
     /// Auto emitters can rotate automatically when emitting bullets. But every auto emitter can only start
     /// one emission at same time.
+    /// <para/>
+    /// To write an auto emitter, you should extend this class, and implement <see cref="StartEmitCoroutine"/>
+    /// to do your emission behaviors.
+    /// </summary>
     [DisallowMultipleComponent]
     public abstract class AutoEmitterBase : Emitter
     {
@@ -41,11 +49,11 @@ namespace CANStudio.BulletStorm.Emitters
         private ControllableCoroutine coroutine;
         // deal with aim offset module
         private Transform subEmitter;
-
+        
         /// <summary>
         /// Transform used to emit bullets.
         /// </summary>
-        protected Transform Emitter => enableAimOffset ? subEmitter : transform;
+        public Transform Emitter => enableAimOffset ? subEmitter : transform;
 
         /// <summary>
         /// Is the emitter doing an emission?
@@ -90,6 +98,11 @@ namespace CANStudio.BulletStorm.Emitters
             }
         }
 
+        // override emit functions to set transform to Emitter.
+        public override void Emit(StormInfo storm) => base.Emit(storm, Emitter);
+        public override void Emit(IEnumerable<BulletEmitParam> shape, IBulletSystem bullet) => base.Emit(shape, bullet, Emitter);
+        public override void Emit(BulletEmitParam emitParam, IBulletSystem bullet) => base.Emit(emitParam, bullet, Emitter);
+
         /// <summary>
         /// Begins after <see cref="StartEmission"/> is called.
         /// </summary>
@@ -103,7 +116,7 @@ namespace CANStudio.BulletStorm.Emitters
 
         protected virtual void Update()
         {
-            if (coroutine.Status != CoroutineStatus.Running) return;
+            if (!IsEmitting) return;
             
             // auto aim
             if (enableAutoAim && autoAim.target)
