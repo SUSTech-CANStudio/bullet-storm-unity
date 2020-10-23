@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/SUSTech-CANStudio/bullet-storm-unity/compare/v1.1.0...v1.1.1) (2020-10-23)
+
+
+### Bug Fixes
+
+* scoped static method doesn't supported in Unity 2019 ([89f86f7](https://github.com/SUSTech-CANStudio/bullet-storm-unity/commit/89f86f73305d7640b540b7a4d48bae6d264ef87a))
+
 # [1.1.0](https://github.com/SUSTech-CANStudio/bullet-storm-unity/compare/v1.0.0...v1.1.0) (2020-10-23)
 
 
