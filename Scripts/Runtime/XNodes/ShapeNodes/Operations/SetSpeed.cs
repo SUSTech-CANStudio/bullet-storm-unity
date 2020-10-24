@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace CANStudio.BulletStorm.XNodes.ShapeNodes.Operations
 {
-    [CreateNodeMenu("BulletStorm/Shape/Operation/Set Speed")]
+    [CreateNodeMenu("BulletStorm/Shape/Operation/Set Speed"), NodeTint(Utils.ColorShapeOperation)]
     public class SetSpeed : ShapeOperationNode
     {
         [Tooltip("Set speed to all bullets, direction is original direction.\n" +

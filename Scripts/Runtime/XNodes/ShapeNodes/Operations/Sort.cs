@@ -2,7 +2,7 @@ using CANStudio.BulletStorm.Emission;
 
 namespace CANStudio.BulletStorm.XNodes.ShapeNodes.Operations
 {
-    [CreateNodeMenu("BulletStorm/Shape/Operation/Sort", -1000)]
+    [CreateNodeMenu("BulletStorm/Shape/Operation/Sort", -1000), NodeTint(Utils.ColorShapeOperationSpecial)]
     public class Sort : ShapeOperationNode
     {
         [Input(ShowBackingValue.Never, ConnectionType.Override, TypeConstraint.Inherited)]

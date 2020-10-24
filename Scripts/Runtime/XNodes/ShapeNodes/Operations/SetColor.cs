@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace CANStudio.BulletStorm.XNodes.ShapeNodes.Operations
 {
-    [CreateNodeMenu("BulletStorm/Shape/Operation/Set Color")]
+    [CreateNodeMenu("BulletStorm/Shape/Operation/Set Color"), NodeTint(Utils.ColorShapeOperation)]
     public class SetColor : ShapeOperationNode
     {
         [Input(connectionType = ConnectionType.Override, typeConstraint = TypeConstraint.Inherited)]
