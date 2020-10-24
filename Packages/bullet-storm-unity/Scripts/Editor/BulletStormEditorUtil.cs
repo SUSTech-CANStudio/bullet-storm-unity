@@ -20,25 +20,24 @@ namespace CANStudio.BulletStorm.Editor
         /// <param name="camera"></param>
         /// <param name="content"></param>
         /// <returns>Information to draw gizmos.</returns>
-        public static void DrawShapePreview([NotNull] Shape shape, [NotNull] Camera camera, LabelContent content)
+        public static void DrawShapePreview(Shape shape, [NotNull] Camera camera, LabelContent content)
         {
-            if (!Caches.Instance.shapePreviewMesh || !Caches.Instance.shapePreviewMaterial) return;
+            if (shape is null || !Caches.Instance.shapePreviewMesh || !Caches.Instance.shapePreviewMaterial) return;
 
-            var paramList = shape;
             var prs = new List<Tuple<Vector3, Quaternion, float>>();
 
-            for (var i = 0; i < paramList.Count; i++)
+            for (var i = 0; i < shape.Count; i++)
             {
-                var position = paramList[i].position;
-                var speed = paramList[i].velocity.magnitude;
+                var position = shape[i].position;
+                var speed = shape[i].velocity.magnitude;
                 var lookRotation = speed == 0
                     ? Quaternion.identity
-                    : Quaternion.LookRotation(paramList[i].velocity);
-                var size = paramList[i].DefaultSize
+                    : Quaternion.LookRotation(shape[i].velocity);
+                var size = shape[i].DefaultSize
                     ? Vector3.one
-                    : paramList[i].size;
+                    : shape[i].size;
                 var block = new MaterialPropertyBlock();
-                block.SetColor(ColorIndex, paramList[i].DefaultColor ? Color.white : paramList[i].color);
+                block.SetColor(ColorIndex, shape[i].DefaultColor ? Color.white : shape[i].color);
 
                 Graphics.DrawMesh(Caches.Instance.shapePreviewMesh, Matrix4x4.TRS(position, lookRotation, size),
                     Caches.Instance.shapePreviewMaterial, 0, camera, 0, block);

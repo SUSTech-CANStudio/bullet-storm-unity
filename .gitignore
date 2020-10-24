@@ -79,3 +79,6 @@ crashlytics-build.properties
 # Develpoer's folder
 /[Aa]ssets/Developer/
 /[Aa]ssets/Developer.meta
+
+# Ignore Unity editor version
+/[Pp]roject[Ss]ettings/ProjectVersion.txt
