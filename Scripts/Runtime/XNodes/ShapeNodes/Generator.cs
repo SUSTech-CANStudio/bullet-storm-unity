@@ -1,16 +1,16 @@
 using System;
+using CANStudio.BulletStorm.Emission;
 using NaughtyAttributes;
 using UnityEngine;
-using XNode;
 
 #pragma warning disable 0649
 
-namespace CANStudio.BulletStorm.Emission.XNodes
+namespace CANStudio.BulletStorm.XNodes.ShapeNodes
 {
     [CreateNodeMenu("BulletStorm/Shape/Generator")]
     public class Generator : ShapeNode
     {
-        [SerializeField]
+        [SerializeField, NodeEnum]
         private Type type;
 
         [Tooltip("Number of bullets."), MinValue(0), AllowNesting]
@@ -43,36 +43,25 @@ namespace CANStudio.BulletStorm.Emission.XNodes
             switch (type)
             {
                 case Type.Empty:
-                    shape = new Shape(num);
+                    SetShape(new Shape(num));
                     break;
                 case Type.FibonacciSphere:
-                    shape = Shape.FibonacciSphere(num, radius);
+                    SetShape(Shape.FibonacciSphere(num, radius));
                     break;
                 case Type.RandomSphere:
-                    shape = Shape.RandomSphere(num, radius);
+                    SetShape(Shape.RandomSphere(num, radius));
                     break;
                 case Type.Ring:
-                    shape = Shape.Ring(num, radius);
+                    SetShape(Shape.Ring(num, radius));
                     break;
                 case Type.Line:
-                    shape = Shape.Line(num, length);
+                    SetShape(Shape.Line(num, length));
                     break;
                 case Type.Arc:
-                    shape = Shape.Arc(num, angle, radius);
+                    SetShape(Shape.Arc(num, angle, radius));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
-            }
-        }
-        
-        public override object GetValue(NodePort port)
-        {
-            switch (port.fieldName)
-            {
-                case "shape":
-                    return shape;
-                default:
-                    return null;
             }
         }
 

@@ -1,5 +1,5 @@
 using CANStudio.BulletStorm.Emission;
-using CANStudio.BulletStorm.Emission.XNodes;
+using CANStudio.BulletStorm.XNodes.ShapeNodes;
 using UnityEditor;
 using UnityEngine;
 

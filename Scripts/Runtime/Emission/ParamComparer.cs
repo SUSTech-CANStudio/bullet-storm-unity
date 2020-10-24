@@ -10,6 +10,7 @@ namespace CANStudio.BulletStorm.Emission
     /// Axises are raw values of the bullet positions.
     /// <para/>
     /// Angles are the euler angles from origin to bullet position, between 0 and 360.
+    [Serializable]
     public enum ParamCompareItem
     {
         XAxis,
@@ -20,19 +21,22 @@ namespace CANStudio.BulletStorm.Emission
         ZAngle
     }
 
+    [Serializable]
     public enum ParamCompareOrder
     {
         Ascending,
         Descending
     }
 
+    [Serializable]
     public class ParamComparer : IComparer<BulletEmitParam>
     {
-        private readonly struct CompareInfo
+        [Serializable]
+        private struct CompareInfo
         {
-            public readonly ParamCompareItem compareItem;
-            public readonly ParamCompareOrder order;
-            public readonly float equalRange;
+            public ParamCompareItem compareItem;
+            public ParamCompareOrder order;
+            public float equalRange;
 
             public CompareInfo(ParamCompareItem compareItem, ParamCompareOrder order, float equalRange)
             {
@@ -42,7 +46,8 @@ namespace CANStudio.BulletStorm.Emission
             }
         }
 
-        private readonly List<CompareInfo> infos;
+        [SerializeField, HideInInspector]
+        private List<CompareInfo> infos;
 
         /// <summary>
         /// Create a comparer for <see cref="BulletEmitParam"/>. You can use operator '+' to add two comparer,

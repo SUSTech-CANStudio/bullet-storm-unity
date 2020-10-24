@@ -23,8 +23,8 @@ namespace CANStudio.BulletStorm.Emission
         /// <summary>
         /// Total bullets count in the shape.
         /// </summary>
-        public int Count => emitParams.Count;
-        
+        public int Count => emitParams?.Count ?? 0;
+
         /// <summary>
         /// Creates an empty shape.
         /// </summary>
@@ -51,6 +51,12 @@ namespace CANStudio.BulletStorm.Emission
         {
             this.emitParams = emitParams;
         }
+
+        /// <summary>
+        /// Copies this shape.
+        /// </summary>
+        /// <returns></returns>
+        public Shape Copy() => new Shape(this);
 
         // Shape generators, static functions that create a basic shape.
         #region Generator
