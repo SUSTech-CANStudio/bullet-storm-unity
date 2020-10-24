@@ -1,4 +1,4 @@
-
+using System.Reflection;
 using CANStudio.BulletStorm.Util;
 using CANStudio.BulletStorm.XNodes.ShapeNodes;
 using XNode;
@@ -7,9 +7,42 @@ namespace CANStudio.BulletStorm.XNodes
 {
     public static class Utils
     {
-        public const string ColorMathNoun = "#442200";
+        public const string ColorMathNoun = "#32519A";
         public const string ColorMathVerb = "#c7c4b8";
+        public const string ColorShapeOperation = "#666699";
+        public const string ColorShapeOperationSpecial = "#663399";
+        public const string ColorShapeOutput = "#CC3333";
 
+        /// <summary>
+        /// Notifies output port nodes that this node is changed.
+        /// <para/>
+        /// Will invoke method `OnValidate` in nodes.
+        /// </summary>
+        /// <param name="node"></param>
+        public static void NotifyChange(this Node node)
+        {
+            foreach (var port in node.Outputs)
+            {
+                if (!port.IsConnected) continue;
+                var next = port.Connection.node;
+                SendMessage(next, "OnValidate");
+            }
+        }
+        
+        public static bool SendMessage(object @object, string functionName)
+        {
+            var type = @object.GetType();
+            MethodInfo method = null;
+            while (method is null)
+            {
+                method = type.GetMethod(functionName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                type = type.BaseType;
+                if (type is null) return false;
+            }
+            method.Invoke(@object, null);
+            return true;
+        }
+        
         /// <summary>
         /// 
         /// </summary>

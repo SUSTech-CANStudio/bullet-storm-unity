@@ -21,7 +21,7 @@ namespace CANStudio.BulletStorm.Editor.CustomEditors
             previewRenderUtility.camera.clearFlags = CameraClearFlags.Skybox;
 
             viewPos = new Vector2(0, -10);
-            cameraDistance = 10;
+            cameraDistance = 30;
         }
 
         public override void OnPreviewSettings()

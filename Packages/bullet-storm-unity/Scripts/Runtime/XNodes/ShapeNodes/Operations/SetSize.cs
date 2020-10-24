@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace CANStudio.BulletStorm.XNodes.ShapeNodes.Operations
 {
-    [CreateNodeMenu("BulletStorm/Shape/Operation/Set Size")]
+    [CreateNodeMenu("BulletStorm/Shape/Operation/Set Size"), NodeTint(Utils.ColorShapeOperation)]
     public class SetSize : ShapeOperationNode
     {
         [Input(connectionType = ConnectionType.Override, typeConstraint = TypeConstraint.Inherited)]

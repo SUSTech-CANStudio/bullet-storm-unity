@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace CANStudio.BulletStorm.XNodes.ShapeNodes.Operations
 {
-    [CreateNodeMenu("BulletStorm/Shape/Operation/Add Speed (by index)")]
+    [CreateNodeMenu("BulletStorm/Shape/Operation/Add Speed (by index)"), NodeTint(Utils.ColorShapeOperation)]
     public class AddSpeedByIndex : ShapeOperationNode
     {
         [Tooltip("X-axis 0~1 represents all indexes, y-axis is speed.")]

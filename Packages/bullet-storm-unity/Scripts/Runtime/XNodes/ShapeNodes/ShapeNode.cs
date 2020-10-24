@@ -1,5 +1,4 @@
 using CANStudio.BulletStorm.Emission;
-using NaughtyAttributes;
 using UnityEngine;
 using XNode;
 
@@ -15,7 +14,7 @@ namespace CANStudio.BulletStorm.XNodes.ShapeNodes
         [SerializeField, Output(typeConstraint = TypeConstraint.Inherited)]
         private Shape shape;
         
-        [SerializeField, ReadOnly]
+        [SerializeField, HideInInspector]
         private bool dirty;
         
         /// <summary>

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace CANStudio.BulletStorm.XNodes.ShapeNodes.Operations
 {
-    [CreateNodeMenu("BulletStorm/Shape/Operation/Move")]
+    [CreateNodeMenu("BulletStorm/Shape/Operation/Move"), NodeTint(Utils.ColorShapeOperation)]
     public class Move : ShapeOperationNode
     {
         [Input(connectionType = ConnectionType.Override, typeConstraint = TypeConstraint.Inherited)]
