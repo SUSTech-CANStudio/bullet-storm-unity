@@ -31,7 +31,7 @@ namespace CANStudio.BulletStorm.Emission
         public void Build()
         {
             if (CheckOutputNode()) outputNode.Build();
-            BulletStormLogger.LogError("Output node not found.");
+            else BulletStormLogger.LogError("Output node not found.");
         }
         
         public override Node AddNode(Type type)

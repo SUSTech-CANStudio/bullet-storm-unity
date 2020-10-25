@@ -80,5 +80,9 @@ namespace CANStudio.BulletStorm.Editor.CustomEditors
     [CustomEditor(typeof(ShapeAsset))]
     internal class ShapeAssetEditor : ShapePreviewer
     {
+        public override void OnInspectorGUI()
+        {
+            // disable inspector display
+        }
     }
 }

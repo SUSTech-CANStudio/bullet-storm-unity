@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using CANStudio.BulletStorm.Emission;
+using CANStudio.BulletStorm.Util;
 using CANStudio.BulletStorm.XNodes.ShapeNodes;
 using UnityEngine;
 using XNode;
 using XNodeEditor;
+using Object = UnityEngine.Object;
 
 namespace CANStudio.BulletStorm.Editor.XNodeEditors
 {
@@ -41,6 +43,39 @@ namespace CANStudio.BulletStorm.Editor.XNodeEditors
         }
 
         public override Node CopyNode(Node original) => original is Output ? original : base.CopyNode(original);
+
+        public override void OnDropObjects(Object[] objects)
+        {
+            var pos = window.WindowToGridPosition(Event.current.mousePosition) - new Vector2(15, 15);
+            var cnt = 0;
+            var offset = new Vector2(10, 10);
+            var add = false;
+            Node node = null;
+            
+            foreach (var @object in objects)
+            {
+                switch (@object)
+                {
+                    case ShapeAsset asset:
+                    {
+                        node = CreateNode(typeof(ShapeReference), pos + offset * cnt++);
+                        window.SelectNode(node, add);
+                        add = true;
+                        if (node is ShapeReference shapeReference)
+                        {
+                            shapeReference.shapeAsset = asset;
+                        }
+                        else BulletStormLogger.LogError("An unexpected errored occured when creating node.");
+                        break;
+                    }
+                    default:
+                        BulletStormLogger.Log($"{@object} can't drop into shape graph");
+                        break;
+                }
+
+                Util.System.SendMessage(node, "OnValidate");
+            }
+        }
 
         public override string GetNodeMenuName(Type type)
         {
