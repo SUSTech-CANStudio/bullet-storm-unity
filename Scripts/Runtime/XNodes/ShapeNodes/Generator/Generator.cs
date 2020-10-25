@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace CANStudio.BulletStorm.XNodes.ShapeNodes
 {
-    [CreateNodeMenu("BulletStorm/Shape/Generator")]
+    [CreateNodeMenu("BulletStorm/Shape/Generator/Generator")]
     public class Generator : ShapeNode
     {
         [SerializeField, NodeEnum]

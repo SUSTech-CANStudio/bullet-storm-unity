@@ -1,4 +1,3 @@
-using System.Reflection;
 using CANStudio.BulletStorm.Util;
 using CANStudio.BulletStorm.XNodes.ShapeNodes;
 using XNode;
@@ -25,24 +24,10 @@ namespace CANStudio.BulletStorm.XNodes
             {
                 if (!port.IsConnected) continue;
                 var next = port.Connection.node;
-                SendMessage(next, "OnValidate");
+                Util.System.SendMessage(next, "OnValidate");
             }
         }
-        
-        public static bool SendMessage(object @object, string functionName)
-        {
-            var type = @object.GetType();
-            MethodInfo method = null;
-            while (method is null)
-            {
-                method = type.GetMethod(functionName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-                type = type.BaseType;
-                if (type is null) return false;
-            }
-            method.Invoke(@object, null);
-            return true;
-        }
-        
+
         /// <summary>
         /// 
         /// </summary>

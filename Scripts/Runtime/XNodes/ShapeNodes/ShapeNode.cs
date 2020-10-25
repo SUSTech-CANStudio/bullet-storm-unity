@@ -61,7 +61,7 @@ namespace CANStudio.BulletStorm.XNodes.ShapeNodes
         [ContextMenu("Generate", false, 0)]
         internal void GenerateButton() => RecursiveGenerate();
 
-        private void OnValidate() => dirty = true;
+        protected virtual void OnValidate() => dirty = true;
 
         public override void OnCreateConnection(NodePort @from, NodePort to)
         {
