@@ -144,7 +144,7 @@ namespace CANStudio.BulletStorm.Emission
                 return new Shape(list);
             }
             
-            var deltaLength = 1 / (num - 1);
+            var deltaLength = 1f / (num - 1);
             for (var i = 0; i < num; i++)
             {
                 var point = new Vector3(deltaLength * i - 0.5f, 0, 0);
