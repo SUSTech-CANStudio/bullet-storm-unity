@@ -1,5 +1,4 @@
 using CANStudio.BulletStorm.Emission;
-using CANStudio.BulletStorm.Util;
 using NaughtyAttributes;
 
 namespace CANStudio.BulletStorm.XNodes.ShapeNodes
@@ -13,16 +12,6 @@ namespace CANStudio.BulletStorm.XNodes.ShapeNodes
         public override void Generate()
         {
             SetShape(shapeAsset.shape);
-        }
-
-        protected override void OnValidate()
-        {
-            if (shapeAsset.Equals(graph))
-            {
-                shapeAsset = null;
-                BulletStormLogger.LogWarning("Shape asset can not reference itself.");
-            }
-            base.OnValidate();
         }
     }
 }
