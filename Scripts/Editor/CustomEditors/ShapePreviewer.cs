@@ -1,11 +1,9 @@
-using System;
 using CANStudio.BulletStorm.Emission;
 using CANStudio.BulletStorm.XNodes;
 using CANStudio.BulletStorm.XNodes.ShapeNodes;
 using UnityEditor;
 using UnityEngine;
 using XNodeEditor;
-using Object = UnityEngine.Object;
 
 namespace CANStudio.BulletStorm.Editor.CustomEditors
 {
