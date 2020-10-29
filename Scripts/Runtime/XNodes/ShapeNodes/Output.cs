@@ -26,13 +26,13 @@ namespace CANStudio.BulletStorm.XNodes.ShapeNodes
             }
             
             lastNode.RecursiveGenerate();
-            if (!(graph is ShapeAsset shapeAsset) || !shapeAsset)
+            if (!(graph is ShapeGraph shapeGraph) || !shapeGraph)
             {
                 BulletStormLogger.LogError($"Unknown graph type {graph.GetType().FullName}, this node is output node for {typeof(ShapeAsset).FullName}");
                 return;
             }
 
-            shapeAsset.shape = lastNode.GetShape();
+            shapeGraph.shape = lastNode.GetShape();
         }
     }
 }

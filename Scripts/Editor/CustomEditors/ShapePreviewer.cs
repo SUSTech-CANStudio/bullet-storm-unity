@@ -1,7 +1,11 @@
+using System;
 using CANStudio.BulletStorm.Emission;
+using CANStudio.BulletStorm.XNodes;
 using CANStudio.BulletStorm.XNodes.ShapeNodes;
 using UnityEditor;
 using UnityEngine;
+using XNodeEditor;
+using Object = UnityEngine.Object;
 
 namespace CANStudio.BulletStorm.Editor.CustomEditors
 {
@@ -40,7 +44,7 @@ namespace CANStudio.BulletStorm.Editor.CustomEditors
                 EditorGUILayout.ObjectField(Caches.Instance.shapePreviewMaterial, typeof(Material), false) as Material;
         }
 
-        private void OnEnable()
+        protected void OnEnable()
         {
             ValidateData();
             shapeContainer = target as IShapeContainer;
@@ -80,9 +84,36 @@ namespace CANStudio.BulletStorm.Editor.CustomEditors
     [CustomEditor(typeof(ShapeAsset))]
     internal class ShapeAssetEditor : ShapePreviewer
     {
+    }
+
+    [CustomEditor(typeof(ShapeGraph))]
+    internal class ShapeGraphEditor : ShapePreviewer
+    {
+        private ShapeGraph shapeGraph;
+
+        private void Awake()
+        {
+            shapeGraph = target as ShapeGraph;
+        }
+
         public override void OnInspectorGUI()
         {
-            // disable inspector display
+            serializedObject.Update();
+
+            if (GUILayout.Button("Edit"))
+            {
+                NodeEditorWindow.Open(shapeGraph);
+            }
+
+            if (GUILayout.Button("Create Asset"))
+            {
+                var path = AssetDatabase.GetAssetPath(shapeGraph);
+                var shapeAsset = CreateInstance<ShapeAsset>();
+                shapeAsset.shape = shapeGraph.shape.Copy();
+                AssetDatabase.CreateAsset(shapeAsset, AssetDatabase.GenerateUniqueAssetPath(path));
+            }
+
+            serializedObject.ApplyModifiedProperties();
         }
     }
 }

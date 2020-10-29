@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using CANStudio.BulletStorm.Emission;
 using CANStudio.BulletStorm.Util;
+using CANStudio.BulletStorm.XNodes;
 using CANStudio.BulletStorm.XNodes.ShapeNodes;
 using UnityEngine;
 using XNode;
@@ -11,17 +12,19 @@ using Object = UnityEngine.Object;
 
 namespace CANStudio.BulletStorm.Editor.XNodeEditors
 {
-    [CustomNodeGraphEditor(typeof(ShapeAsset), "BulletStorm_ShapeAsset.Settings")]
+    [CustomNodeGraphEditor(typeof(ShapeGraph), "BulletStorm_ShapeGraph.Settings")]
     public class ShapeAssetGraphEditor : NodeGraphEditor
     {
         private readonly Regex validNodes = new Regex(@"^CANStudio\.BulletStorm\.XNodes\.(Math|ShapeNodes)\..*$");
-        private ShapeAsset shapeAsset;
+        private ShapeGraph shapeGraph;
 
         public override void OnCreate()
         {
             base.OnCreate();
             
-            shapeAsset = target as ShapeAsset;
+            shapeGraph = target as ShapeGraph;
+            if (shapeGraph is null || !shapeGraph) return;
+            window.titleContent = new GUIContent($"{shapeGraph.name}", "The shape graph editor");
         }
 
         public override void OnOpen()
@@ -38,7 +41,7 @@ namespace CANStudio.BulletStorm.Editor.XNodeEditors
 
         public override Node CreateNode(Type type, Vector2 pos)
         {
-            if (type == typeof(Output) && shapeAsset.CheckOutputNode()) return null;
+            if (type == typeof(Output) && shapeGraph.CheckOutputNode()) return null;
             return base.CreateNode(type, pos);
         }
 
