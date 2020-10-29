@@ -23,8 +23,10 @@ namespace CANStudio.BulletStorm.XNodes
             foreach (var port in node.Outputs)
             {
                 if (!port.IsConnected) continue;
-                var next = port.Connection.node;
-                Util.System.SendMessage(next, "OnValidate");
+                foreach (var nextNodePort in port.GetConnections())
+                {
+                    Util.System.SendMessage(nextNodePort.node, "OnValidate");
+                }
             }
         }
 
