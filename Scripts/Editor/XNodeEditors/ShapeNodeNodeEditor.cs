@@ -18,8 +18,9 @@ namespace CANStudio.BulletStorm.Editor.XNodeEditors
         public override void OnBodyGUI()
         {
             base.OnBodyGUI();
-
             if (!shapeNode.IsShapeCurrent() && GUILayout.Button("Generate")) shapeNode.RecursiveGenerate();
+
+            serializedObject.ApplyModifiedProperties();
         }
     }
 }

@@ -74,7 +74,7 @@ namespace CANStudio.BulletStorm.Emission
             
             for (var i = 0; i < num; i++)
             {
-                var lat = Mathf.Asin(-1.0f + 2.0f * i / (num + 1));
+                var lat = Mathf.Asin(-1.0f + 2.0f * i / num);
                 var lon = ga * i;
 
                 var point = new Vector3(
@@ -93,9 +93,13 @@ namespace CANStudio.BulletStorm.Emission
         /// </summary>
         /// <param name="num">Number of bullets</param>
         /// <param name="radius">Radius of the sphere</param>
+        /// <param name="seed">Seed to generate random positions.</param>
         /// <returns></returns>
-        public static Shape RandomSphere(int num, float radius)
+        public static Shape RandomSphere(int num, float radius, int seed = 0)
         {
+            var lastState = Random.state;
+            Random.InitState(seed);
+            
             var list = new List<BulletEmitParam>(num);
             for (var i = 0; i < num; i++)
             {
@@ -103,6 +107,7 @@ namespace CANStudio.BulletStorm.Emission
                 list.Add(new BulletEmitParam(point * radius));
             }
 
+            Random.state = lastState;
             return new Shape(list);
         }
 
