@@ -3,7 +3,7 @@ using NaughtyAttributes;
 
 namespace CANStudio.BulletStorm.XNodes.ShapeNodes
 {
-    [CreateNodeMenu("BulletStorm/Shape/Generator/ShapeReference")]
+    [CreateNodeMenu("BulletStorm/Shape/Generator/ShapeReference"), NodeTint(Utils.ColorShapeGenerator)]
     public class ShapeReference : ShapeNode
     {
         [Required, AllowNesting]

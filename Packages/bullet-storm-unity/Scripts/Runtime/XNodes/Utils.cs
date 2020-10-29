@@ -7,9 +7,10 @@ namespace CANStudio.BulletStorm.XNodes
     public static class Utils
     {
         public const string ColorMathNoun = "#32519A";
-        public const string ColorMathVerb = "#c7c4b8";
+        public const string ColorMathVerb = "#C7C4B8";
         public const string ColorShapeOperation = "#666699";
         public const string ColorShapeOperationSpecial = "#663399";
+        public const string ColorShapeGenerator = "#CC6600";
         public const string ColorShapeOutput = "#CC3333";
 
         /// <summary>
