@@ -110,7 +110,8 @@ namespace CANStudio.BulletStorm.Editor.CustomEditors
 
             if (GUILayout.Button("Create Asset"))
             {
-                var path = "Asset " + AssetDatabase.GetAssetPath(shapeGraph);
+                var path = AssetDatabase.GetAssetPath(shapeGraph);
+                path = path.Substring(0, path.LastIndexOf('.')) + " Asset.asset";
                 var shapeAsset = CreateInstance<ShapeAsset>();
                 shapeAsset.shape = shapeGraph.shape.Copy();
                 AssetDatabase.CreateAsset(shapeAsset, AssetDatabase.GenerateUniqueAssetPath(path));

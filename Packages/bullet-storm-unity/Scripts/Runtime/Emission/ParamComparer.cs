@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace CANStudio.BulletStorm.Emission
@@ -32,10 +33,12 @@ namespace CANStudio.BulletStorm.Emission
     public class ParamComparer : IComparer<BulletEmitParam>
     {
         [Serializable]
-        private struct CompareInfo
+        public struct CompareInfo
         {
+            [Tooltip("Select which item to compare.")]
             public ParamCompareItem compareItem;
             public ParamCompareOrder order;
+            [Tooltip("Difference smaller than this will be ignored."), MinValue(0), AllowNesting]
             public float equalRange;
 
             public CompareInfo(ParamCompareItem compareItem, ParamCompareOrder order, float equalRange)
@@ -62,7 +65,7 @@ namespace CANStudio.BulletStorm.Emission
             infos = new List<CompareInfo>{new CompareInfo(compareItem, order, equalRange)};
         }
 
-        private ParamComparer(List<CompareInfo> infos)
+        internal ParamComparer(List<CompareInfo> infos)
         {
             this.infos = infos;
         }
