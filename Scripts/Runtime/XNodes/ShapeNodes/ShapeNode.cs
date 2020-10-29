@@ -23,7 +23,7 @@ namespace CANStudio.BulletStorm.XNodes.ShapeNodes
         /// </summary>
         public abstract void Generate();
 
-        public Shape GetShape() => shape;
+        public Shape GetShape() => IsShapeCurrent() ? shape : null;
         public void SetShape(Shape value) => shape = value;
 
         /// <summary>
@@ -61,7 +61,11 @@ namespace CANStudio.BulletStorm.XNodes.ShapeNodes
         [ContextMenu("Generate", false, 0)]
         internal void GenerateButton() => RecursiveGenerate();
 
-        protected virtual void OnValidate() => dirty = true;
+        protected virtual void OnValidate()
+        {
+            dirty = true;
+            this.NotifyChange();
+        }
 
         public override void OnCreateConnection(NodePort @from, NodePort to)
         {
