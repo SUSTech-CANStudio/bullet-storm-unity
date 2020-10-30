@@ -1,3 +1,17 @@
+# [1.2.0](https://github.com/SUSTech-CANStudio/bullet-storm-unity/compare/v1.1.1...v1.2.0) (2020-10-30)
+
+
+### Bug Fixes
+
+* line generator doesn't work correctly ([7919554](https://github.com/SUSTech-CANStudio/bullet-storm-unity/commit/7919554bd0b5be8f59e07b7ea6dab18e68334799))
+
+
+### Features
+
+* add math nodes ([0306879](https://github.com/SUSTech-CANStudio/bullet-storm-unity/commit/030687994aa5f76580e891aa383f98bf649a1fa0))
+* enable refer shape asset in node ([c9211f1](https://github.com/SUSTech-CANStudio/bullet-storm-unity/commit/c9211f1f48643f4a3d12b6c8ffb37cfc3cbd38a9))
+* node graph for shape asset ([cc2d17f](https://github.com/SUSTech-CANStudio/bullet-storm-unity/commit/cc2d17f4e41e8ad3e9f6e00b46a3270b1d9aec9f))
+
 ## [1.1.1](https://github.com/SUSTech-CANStudio/bullet-storm-unity/compare/v1.1.0...v1.1.1) (2020-10-23)
 
 
