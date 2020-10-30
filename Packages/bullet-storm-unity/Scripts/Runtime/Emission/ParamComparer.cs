@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace CANStudio.BulletStorm.Emission
@@ -10,6 +11,7 @@ namespace CANStudio.BulletStorm.Emission
     /// Axises are raw values of the bullet positions.
     /// <para/>
     /// Angles are the euler angles from origin to bullet position, between 0 and 360.
+    [Serializable]
     public enum ParamCompareItem
     {
         XAxis,
@@ -20,19 +22,24 @@ namespace CANStudio.BulletStorm.Emission
         ZAngle
     }
 
+    [Serializable]
     public enum ParamCompareOrder
     {
         Ascending,
         Descending
     }
 
+    [Serializable]
     public class ParamComparer : IComparer<BulletEmitParam>
     {
-        private readonly struct CompareInfo
+        [Serializable]
+        public struct CompareInfo
         {
-            public readonly ParamCompareItem compareItem;
-            public readonly ParamCompareOrder order;
-            public readonly float equalRange;
+            [Tooltip("Select which item to compare.")]
+            public ParamCompareItem compareItem;
+            public ParamCompareOrder order;
+            [Tooltip("Difference smaller than this will be ignored."), MinValue(0), AllowNesting]
+            public float equalRange;
 
             public CompareInfo(ParamCompareItem compareItem, ParamCompareOrder order, float equalRange)
             {
@@ -42,7 +49,8 @@ namespace CANStudio.BulletStorm.Emission
             }
         }
 
-        private readonly List<CompareInfo> infos;
+        [SerializeField, HideInInspector]
+        private List<CompareInfo> infos;
 
         /// <summary>
         /// Create a comparer for <see cref="BulletEmitParam"/>. You can use operator '+' to add two comparer,
@@ -57,7 +65,7 @@ namespace CANStudio.BulletStorm.Emission
             infos = new List<CompareInfo>{new CompareInfo(compareItem, order, equalRange)};
         }
 
-        private ParamComparer(List<CompareInfo> infos)
+        internal ParamComparer(List<CompareInfo> infos)
         {
             this.infos = infos;
         }

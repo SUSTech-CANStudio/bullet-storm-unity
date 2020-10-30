@@ -23,8 +23,8 @@ namespace CANStudio.BulletStorm.Emission
         /// <summary>
         /// Total bullets count in the shape.
         /// </summary>
-        public int Count => emitParams.Count;
-        
+        public int Count => emitParams?.Count ?? 0;
+
         /// <summary>
         /// Creates an empty shape.
         /// </summary>
@@ -42,7 +42,7 @@ namespace CANStudio.BulletStorm.Emission
         /// Copies a shape.
         /// </summary>
         /// <param name="shape">The original shape</param>
-        public Shape(Shape shape)
+        private Shape(Shape shape)
         {
             emitParams = new List<BulletEmitParam>(shape);
         }
@@ -51,6 +51,12 @@ namespace CANStudio.BulletStorm.Emission
         {
             this.emitParams = emitParams;
         }
+
+        /// <summary>
+        /// Copies this shape.
+        /// </summary>
+        /// <returns></returns>
+        public Shape Copy() => new Shape(this);
 
         // Shape generators, static functions that create a basic shape.
         #region Generator
@@ -68,7 +74,7 @@ namespace CANStudio.BulletStorm.Emission
             
             for (var i = 0; i < num; i++)
             {
-                var lat = Mathf.Asin(-1.0f + 2.0f * i / (num + 1));
+                var lat = Mathf.Asin(-1.0f + 2.0f * i / num);
                 var lon = ga * i;
 
                 var point = new Vector3(
@@ -87,9 +93,13 @@ namespace CANStudio.BulletStorm.Emission
         /// </summary>
         /// <param name="num">Number of bullets</param>
         /// <param name="radius">Radius of the sphere</param>
+        /// <param name="seed">Seed to generate random positions.</param>
         /// <returns></returns>
-        public static Shape RandomSphere(int num, float radius)
+        public static Shape RandomSphere(int num, float radius, int seed = 0)
         {
+            var lastState = Random.state;
+            Random.InitState(seed);
+            
             var list = new List<BulletEmitParam>(num);
             for (var i = 0; i < num; i++)
             {
@@ -97,6 +107,7 @@ namespace CANStudio.BulletStorm.Emission
                 list.Add(new BulletEmitParam(point * radius));
             }
 
+            Random.state = lastState;
             return new Shape(list);
         }
 
@@ -138,13 +149,43 @@ namespace CANStudio.BulletStorm.Emission
                 return new Shape(list);
             }
             
-            var deltaLength = 1 / (num - 1);
+            var deltaLength = 1f / (num - 1);
             for (var i = 0; i < num; i++)
             {
                 var point = new Vector3(deltaLength * i - 0.5f, 0, 0);
                 list.Add(new BulletEmitParam(point * length));
             }
 
+            return new Shape(list);
+        }
+
+        /// <summary>
+        /// A rectangle on xy-plane, from top to down, then from left to right.
+        /// Origin is center of this rectangle.
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="wNum">Number of bullets on width.</param>
+        /// <param name="hNum">Number of bullets on height.</param>
+        /// <returns></returns>
+        public static Shape Rect(float width, float height, int wNum, int hNum)
+        {
+            var list = new List<BulletEmitParam>(wNum * hNum);
+
+            var wStart = wNum > 1 ? -width / 2 : 0;
+            var hStart = hNum > 1 ? -height / 2 : 0;
+            
+            var dw = wNum > 1 ? width / (wNum - 1) : 0;
+            var dh = hNum > 1 ? height / (hNum - 1) : 0;
+            
+            for (var i = 0; i < hNum; i++)
+            {
+                for (var j = 0; j < wNum; j++)
+                {
+                    list.Add(new BulletEmitParam(new Vector3(wStart + dw * j, hStart + dh * i)));
+                }
+            }
+            
             return new Shape(list);
         }
 
@@ -228,6 +269,22 @@ namespace CANStudio.BulletStorm.Emission
             {
                 var emitParam = emitParams[i];
                 emitParam.position += offset;
+                emitParams[i] = emitParam;
+            });
+            return this;
+        }
+
+        /// <summary>
+        /// Moves the whole shape.
+        /// </summary>
+        /// <param name="time">Move with current velocity by time.</param>
+        /// <returns></returns>
+        public Shape Move(float time)
+        {
+            Parallel.For(0, Count, i =>
+            {
+                var emitParam = emitParams[i];
+                emitParam.position += emitParam.velocity * time;
                 emitParams[i] = emitParam;
             });
             return this;
@@ -416,6 +473,65 @@ namespace CANStudio.BulletStorm.Emission
         /// <returns></returns>
         public Shape SetSize(float size) => SetSize(Vector3.one * size);
         
+        #endregion
+
+        // Operations that repeat the whole shape for many times.
+        #region Repeat operations
+
+        /// <summary>
+        /// Repeat the shape alone x-axis, from left to right.
+        /// </summary>
+        /// <param name="times">Repeat times.</param>
+        /// <param name="length">Distance from the left most copy center to the right most one.</param>
+        /// <returns></returns>
+        public Shape LinearRepeat(int times, float length)
+        {
+            if (times <= 0)
+            {
+                emitParams.Clear();
+                return this;
+            }
+            
+            var left = times > 1 ? -length / 2 : 0;
+            var dx = times > 1 ? length / (times - 1) : 0;
+
+            Move(new Vector3(left, 0));
+            var copy = Copy();
+            
+            for (var i = 1; i < times; i++)
+            {
+                emitParams.AddRange(copy.Move(new Vector3(dx, 0)));
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Repeat the shape when rotating around axis.
+        /// </summary>
+        /// <param name="times">Repeat times.</param>
+        /// <param name="angle">Rotation angle.</param>
+        /// <param name="axis"></param>
+        /// <returns></returns>
+        public Shape RotateRepeat(int times, float angle, Vector3 axis)
+        {
+            if (times <= 0)
+            {
+                emitParams.Clear();
+                return this;
+            }
+            
+            var copy = Copy();
+            var dAngle = times > 1 ? angle / (times - 1) : 0;
+            
+            for (var i = 1; i < times; i++)
+            {
+                emitParams.AddRange(copy.Copy().Rotate(dAngle * i, axis));
+            }
+
+            return this;
+        }
+
         #endregion
         
         /// <summary>

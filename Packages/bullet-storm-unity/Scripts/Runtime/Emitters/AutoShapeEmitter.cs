@@ -94,7 +94,7 @@ namespace CANStudio.BulletStorm.Emitters
             {
                 get
                 {
-                    var copy = new Shape(shape.shape);
+                    var copy = shape.shape.Copy();
                     copy.Move(offset);
                     if (overrideSpeed) copy.SetSpeed(speed);
                     if (overrideColor) copy.SetColor(color);

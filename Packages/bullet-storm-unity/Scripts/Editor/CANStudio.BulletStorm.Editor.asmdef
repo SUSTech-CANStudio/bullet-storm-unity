@@ -1,8 +1,14 @@
 {
     "name": "CANStudio.BulletStorm.Editor",
     "rootNamespace": "CANStudio.BulletStorm.Editor",
-    "references": ["CANStudio.BulletStorm"],
-    "includePlatforms": [],
+    "references": [
+        "CANStudio.BulletStorm",
+        "XNode",
+        "XNodeEditor"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
