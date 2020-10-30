@@ -69,13 +69,13 @@ namespace CANStudio.BulletStorm.XNodes.ShapeNodes
 
         public override void OnCreateConnection(NodePort @from, NodePort to)
         {
-            dirty = true;
+            if (to.node.Equals(this)) OnValidate();
             base.OnCreateConnection(@from, to);
         }
 
         public override void OnRemoveConnection(NodePort port)
         {
-            dirty = true;
+            if (port.IsInput) OnValidate();
             base.OnRemoveConnection(port);
         }
     }

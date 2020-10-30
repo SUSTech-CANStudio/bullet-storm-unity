@@ -13,6 +13,13 @@ namespace CANStudio.BulletStorm.XNodes
         public const string ColorShapeGenerator = "#CC6600";
         public const string ColorShapeOutput = "#CC3333";
 
+        public const int OrderSpecialOperation = 0;
+        public const int OrderPositionOperation = 100;
+        public const int OrderVelocityOperation = 200;
+        public const int OrderColorOperation = 300;
+        public const int OrderSizeOperation = 400;
+        public const int OrderRepeatOperation = 500;
+        
         /// <summary>
         /// Notifies output port nodes that this node is changed.
         /// <para/>
@@ -57,7 +64,7 @@ namespace CANStudio.BulletStorm.XNodes
         public static bool CheckConnection(this NodePort port)
         {
             if (port.IsConnected) return true;
-            BulletStormLogger.LogError($"Node {port.node}: port {port.fieldName} not connected");
+            BulletStormLogger.LogWarning($"Node {port.node}: port {port.fieldName} not connected");
             return false;
         }
     }

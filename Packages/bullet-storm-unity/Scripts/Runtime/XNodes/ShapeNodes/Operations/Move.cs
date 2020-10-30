@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace CANStudio.BulletStorm.XNodes.ShapeNodes.Operations
 {
-    [CreateNodeMenu("BulletStorm/Shape/Operation/Move"), NodeTint(Utils.ColorShapeOperation)]
+    [CreateNodeMenu("BulletStorm/Shape/Operation/Move", Utils.OrderPositionOperation), NodeTint(Utils.ColorShapeOperation)]
     public class Move : ShapeOperationNode
     {
         [Tooltip("Move all bullets by offset.")]

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace CANStudio.BulletStorm.XNodes.ShapeNodes.Operations
 {
-    [CreateNodeMenu("BulletStorm/Shape/Operation/Add Velocity"), NodeTint(Utils.ColorShapeOperation)]
+    [CreateNodeMenu("BulletStorm/Shape/Operation/Add Velocity", Utils.OrderVelocityOperation), NodeTint(Utils.ColorShapeOperation)]
     public class AddVelocity : ShapeOperationNode
     {
         [Input(connectionType = ConnectionType.Override, typeConstraint = TypeConstraint.Inherited)]

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace CANStudio.BulletStorm.XNodes.ShapeNodes.Operations
 {
-    [CreateNodeMenu("BulletStorm/Shape/Operation/Sort", -1000), NodeTint(Utils.ColorShapeOperationSpecial)]
+    [CreateNodeMenu("BulletStorm/Shape/Operation/Sort", Utils.OrderSpecialOperation), NodeTint(Utils.ColorShapeOperationSpecial)]
     public class Sort : ShapeOperationNode
     {
         [SerializeField]

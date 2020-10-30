@@ -19,7 +19,7 @@ namespace CANStudio.BulletStorm.XNodes.ShapeNodes.Operations
         public override void RecursiveGenerate()
         {
             var last = this.GetInputShapeNode(nameof(inputShape));
-            if (!IsShapeCurrent()) last.RecursiveGenerate();
+            if (!IsShapeCurrent() && last) last.RecursiveGenerate();
             base.RecursiveGenerate();
         }
     }
