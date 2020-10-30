@@ -42,7 +42,7 @@ namespace CANStudio.BulletStorm.Emission
         /// Copies a shape.
         /// </summary>
         /// <param name="shape">The original shape</param>
-        public Shape(Shape shape)
+        private Shape(Shape shape)
         {
             emitParams = new List<BulletEmitParam>(shape);
         }
@@ -160,6 +160,36 @@ namespace CANStudio.BulletStorm.Emission
         }
 
         /// <summary>
+        /// A rectangle on xy-plane, from top to down, then from left to right.
+        /// Origin is center of this rectangle.
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="wNum">Number of bullets on width.</param>
+        /// <param name="hNum">Number of bullets on height.</param>
+        /// <returns></returns>
+        public static Shape Rect(float width, float height, int wNum, int hNum)
+        {
+            var list = new List<BulletEmitParam>(wNum * hNum);
+
+            var wStart = wNum > 1 ? -width / 2 : 0;
+            var hStart = hNum > 1 ? -height / 2 : 0;
+            
+            var dw = wNum > 1 ? width / (wNum - 1) : 0;
+            var dh = hNum > 1 ? height / (hNum - 1) : 0;
+            
+            for (var i = 0; i < hNum; i++)
+            {
+                for (var j = 0; j < wNum; j++)
+                {
+                    list.Add(new BulletEmitParam(new Vector3(wStart + dw * j, hStart + dh * i)));
+                }
+            }
+            
+            return new Shape(list);
+        }
+
+        /// <summary>
         /// An arc on z-x plane, from left to right, middle point on positive z-axis.
         /// </summary>
         /// <param name="num">Number of bullets</param>
@@ -239,6 +269,22 @@ namespace CANStudio.BulletStorm.Emission
             {
                 var emitParam = emitParams[i];
                 emitParam.position += offset;
+                emitParams[i] = emitParam;
+            });
+            return this;
+        }
+
+        /// <summary>
+        /// Moves the whole shape.
+        /// </summary>
+        /// <param name="time">Move with current velocity by time.</param>
+        /// <returns></returns>
+        public Shape Move(float time)
+        {
+            Parallel.For(0, Count, i =>
+            {
+                var emitParam = emitParams[i];
+                emitParam.position += emitParam.velocity * time;
                 emitParams[i] = emitParam;
             });
             return this;

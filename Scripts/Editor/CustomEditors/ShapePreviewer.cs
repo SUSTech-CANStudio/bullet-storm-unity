@@ -4,6 +4,7 @@ using CANStudio.BulletStorm.XNodes.ShapeNodes;
 using UnityEditor;
 using UnityEngine;
 using XNodeEditor;
+using Rect = UnityEngine.Rect;
 
 namespace CANStudio.BulletStorm.Editor.CustomEditors
 {
