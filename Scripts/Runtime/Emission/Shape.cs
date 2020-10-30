@@ -474,6 +474,65 @@ namespace CANStudio.BulletStorm.Emission
         public Shape SetSize(float size) => SetSize(Vector3.one * size);
         
         #endregion
+
+        // Operations that repeat the whole shape for many times.
+        #region Repeat operations
+
+        /// <summary>
+        /// Repeat the shape alone x-axis, from left to right.
+        /// </summary>
+        /// <param name="times">Repeat times.</param>
+        /// <param name="length">Distance from the left most copy center to the right most one.</param>
+        /// <returns></returns>
+        public Shape LinearRepeat(int times, float length)
+        {
+            if (times <= 0)
+            {
+                emitParams.Clear();
+                return this;
+            }
+            
+            var left = times > 1 ? -length / 2 : 0;
+            var dx = times > 1 ? length / (times - 1) : 0;
+
+            Move(new Vector3(left, 0));
+            var copy = Copy();
+            
+            for (var i = 1; i < times; i++)
+            {
+                emitParams.AddRange(copy.Move(new Vector3(dx, 0)));
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Repeat the shape when rotating around axis.
+        /// </summary>
+        /// <param name="times">Repeat times.</param>
+        /// <param name="angle">Rotation angle.</param>
+        /// <param name="axis"></param>
+        /// <returns></returns>
+        public Shape RotateRepeat(int times, float angle, Vector3 axis)
+        {
+            if (times <= 0)
+            {
+                emitParams.Clear();
+                return this;
+            }
+            
+            var copy = Copy();
+            var dAngle = times > 1 ? angle / (times - 1) : 0;
+            
+            for (var i = 1; i < times; i++)
+            {
+                emitParams.AddRange(copy.Copy().Rotate(dAngle * i, axis));
+            }
+
+            return this;
+        }
+
+        #endregion
         
         /// <summary>
         /// Sorts bullets in the shape.

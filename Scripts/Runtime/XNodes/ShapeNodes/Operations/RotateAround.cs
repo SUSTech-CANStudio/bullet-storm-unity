@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace CANStudio.BulletStorm.XNodes.ShapeNodes.Operations
 {
-    [CreateNodeMenu("BulletStorm/Shape/Operation/Rotate Around"), NodeTint(Utils.ColorShapeOperation)]
+    [CreateNodeMenu("BulletStorm/Shape/Operation/Rotate Around", Utils.OrderPositionOperation), NodeTint(Utils.ColorShapeOperation)]
     public class RotateAround : ShapeOperationNode
     {
         [SerializeField, OnValueChanged("TypeChange"), AllowNesting, NodeEnum]

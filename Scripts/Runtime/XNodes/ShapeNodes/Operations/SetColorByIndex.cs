@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace CANStudio.BulletStorm.XNodes.ShapeNodes.Operations
 {
-    [CreateNodeMenu("BulletStorm/Shape/Operation/Set Color (by index)"), NodeTint(Utils.ColorShapeOperation)]
+    [CreateNodeMenu("BulletStorm/Shape/Operation/Set Color (by index)", Utils.OrderColorOperation), NodeTint(Utils.ColorShapeOperation)]
     public class SetColorByIndex : ShapeOperationNode
     {
         [Tooltip("From left to right representing all indexes.")]
