@@ -10,8 +10,6 @@ namespace CANStudio.BulletStorm.BulletSystem.Modules
     [Serializable]
     internal struct EmissionEffectModule
     {
-        [Tooltip("Enable playing effect when emitting bullets.")]
-        [SerializeField] private bool enabled;
         [Tooltip("Particle effect to play when bullets emitted.")]
         [SerializeField] private ParticleSystem effect;
         [Tooltip("Where to play the effect.")]
@@ -21,7 +19,6 @@ namespace CANStudio.BulletStorm.BulletSystem.Modules
         
         public void OnEmit(BulletEmitParam relative, Transform emitter)
         {
-            if (!enabled) return;
             Quaternion lookRotation;
             Vector3 absolutePosition;
             switch (position)
@@ -57,19 +54,19 @@ namespace CANStudio.BulletStorm.BulletSystem.Modules
 
         private enum EffectPosition
         {
-            /** Generate effect on emitter */
+            [Tooltip("Generate effect on emitter")]
             OnEmitter,
-            /** Generate effect on particle */
+            [Tooltip("Generate effect on particle")]
             OnParticle
         }
         
         private enum EffectRotation
         {
-            /** Don't rotate */
+            [Tooltip("Don't rotate")]
             None,
-            /** From emitter to particle position */
+            [Tooltip("From emitter to particle position")]
             TowardsParticlePosition,
-            /** Same direction as particle velocity */
+            [Tooltip("Same direction as particle velocity")]
             TowardsParticleVelocity
         }
     }
