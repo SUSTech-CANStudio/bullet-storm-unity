@@ -2,7 +2,7 @@
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/7837d955c0a24890b8e54ecda0768576)](https://www.codacy.com/gh/SUSTech-CANStudio/bullet-storm-unity/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=SUSTech-CANStudio/bullet-storm-unity&amp;utm_campaign=Badge_Grade)[![openupm](https://img.shields.io/npm/v/com.canstudio.bullet-storm?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.canstudio.bullet-storm/)
 
-**点击查看[中文介绍](docs/README-zh-CN.md)**
+**点击查看[中文介绍](README-zh-CN.md)**
 
 BulletStorm is an editor tool for *danmaku* (or say barrage) design in 3D STG games.
 
@@ -57,7 +57,9 @@ If you are going to create a new project, you can simply use this repository as 
 
 ### Auto Emitters
 
-<img src="docs/img/image-20201031151015657.png" alt="image-20201031151015657" style="zoom:80%;" /><img src="docs/img/image-20201031151244333.png" alt="image-20201031151244333" style="zoom:80%;" />
+![image-20201031151015657](docs/img/image-20201031151015657.png)
+
+![image-20201031151244333](docs/img/image-20201031151244333.png)
 
 ### Build-in Particle System Support
 

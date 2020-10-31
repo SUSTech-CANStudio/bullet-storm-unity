@@ -49,12 +49,14 @@ BulletStorm是弹幕管理系统，但它的运行与弹幕的具体实现方式
 
 ### 形状编辑器
 
-![image-shape-test](img/image-shape-test.png)
+![image-shape-test](docs/img/image-shape-test.png)
 
 ### 自动发射器
 
-<img src="img/image-20201031151015657.png" alt="image-20201031151015657" style="zoom:80%;" /><img src="img/image-20201031151244333.png" alt="image-20201031151244333" style="zoom:80%;" />
+![image-20201031151015657](docs/img/image-20201031151015657.png)
+
+![image-20201031151244333](docs/img/image-20201031151244333.png)
 
 ### 对Unity自带粒子系统的支持
 
-![image-20201031151629973](img/image-20201031151629973.png)
+![image-20201031151629973](docs/img/image-20201031151629973.png)
