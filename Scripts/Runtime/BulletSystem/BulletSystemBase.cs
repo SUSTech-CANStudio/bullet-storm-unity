@@ -1,7 +1,10 @@
 ﻿using System;
 using CANStudio.BulletStorm.BulletSystem.Modules;
 using CANStudio.BulletStorm.Emission;
+using NaughtyAttributes;
 using UnityEngine;
+
+#pragma warning disable 0649
 
 namespace CANStudio.BulletStorm.BulletSystem
 {
@@ -10,10 +13,21 @@ namespace CANStudio.BulletStorm.BulletSystem
     /// </summary>
     public abstract class BulletSystemBase : MonoBehaviour, IBulletSystem, IBulletController
     {
-        [Tooltip("Play particle effect when emitting.")]
-        [SerializeField] private EmissionEffectModule emissionEffect;
-        [Tooltip("Bullets trace a target.")]
-        [SerializeField] private TracingModule tracing;
+        [Tooltip("Enable playing effect when emitting bullets."), Label("Enable")]
+        [SerializeField, BoxGroup("Emission effect")]
+        private bool enableEmissionEffect;
+        
+        [Tooltip("Play particle effect when emitting."), Label("Detail")]
+        [SerializeField, EnableIf("enableEmissionEffect"), BoxGroup("Emission effect")]
+        private EmissionEffectModule emissionEffect;
+        
+        [Tooltip("Enable bullets tracing some game object."), Label("Enable")]
+        [SerializeField, BoxGroup("Tracing")]
+        private bool enableTracing;
+        
+        [Tooltip("Bullets trace a target."), Label("Detail")]
+        [SerializeField, EnableIf("enableTracing"), BoxGroup("Tracing")]
+        private TracingModule tracing;
         
         public virtual string Name => name;
         public abstract void ChangePosition(Func<Vector3, Vector3, Vector3> operation);
@@ -26,15 +40,17 @@ namespace CANStudio.BulletStorm.BulletSystem
         /// <summary>
         /// Plays the emission effect. Call this when emitting a bullet.
         /// </summary>
-        protected void PlayEmissionEffect(BulletEmitParam emitParam, Transform emitter) =>
-            emissionEffect.OnEmit(emitParam, emitter);
-        
+        protected void PlayEmissionEffect(BulletEmitParam emitParam, Transform emitter)
+        {
+            if (enableEmissionEffect) emissionEffect.OnEmit(emitParam, emitter);
+        }
+
         /// <summary>
         /// Executes tracing module.
         /// </summary>
         protected void Start()
         {
-            tracing.OnStart();
+            if (enableTracing) tracing.Init();
         }
 
         /// <summary>
@@ -42,7 +58,7 @@ namespace CANStudio.BulletStorm.BulletSystem
         /// </summary>
         protected void Update()
         {
-            tracing.OnUpdate(this);
+            if (enableTracing) tracing.OnUpdate(this);
         }
     }
 }

@@ -9,19 +9,24 @@ namespace CANStudio.BulletStorm.BulletSystem.Modules
     [Serializable]
     internal struct TracingModule
     {
-        [Tooltip("Enable bullets tracing some game object.")]
-        [SerializeField] private bool enabled;
         [Tooltip("Tracing target.")]
         [SerializeField] private Target target;
         [Tooltip("Max rotating angle per second.")]
         [Range(0, 180)]
         [SerializeField] private float tracingRate;
 
-        public void OnStart() => target.Check();
+        /// <summary>
+        /// Initiate tracing module.
+        /// </summary>
+        public void Init() => target.Check();
         
+        /// <summary>
+        /// Call this on every update.
+        /// </summary>
+        /// <param name="bullet"></param>
         public void OnUpdate(IBulletController bullet)
         {
-            if (!enabled || !target) return;
+            if (!target) return;
 
             var deltaTime = Time.deltaTime;
             var targetPosition = target.AsTransform.position;
