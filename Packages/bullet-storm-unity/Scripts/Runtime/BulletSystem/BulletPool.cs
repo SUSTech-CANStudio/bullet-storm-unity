@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using JetBrains.Annotations;
 using UnityEngine;
 using Object = UnityEngine.Object;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 #pragma warning disable 0649
 
@@ -23,29 +17,14 @@ namespace CANStudio.BulletStorm.BulletSystem
     public sealed class BulletPool : ScriptableObject, ISerializationCallbackReceiver
     {
         [Tooltip("Bullet pool can inherit bullets from other pool.")]
-        [SerializeField] private BulletPool parentPool;
+        public BulletPool parentPool;
 
         [SerializeField] [HideInInspector] private List<string> keys;
         [SerializeField] [HideInInspector] private List<Object> values;
 
         [NonSerialized]
-        private readonly Dictionary<string, IBulletSystem> bullets = new Dictionary<string, IBulletSystem>();
-        
-        [NotNull]
-        private IEnumerable<string> AllBulletNames
-        {
-            get
-            {
-                var result = new HashSet<string>(bullets.Keys);
-                if (parentPool && parentPool != this)
-                {
-                    result.UnionWith(parentPool.AllBulletNames);
-                }
+        public readonly Dictionary<string, IBulletSystem> bullets = new Dictionary<string, IBulletSystem>();
 
-                return result;
-            }
-        }
-        
         /// <summary>
         /// Finds a bullet system in this pool, will also find in parent pools.
         /// </summary>
@@ -79,48 +58,5 @@ namespace CANStudio.BulletStorm.BulletSystem
                 bullets.Add(keys[i], values[i] as IBulletSystem);
             }
         }
-
-#if UNITY_EDITOR
-        /// <summary>
-        /// Register all bullets in the same folder or in subfolders into the pool.
-        /// </summary>
-        [ContextMenu("Detect")]
-        public void Detect()
-        {
-            bullets.Clear();
-            var selfPath = AssetDatabase.GetAssetPath(this);
-            var lastIndex = selfPath.LastIndexOf('/');
-            var guidList = AssetDatabase.FindAssets("", new[] {selfPath.Substring(0, lastIndex)});
-            foreach (var guid in guidList)
-            {
-                var assetPath = AssetDatabase.GUIDToAssetPath(guid);
-                var prefab = AssetDatabase.LoadMainAssetAtPath(assetPath) as GameObject;
-                if (prefab is null) continue;
-                var type = PrefabUtility.GetPrefabAssetType(prefab);
-                if (type != PrefabAssetType.Regular && type != PrefabAssetType.Variant) continue;
-                if (prefab.TryGetComponent(out IBulletSystem bulletSystem))
-                {
-                    bullets.Add(bulletSystem.Name, bulletSystem);
-                }
-            }
-        }
-        
-        public string BulletsToString()
-        {
-            var names = new List<string>(bullets.Keys);
-            if (names.Count == 0) return "";
-            names.Sort();
-            return names.Aggregate((current, add) => current + "\n" + add);
-        }
-
-        public string InheritedBulletsToString()
-        {
-            if (!parentPool || parentPool == this) return "";
-            var names = new List<string>(parentPool.AllBulletNames);
-            if (names.Count == 0) return "";
-            names.Sort();
-            return names.Aggregate((current, add) => current + "\n" + add);
-        }
-#endif
     }
 }
