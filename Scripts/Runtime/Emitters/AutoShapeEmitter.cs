@@ -42,10 +42,11 @@ namespace CANStudio.BulletStorm.Emitters
                 if (!emission.oneByOne) Emit(emission.OverridenShape, bullet);
                 else
                 {
-                    foreach (var param in emission.OverridenShape)
+                    var overriden = emission.OverridenShape;
+                    for (var i = 0; i < overriden.Count; i++)
                     {
-                        Emit(param, bullet);
-                        yield return new WaitForSeconds(emission.interval);
+                        if (i != 0) yield return new WaitForSeconds(emission.interval);
+                        Emit(overriden[i], bullet);
                     }
                 }
 
@@ -90,7 +91,7 @@ namespace CANStudio.BulletStorm.Emitters
             [Tooltip("Wait time in second after finish this emission."), MinValue(0), AllowNesting]
             public float wait;
 
-            public IEnumerable<BulletEmitParam> OverridenShape
+            public IReadOnlyList<BulletEmitParam> OverridenShape
             {
                 get
                 {
