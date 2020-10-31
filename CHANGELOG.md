@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/SUSTech-CANStudio/bullet-storm-unity/compare/v1.2.0...v1.2.1) (2020-10-31)
+
+
+### Bug Fixes
+
+* extral interval in shape emitter one by one mode ([cfc0203](https://github.com/SUSTech-CANStudio/bullet-storm-unity/commit/cfc02039c113877d73b39b8d47d1105bb4da494b))
+
 # [1.2.0](https://github.com/SUSTech-CANStudio/bullet-storm-unity/compare/v1.1.1...v1.2.0) (2020-10-30)
 
 
