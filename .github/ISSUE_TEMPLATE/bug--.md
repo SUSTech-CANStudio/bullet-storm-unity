@@ -2,7 +2,7 @@
 name: Bug报告
 about: 提交中文Bug报告以协助我们改进
 title: ''
-labels: bug
+labels: 🐞bug
 assignees: ''
 
 ---
