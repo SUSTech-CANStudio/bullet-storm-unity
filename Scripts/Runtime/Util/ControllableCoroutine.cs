@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using JetBrains.Annotations;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -25,10 +26,18 @@ namespace CANStudio.BulletStorm.Util
             });
         private Coroutine coroutine;
         private readonly IEnumerator enumerator;
+        private readonly MonoBehaviour monoBehaviour;
         private event Action Finish;
 
         /// <summary>
+        /// Returns the <see cref="MonoBehaviour"/> on which coroutine runs.
+        /// </summary>
+        [NotNull]
+        private MonoBehaviour Root => monoBehaviour ? monoBehaviour : Daemon.Value;
+
+        /// <summary>
         /// Create a coroutine.
+        /// This coroutine will run under a "CoroutineDaemon" GameObject.
         /// </summary>
         /// <param name="coroutine">The coroutine function.</param>
         /// <param name="callback">Callback function on finish.</param>
@@ -37,6 +46,17 @@ namespace CANStudio.BulletStorm.Util
             Status = CoroutineStatus.NotStarted;
             enumerator = coroutine;
             Finish = callback;
+        }
+
+        /// <summary>
+        /// Create a coroutine under given MonoBehaviour.
+        /// </summary>
+        /// <param name="monoBehaviour"></param>
+        /// <param name="coroutine"></param>
+        /// <param name="callback"></param>
+        public ControllableCoroutine(MonoBehaviour monoBehaviour, IEnumerator coroutine, Action callback = null) : this(coroutine, callback)
+        {
+            this.monoBehaviour = monoBehaviour;
         }
 
         /// <summary>
@@ -54,7 +74,7 @@ namespace CANStudio.BulletStorm.Util
                         return;
                     }
                     Status = CoroutineStatus.Running;
-                    coroutine = Daemon.Value.StartCoroutine(Wrapper());
+                    coroutine = Root.StartCoroutine(Wrapper());
                     break;
                 case CoroutineStatus.Paused:
                     Status = CoroutineStatus.Running;
@@ -115,12 +135,8 @@ namespace CANStudio.BulletStorm.Util
             switch (Status)
             {
                 case CoroutineStatus.Running:
-                    Daemon.Value.StopCoroutine(coroutine);
-                    Status = CoroutineStatus.Finished;
-                    if (callback) OnFinish();
-                    break;
                 case CoroutineStatus.Paused:
-                    Daemon.Value.StopCoroutine(coroutine);
+                    Root.StopCoroutine(coroutine);
                     Status = CoroutineStatus.Finished;
                     if (callback) OnFinish();
                     break;
