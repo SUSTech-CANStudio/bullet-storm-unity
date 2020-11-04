@@ -22,7 +22,7 @@ namespace CANStudio.BulletStorm.Editor
         /// <returns>Information to draw gizmos.</returns>
         public static void DrawShapePreview(Shape shape, [NotNull] Camera camera, LabelContent content)
         {
-            if (shape is null || !Caches.Instance.shapePreviewMesh || !Caches.Instance.shapePreviewMaterial) return;
+            if (shape is null || !Preferences._.shapePreviewMesh || !Preferences._.shapePreviewMaterial) return;
 
             var prs = new List<Tuple<Vector3, Quaternion, float>>();
 
@@ -39,8 +39,8 @@ namespace CANStudio.BulletStorm.Editor
                 var block = new MaterialPropertyBlock();
                 block.SetColor(ColorIndex, shape[i].DefaultColor ? Color.white : shape[i].color);
 
-                Graphics.DrawMesh(Caches.Instance.shapePreviewMesh, Matrix4x4.TRS(position, lookRotation, size),
-                    Caches.Instance.shapePreviewMaterial, 0, camera, 0, block);
+                Graphics.DrawMesh(Preferences._.shapePreviewMesh, Matrix4x4.TRS(position, lookRotation, size),
+                    Preferences._.shapePreviewMaterial, 0, camera, 0, block);
                 
                 prs.Add(new Tuple<Vector3, Quaternion, float>(position, lookRotation, speed));
             }

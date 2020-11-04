@@ -1,4 +1,5 @@
 using CANStudio.BulletStorm.Emission;
+using CANStudio.BulletStorm.Util;
 using CANStudio.BulletStorm.XNodes;
 using CANStudio.BulletStorm.XNodes.ShapeNodes;
 using UnityEditor;
@@ -37,10 +38,14 @@ namespace CANStudio.BulletStorm.Editor.CustomEditors
             labelContent =
                 (BulletStormEditorUtil.LabelContent) EditorGUILayout.EnumPopup("Label content", labelContent);
 
-            Caches.Instance.shapePreviewMesh =
-                EditorGUILayout.ObjectField(Caches.Instance.shapePreviewMesh, typeof(Mesh), false) as Mesh;
-            Caches.Instance.shapePreviewMaterial =
-                EditorGUILayout.ObjectField(Caches.Instance.shapePreviewMaterial, typeof(Material), false) as Material;
+            EditorGUI.BeginChangeCheck();
+
+            Preferences._.shapePreviewMesh =
+                EditorGUILayout.ObjectField(Preferences._.shapePreviewMesh, typeof(Mesh), false) as Mesh;
+            Preferences._.shapePreviewMaterial =
+                EditorGUILayout.ObjectField(Preferences._.shapePreviewMaterial, typeof(Material), false) as Material;
+
+            if (EditorGUI.EndChangeCheck()) Preferences.ApplyChanges();
         }
 
         protected void OnEnable()
