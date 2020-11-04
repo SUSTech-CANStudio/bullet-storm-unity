@@ -1,3 +1,11 @@
+## [1.2.2](https://github.com/SUSTech-CANStudio/bullet-storm-unity/compare/v1.2.1...v1.2.2) (2020-11-04)
+
+
+### Bug Fixes
+
+* [#22](https://github.com/SUSTech-CANStudio/bullet-storm-unity/issues/22) ([f8b0537](https://github.com/SUSTech-CANStudio/bullet-storm-unity/commit/f8b053783c6b80ed8f1116c4e149a4a23625e42c))
+* null reference exception when destroy emitter during emission ([48c2d62](https://github.com/SUSTech-CANStudio/bullet-storm-unity/commit/48c2d62a71155b618da97206c04f0727fff1b70d))
+
 ## [1.2.1](https://github.com/SUSTech-CANStudio/bullet-storm-unity/compare/v1.2.0...v1.2.1) (2020-10-31)
 
 
