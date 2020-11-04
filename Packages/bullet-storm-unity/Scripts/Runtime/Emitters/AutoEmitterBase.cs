@@ -87,7 +87,7 @@ namespace CANStudio.BulletStorm.Emitters
             // start coroutine
             if (coroutine is null || coroutine.Status == CoroutineStatus.Finished)
             {
-                coroutine = new ControllableCoroutine(StartEmitCoroutine(), () =>
+                coroutine = new ControllableCoroutine(this, StartEmitCoroutine(), () =>
                 {
                     if (destroyOnFinish) Destroy(this);
                 });
