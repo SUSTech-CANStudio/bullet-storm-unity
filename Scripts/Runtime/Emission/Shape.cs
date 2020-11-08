@@ -190,6 +190,45 @@ namespace CANStudio.BulletStorm.Emission
         }
 
         /// <summary>
+        /// A rectangle cage, sorted by z, y, x (all ascending).
+        /// </summary>
+        /// <param name="size">Length of x, y, and z axis</param>
+        /// <param name="count">Count of bullets on x, y, and z axis</param>
+        /// <param name="edgeOnly">Only generate bullets on edges if true</param>
+        /// <returns></returns>
+        public static Shape Cage(Vector3 size, Vector3Int count, bool edgeOnly)
+        {
+            if (count.x <= 0 || count.y <= 0 || count.z <= 0) return new Shape(0);
+            var list = new List<BulletEmitParam>();
+
+            var xStart = count.x > 1 ? -size.x / 2 : 0;
+            var yStart = count.y > 1 ? -size.y / 2 : 0;
+            var zStart = count.z > 1 ? -size.z / 2 : 0;
+
+            var dx = count.x > 1 ? size.x / (count.x - 1) : 0;
+            var dy = count.y > 1 ? size.y / (count.y - 1) : 0;
+            var dz = count.z > 1 ? size.z / (count.z - 1) : 0;
+
+            for (var i = 0; i < count.z; i++)
+            for (var j = 0; j < count.y; j++)
+            for (var k = 0; k < count.x; k++)
+            {
+                var freeCnt = 0;
+                if (i != 0 && i != count.z - 1) freeCnt++;
+                if (j != 0 && j != count.y - 1) freeCnt++;
+                if (k != 0 && k != count.x - 1) freeCnt++;
+                if (freeCnt > (edgeOnly ? 1 : 2)) continue;
+                
+                list.Add(new BulletEmitParam(new Vector3(
+                    xStart + k * dx,
+                    yStart + j * dy,
+                    zStart + i * dz)));
+            }
+
+            return new Shape(list);
+        }
+
+        /// <summary>
         /// An arc on z-x plane, from left to right, middle point on positive z-axis.
         /// </summary>
         /// <param name="num">Number of bullets</param>
