@@ -1,3 +1,10 @@
+## [1.2.3](https://github.com/SUSTech-CANStudio/bullet-storm-unity/compare/v1.2.2...v1.2.3) (2020-11-08)
+
+
+### Bug Fixes
+
+* no error message for shape not set in AutoShapeEmitter ([6145c20](https://github.com/SUSTech-CANStudio/bullet-storm-unity/commit/6145c20b4adf87f8282c569872621f31c117a5f8))
+
 ## [1.2.2](https://github.com/SUSTech-CANStudio/bullet-storm-unity/compare/v1.2.1...v1.2.2) (2020-11-04)
 
 
