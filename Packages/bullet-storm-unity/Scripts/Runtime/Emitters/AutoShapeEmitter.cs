@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using CANStudio.BulletStorm.BulletSystem;
 using CANStudio.BulletStorm.Emission;
+using CANStudio.BulletStorm.Util;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -39,10 +40,14 @@ namespace CANStudio.BulletStorm.Emitters
             emitCount = 0;
             foreach (var emission in emissions)
             {
-                if (!emission.oneByOne) Emit(emission.OverridenShape, bullet);
+                var overriden = emission.OverridenShape;
+                if (overriden is null)
+                {
+                    BulletStormLogger.LogWarning($"{this}: in emission element {emitCount}, shape not set");
+                }
+                else if (!emission.oneByOne) Emit(overriden, bullet);
                 else
                 {
-                    var overriden = emission.OverridenShape;
                     for (var i = 0; i < overriden.Count; i++)
                     {
                         if (i != 0) yield return new WaitForSeconds(emission.interval);
@@ -95,6 +100,7 @@ namespace CANStudio.BulletStorm.Emitters
             {
                 get
                 {
+                    if (!shape) return null;
                     var copy = shape.shape.Copy();
                     copy.Move(offset);
                     if (overrideSpeed) copy.SetSpeed(speed);
