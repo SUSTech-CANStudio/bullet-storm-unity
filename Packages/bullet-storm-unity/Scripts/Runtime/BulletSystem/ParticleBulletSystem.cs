@@ -35,12 +35,13 @@ namespace CANStudio.BulletStorm.BulletSystem
 		public override void ChangeVelocity(Func<Vector3, Vector3, Vector3> operation)
 		{
 			UpdateParticles();
+			var renderMode = psr.renderMode;
 			Parallel.For(0, particleCount, i =>
 			{
 				var oldVelocity = particles[i].velocity;
 				particles[i].velocity = operation(particles[i].position, oldVelocity);
 				// also change rotation if particle is mesh
-				if (psr.renderMode == ParticleSystemRenderMode.Mesh)
+				if (renderMode == ParticleSystemRenderMode.Mesh)
 				{
 					particles[i].rotation3D =
 						(Quaternion.FromToRotation(oldVelocity == Vector3.zero ? Vector3.forward : oldVelocity,
@@ -150,8 +151,9 @@ namespace CANStudio.BulletStorm.BulletSystem
 #endif
 		}
 
-		private void LateUpdate()
+		protected override void Update()
 		{
+			base.Update();
 			WriteParticles();
 		}
 	}
