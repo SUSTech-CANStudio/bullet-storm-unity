@@ -56,7 +56,7 @@ namespace CANStudio.BulletStorm.BulletSystem
         /// <summary>
         /// Executes tracing module.
         /// </summary>
-        protected void Update()
+        protected virtual void Update()
         {
             if (enableTracing) tracing.OnUpdate(this);
         }
