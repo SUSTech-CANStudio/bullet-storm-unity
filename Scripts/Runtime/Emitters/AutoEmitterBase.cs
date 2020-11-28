@@ -7,6 +7,7 @@ using CANStudio.BulletStorm.Storm;
 using CANStudio.BulletStorm.Util;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace CANStudio.BulletStorm.Emitters
 {
@@ -44,6 +45,10 @@ namespace CANStudio.BulletStorm.Emitters
         {
             curveTimeScale = 1
         };
+
+        // Subclass should invoke this event on each emissions.
+        [Tooltip("Callback on each emissions."), SerializeField]
+        protected UnityEvent onEmit;
         
         // the emission coroutine
         private ControllableCoroutine coroutine;
