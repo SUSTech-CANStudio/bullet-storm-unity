@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -7,11 +8,27 @@ namespace CANStudio.BulletStorm.Util
     public static class BulletStormLogger
     {
         private static readonly Lazy<Logger> Instance = new Lazy<Logger>(() => new Logger(new Handler()));
+        private static readonly HashSet<object> Logged = new HashSet<object>();
 
         private static Logger Logger => Instance.Value;
         
         public static void LogWarning(object message) => Log(LogType.Warning, message);
         public static void LogError(object message) => Log(LogType.Error, message);
+
+        public static void LogOnce(object message)
+        {
+            if (Logged.Add(message)) Log(message);
+        }
+
+        public static void LogWarningOnce(object message)
+        {
+            if (Logged.Add(message)) LogWarning(message);
+        }
+
+        public static void LogErrorOnce(object message)
+        {
+            if (Logged.Add(message)) LogError(message);
+        }
         
         private class Handler : ILogHandler
         {
