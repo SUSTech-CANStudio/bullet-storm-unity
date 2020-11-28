@@ -16,17 +16,16 @@ namespace CANStudio.BulletStorm.BulletSystem.Modules
         [SerializeField] private float tracingRate;
 
         /// <summary>
-        /// Initiate tracing module.
-        /// </summary>
-        public void Init() => target.Check();
-        
-        /// <summary>
         /// Call this on every update.
         /// </summary>
         /// <param name="bullet"></param>
         public void OnUpdate(IBulletController bullet)
         {
-            if (!target) return;
+            if (!target.Check())
+            {
+                BulletStormLogger.LogWarningOnce($"Can not find {target}");
+                return;
+            }
 
             var deltaTime = Time.deltaTime;
             var targetPosition = target.AsTransform.position;
