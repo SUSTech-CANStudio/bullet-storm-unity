@@ -31,7 +31,7 @@ namespace CANStudio.BulletStorm.Emitters
         #region reflection use only
 
         // ReSharper disable once UnusedMember.Local
-        private float EmitTimes => emissions.Length;
+        private float EmitTimes => emissions?.Length ?? 0;
 
         #endregion
         
