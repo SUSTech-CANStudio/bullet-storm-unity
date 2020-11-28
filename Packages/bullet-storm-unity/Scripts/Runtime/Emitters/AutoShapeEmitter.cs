@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using CANStudio.BulletStorm.BulletSystem;
 using CANStudio.BulletStorm.Emission;
 using CANStudio.BulletStorm.Util;
@@ -31,7 +32,8 @@ namespace CANStudio.BulletStorm.Emitters
         #region reflection use only
 
         // ReSharper disable once UnusedMember.Local
-        private float EmitTimes => emissions?.Length ?? 0;
+        private float EmitTimes =>
+            emissions?.Aggregate(0, (i, config) => i + (config.repeat ? config.repeatTimes : 1)) ?? 0;
 
         #endregion
         
@@ -60,9 +62,10 @@ namespace CANStudio.BulletStorm.Emitters
                         }
                     }
 
+                    onEmit.Invoke();
+                    emitCount++;
                     yield return new WaitForSeconds(emission.wait);
                 }
-                emitCount++;
             }
         }
         

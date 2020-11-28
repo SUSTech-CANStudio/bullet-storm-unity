@@ -76,6 +76,7 @@ namespace CANStudio.BulletStorm.Emitters
                 var evaluateTime = (Time.time - startTime) / curveTimeScale;
                 EmitOnce(speed.Evaluate(evaluateTime, Random.value), color.Evaluate(evaluateTime, Random.value),
                     size.Evaluate(evaluateTime, Random.value));
+                onEmit.Invoke();
                 emitCount++;
                 yield return new WaitForSeconds(emitInterval.Evaluate(evaluateTime, Random.value));
             }
