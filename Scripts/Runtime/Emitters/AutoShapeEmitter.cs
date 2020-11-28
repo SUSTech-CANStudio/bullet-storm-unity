@@ -41,22 +41,28 @@ namespace CANStudio.BulletStorm.Emitters
             foreach (var emission in emissions)
             {
                 var overriden = emission.OverridenShape;
-                if (overriden is null)
-                {
-                    BulletStormLogger.LogWarning($"{this}: in emission element {emitCount}, shape not set");
-                }
-                else if (!emission.oneByOne) Emit(overriden, bullet);
-                else
-                {
-                    for (var i = 0; i < overriden.Count; i++)
-                    {
-                        if (i != 0) yield return new WaitForSeconds(emission.interval);
-                        Emit(overriden[i], bullet);
-                    }
-                }
 
+                var repeatTimes = emission.repeat ? emission.repeatTimes : 1;
+
+                for (var i = 0; i < repeatTimes; i++)
+                {
+                    if (overriden is null)
+                    {
+                        BulletStormLogger.LogWarning($"{this}: in emission element {emitCount}, shape not set");
+                    }
+                    else if (!emission.oneByOne) Emit(overriden, bullet);
+                    else
+                    {
+                        for (var j = 0; j < overriden.Count; j++)
+                        {
+                            if (j != 0) yield return new WaitForSeconds(emission.interval);
+                            Emit(overriden[j], bullet);
+                        }
+                    }
+
+                    yield return new WaitForSeconds(emission.wait);
+                }
                 emitCount++;
-                yield return new WaitForSeconds(emission.wait);
             }
         }
         
@@ -90,10 +96,16 @@ namespace CANStudio.BulletStorm.Emitters
             [Tooltip("Emits bullets in this shape one by one.")]
             public bool oneByOne;
 
-            [Tooltip("Time interval in second between two bullets' emission."), ShowIf("oneByOne"),MinValue(0), AllowNesting]
+            [Tooltip("Time interval in second between two bullets' emission."), ShowIf("oneByOne"), MinValue(0), AllowNesting]
             public float interval;
 
-            [Tooltip("Wait time in second after finish this emission."), MinValue(0), AllowNesting]
+            [Tooltip("Emit this shape for many times.")]
+            public bool repeat;
+            
+            [Tooltip("Repeat emitting this shape for how many times."), ShowIf("repeat"), MinValue(1), AllowNesting]
+            public int repeatTimes;
+            
+            [Tooltip("Wait time in second after finish each emission."), MinValue(0), AllowNesting]
             public float wait;
 
             public IReadOnlyList<BulletEmitParam> OverridenShape
