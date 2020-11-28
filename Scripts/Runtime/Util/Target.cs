@@ -35,11 +35,7 @@ namespace CANStudio.BulletStorm.Util
                     return AsTransform;
                 case FindMethod.Name:
                     var go = GameObject.Find(info);
-                    if (!go)
-                    {
-                        BulletStormLogger.LogError("Can't find game object '" + info + "'.");
-                        return false;
-                    }
+                    if (!go) return false;
                     else
                     {
                         AsTransform = go.transform;
@@ -47,11 +43,7 @@ namespace CANStudio.BulletStorm.Util
                     }
                 case FindMethod.Tag:
                     go = GameObject.FindWithTag(info);
-                    if (!go)
-                    {
-                        BulletStormLogger.LogError("Can't find game object with tag '" + info + "'.");
-                        return false;
-                    }
+                    if (!go) return false;
                     else
                     {
                         AsTransform = go.transform;
@@ -61,7 +53,15 @@ namespace CANStudio.BulletStorm.Util
                     throw new ArgumentOutOfRangeException();
             }
         }
-        
+
+        public override string ToString()
+        {
+            var s = findBy == FindMethod.Transform
+                ? transform ? transform.name : "None"
+                : info;
+            return $"Target {{{findBy.ToString().ToLower()}: {s}}}";
+        }
+
         /// <summary>
         /// The transform value. Will always be null before calling <see cref="Check"/>.
         /// </summary>

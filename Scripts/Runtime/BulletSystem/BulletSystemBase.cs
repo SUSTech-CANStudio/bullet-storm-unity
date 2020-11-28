@@ -48,14 +48,6 @@ namespace CANStudio.BulletStorm.BulletSystem
         /// <summary>
         /// Executes tracing module.
         /// </summary>
-        protected void Start()
-        {
-            if (enableTracing) tracing.Init();
-        }
-
-        /// <summary>
-        /// Executes tracing module.
-        /// </summary>
         protected virtual void Update()
         {
             if (enableTracing) tracing.OnUpdate(this);
