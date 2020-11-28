@@ -1,3 +1,19 @@
+# [1.3.0](https://github.com/SUSTech-CANStudio/bullet-storm-unity/compare/v1.2.3...v1.3.0) (2020-11-28)
+
+
+### Bug Fixes
+
+* [#25](https://github.com/SUSTech-CANStudio/bullet-storm-unity/issues/25) ([cec3cfd](https://github.com/SUSTech-CANStudio/bullet-storm-unity/commit/cec3cfd994724c8d58ae5d9e8e927d5ddc64c9ef))
+* allow find target after emitter and bullet system initialized ([5e82ca0](https://github.com/SUSTech-CANStudio/bullet-storm-unity/commit/5e82ca022b74086257325f2cafe6051bd402025a))
+* bullets don't update in Unity 2019.4.13f1c1 ([ada421f](https://github.com/SUSTech-CANStudio/bullet-storm-unity/commit/ada421f3ffae3a0df3f54ddfa0442200f2dbfdc5))
+
+
+### Features
+
+* add onEmit event in auto emitters ([a4a944a](https://github.com/SUSTech-CANStudio/bullet-storm-unity/commit/a4a944af93b99cb27d6e1442fd9339ab7793ffd9))
+* allow repeat emissions in auto shape emitter ([5be60bb](https://github.com/SUSTech-CANStudio/bullet-storm-unity/commit/5be60bb04454dda86f248159f6fdf9d100ec6a8d))
+* show total time in auto shape emitter ([80a281e](https://github.com/SUSTech-CANStudio/bullet-storm-unity/commit/80a281e84a709d14b6f6ee3e69d5e1a61912a50a))
+
 ## [1.2.3](https://github.com/SUSTech-CANStudio/bullet-storm-unity/compare/v1.2.2...v1.2.3) (2020-11-08)
 
 
