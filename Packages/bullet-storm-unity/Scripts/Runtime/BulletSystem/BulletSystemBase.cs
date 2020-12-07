@@ -18,7 +18,7 @@ namespace CANStudio.BulletStorm.BulletSystem
         private bool enableEmissionEffect;
         
         [Tooltip("Play particle effect when emitting."), Label("Detail")]
-        [SerializeField, EnableIf("enableEmissionEffect"), BoxGroup("Emission effect")]
+        [SerializeField, EnableIf(nameof(enableEmissionEffect)), BoxGroup("Emission effect")]
         private EmissionEffectModule emissionEffect;
         
         [Tooltip("Enable bullets tracing some game object."), Label("Enable")]
@@ -26,9 +26,17 @@ namespace CANStudio.BulletStorm.BulletSystem
         private bool enableTracing;
         
         [Tooltip("Bullets trace a target."), Label("Detail")]
-        [SerializeField, EnableIf("enableTracing"), BoxGroup("Tracing")]
+        [SerializeField, EnableIf(nameof(enableTracing)), BoxGroup("Tracing")]
         private TracingModule tracing;
-        
+
+        [Tooltip("Enable bullets accelerate."), Label("Enable")]
+        [SerializeField, BoxGroup("Acceleration")]
+        private bool enableAcceleration;
+
+        [Tooltip("Bullets accelerate during whole lifetime."), Label("Detail")]
+        [SerializeField, EnableIf(nameof(enableAcceleration)), BoxGroup("Acceleration")]
+        private AccelerationModule acceleration;
+
         public virtual string Name => name;
         public abstract void ChangePosition(Func<Vector3, Vector3, Vector3> operation);
         public abstract void ChangeVelocity(Func<Vector3, Vector3, Vector3> operation);
@@ -51,6 +59,7 @@ namespace CANStudio.BulletStorm.BulletSystem
         protected virtual void Update()
         {
             if (enableTracing) tracing.OnUpdate(this);
+            if (enableAcceleration) acceleration.OnUpdate(this);
         }
     }
 }
