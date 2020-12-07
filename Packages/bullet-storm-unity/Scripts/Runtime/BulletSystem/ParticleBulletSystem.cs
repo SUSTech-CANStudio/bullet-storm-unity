@@ -2,7 +2,11 @@
 using System.Collections;
 using System.Threading.Tasks;
 using CANStudio.BulletStorm.Emission;
+using CANStudio.BulletStorm.Util;
+using NaughtyAttributes;
 using UnityEngine;
+
+#pragma warning disable 0649
 
 namespace CANStudio.BulletStorm.BulletSystem
 {
@@ -25,6 +29,13 @@ namespace CANStudio.BulletStorm.BulletSystem
 	[DisallowMultipleComponent]
 	public class ParticleBulletSystem : BulletSystemBase
 	{
+		[Tooltip("Enable custom speed over lifetime, this will override emit speed."), Label("Enable")]
+		[SerializeField, BoxGroup("Speed over lifetime")]
+		private bool enableSpeedOverLifetime;
+		[Label("Detail")]
+		[SerializeField, BoxGroup("Speed over lifetime"), EnableIf("enableSpeedOverLifetime")]
+		private SpeedOverLifetimeModule speedOverLifetime;
+
 		private ParticleSystem ps;
 		private ParticleSystem.MainModule psm;
 		private ParticleSystemRenderer psr;
@@ -154,7 +165,32 @@ namespace CANStudio.BulletStorm.BulletSystem
 		protected override void Update()
 		{
 			base.Update();
+			
+			if (enableSpeedOverLifetime)
+			{
+				UpdateParticles();
+				Parallel.For(0, particleCount, i =>
+				{
+					var speed = speedOverLifetime.GetSpeed(
+						(particles[i].startLifetime - particles[i].remainingLifetime) / particles[i].startLifetime);
+					particles[i].velocity = particles[i].velocity.SafeChangeMagnitude(Mathf.Max(speed, 0));
+				});
+			}
+			
 			WriteParticles();
+		}
+		
+		[Serializable]
+		private struct SpeedOverLifetimeModule
+		{
+			[Tooltip("y-axis is speed, x-axis from 0 to 1 represents lifetime."), CurveRange(0, 0, 1, 1)]
+			public AnimationCurve speed;
+
+			[Tooltip("Multiply speed by this value"), MinValue(1), AllowNesting]
+			public float speedMultiplier;
+
+			public float GetSpeed(float normalizedLifetime) =>
+				speed.Evaluate(normalizedLifetime) * speedMultiplier;
 		}
 	}
 }
