@@ -1,5 +1,6 @@
 ﻿using System;
 using CANStudio.BulletStorm.Util;
+using NaughtyAttributes;
 using UnityEngine;
 
 #pragma warning disable 0649
@@ -11,9 +12,17 @@ namespace CANStudio.BulletStorm.BulletSystem.Modules
     {
         [Tooltip("Tracing target.")]
         [SerializeField] private Target target;
+
         [Tooltip("Max rotating angle per second.")]
-        [Range(0, 180)]
+        [MinValue(0), AllowNesting]
         [SerializeField] private float tracingRate;
+
+        [SerializeField]
+        private bool enableRateCurve;
+        
+        [Tooltip("x-axis is the angle between bullet's velocity, y-axis is the tracing rate multiplier")]
+        [CurveRange(0, 0, 180, 1), SerializeField, ShowIf(nameof(enableRateCurve)), AllowNesting]
+        private AnimationCurve tracingRateCurve;
 
         /// <summary>
         /// Call this on every update.
@@ -29,13 +38,20 @@ namespace CANStudio.BulletStorm.BulletSystem.Modules
 
             var deltaTime = Time.deltaTime;
             var targetPosition = target.AsTransform.position;
-            var ratio = this.tracingRate;
-            bullet.ChangeVelocity((position, velocity) => 
-                Vector3.RotateTowards(
+            var rate = tracingRate;
+            var enableCurve = enableRateCurve;
+            var curve = tracingRateCurve;
+            bullet.ChangeVelocity((position, velocity) =>
+            {
+                var aimDirection = targetPosition - position;
+                var rateValue = enableCurve ? rate * curve.Evaluate(Vector3.Angle(aimDirection, velocity)) : rate;
+                if (rateValue < 0) rateValue = 0;
+                return Vector3.RotateTowards(
                     velocity,
-                    targetPosition - position,
-                    ratio * deltaTime * Mathf.Deg2Rad,
-                    0));
+                    aimDirection,
+                    rateValue * deltaTime * Mathf.Deg2Rad,
+                    0);
+            });
         }
     }
 }
