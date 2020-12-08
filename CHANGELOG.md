@@ -1,3 +1,11 @@
+# [1.4.0](https://github.com/SUSTech-CANStudio/bullet-storm-unity/compare/v1.3.0...v1.4.0) (2020-12-08)
+
+
+### Features
+
+* add some new modules to bullet systems ([792e09b](https://github.com/SUSTech-CANStudio/bullet-storm-unity/commit/792e09b596bdd2763669dd62a66b8102e7e158b9))
+* tracing module can edit rate with curve ([851fb25](https://github.com/SUSTech-CANStudio/bullet-storm-unity/commit/851fb25259c539030c154d8913eb2cf57eccd842))
+
 # [1.3.0](https://github.com/SUSTech-CANStudio/bullet-storm-unity/compare/v1.2.3...v1.3.0) (2020-11-28)
 
 
