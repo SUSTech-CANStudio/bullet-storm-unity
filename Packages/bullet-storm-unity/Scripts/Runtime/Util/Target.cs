@@ -59,7 +59,7 @@ namespace CANStudio.BulletStorm.Util
             var s = findBy == FindMethod.Transform
                 ? transform ? transform.name : "None"
                 : info;
-            return $"Target {{{findBy.ToString().ToLower()}: {s}}}";
+            return $"Target{{{findBy.ToString().ToLower()}: {s}}}";
         }
 
         /// <summary>

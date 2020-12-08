@@ -37,6 +37,14 @@ namespace CANStudio.BulletStorm.BulletSystem
         [SerializeField, EnableIf(nameof(enableAcceleration)), BoxGroup("Acceleration")]
         private AccelerationModule acceleration;
 
+        [Tooltip("Enable bullets velocity deflection."), Label("Enable")]
+        [SerializeField, BoxGroup("Deflection")]
+        private bool enableDeflection;
+
+        [Tooltip("Bullets velocity deflection during whole lifetime."), Label("Detail")]
+        [SerializeField, EnableIf(nameof(enableDeflection)), BoxGroup("Deflection")]
+        private DeflectionModule deflection;
+        
         public virtual string Name => name;
         public abstract void ChangePosition(Func<Vector3, Vector3, Vector3> operation);
         public abstract void ChangeVelocity(Func<Vector3, Vector3, Vector3> operation);
@@ -60,6 +68,7 @@ namespace CANStudio.BulletStorm.BulletSystem
         {
             if (enableTracing) tracing.OnUpdate(this);
             if (enableAcceleration) acceleration.OnUpdate(this);
+            if (enableDeflection) deflection.OnUpdate(this);
         }
     }
 }
