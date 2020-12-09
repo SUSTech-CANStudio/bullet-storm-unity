@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/SUSTech-CANStudio/bullet-storm-unity/compare/v1.4.0...v1.4.1) (2020-12-09)
+
+
+### Bug Fixes
+
+* add experimental module AroundAxisModule to repair some function loss in deflection module ([7521702](https://github.com/SUSTech-CANStudio/bullet-storm-unity/commit/75217029099e6e55a3b0a16eb0ada0215bff7257))
+
 # [1.4.0](https://github.com/SUSTech-CANStudio/bullet-storm-unity/compare/v1.3.0...v1.4.0) (2020-12-08)
 
 
