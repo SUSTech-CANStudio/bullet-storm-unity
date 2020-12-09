@@ -45,6 +45,14 @@ namespace CANStudio.BulletStorm.BulletSystem
         [SerializeField, EnableIf(nameof(enableDeflection)), BoxGroup("Deflection")]
         private DeflectionModule deflection;
         
+        [Tooltip("Enable bullets rotates around axis."), Label("Enable")]
+        [SerializeField, BoxGroup("Around axis")]
+        private bool enableAroundAxis;
+
+        [Tooltip("Bullets velocity rotates around given axis."), Label("Detail")]
+        [SerializeField, EnableIf(nameof(enableAroundAxis)), BoxGroup("Around axis")]
+        private AroundAxisModule aroundAxis;
+        
         public virtual string Name => name;
         public abstract void ChangePosition(Func<Vector3, Vector3, Vector3> operation);
         public abstract void ChangeVelocity(Func<Vector3, Vector3, Vector3> operation);
@@ -69,6 +77,7 @@ namespace CANStudio.BulletStorm.BulletSystem
             if (enableTracing) tracing.OnUpdate(this);
             if (enableAcceleration) acceleration.OnUpdate(this);
             if (enableDeflection) deflection.OnUpdate(this);
+            if (enableAroundAxis) aroundAxis.OnUpdate(this);
         }
     }
 }
