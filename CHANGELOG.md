@@ -1,3 +1,10 @@
+## [1.4.2](https://github.com/SUSTech-CANStudio/bullet-storm-unity/compare/v1.4.1...v1.4.2) (2020-12-19)
+
+
+### Bug Fixes
+
+* game object based bullets' emit direction isn't the velocity direction ([35775ec](https://github.com/SUSTech-CANStudio/bullet-storm-unity/commit/35775ec665d1e36b5e21282c976a7ec008d617d0))
+
 ## [1.4.1](https://github.com/SUSTech-CANStudio/bullet-storm-unity/compare/v1.4.0...v1.4.1) (2020-12-09)
 
 
