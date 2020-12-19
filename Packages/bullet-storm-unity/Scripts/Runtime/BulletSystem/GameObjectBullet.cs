@@ -24,8 +24,10 @@ namespace CANStudio.BulletStorm.BulletSystem
 
         internal void Init(Vector3 position, Vector3 velocity, Color color, Vector3 size)
         {
-            transform.position = position;
+            var t = transform;
+            t.position = position;
             this.velocity = velocity;
+            t.forward = velocity;
             enableLifetime = false;
             if (color != Color.clear) GetComponent<Renderer>().material.color = color;
             if (size != Vector3.zero) transform.localScale = size;
