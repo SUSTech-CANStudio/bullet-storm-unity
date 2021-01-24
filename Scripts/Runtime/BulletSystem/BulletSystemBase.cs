@@ -56,6 +56,7 @@ namespace CANStudio.BulletStorm.BulletSystem
         public virtual string Name => name;
         public abstract void ChangePosition(Func<Vector3, Vector3, Vector3> operation);
         public abstract void ChangeVelocity(Func<Vector3, Vector3, Vector3> operation);
+        public abstract void ChangeParam(Func<BulletParam, BulletParam> operation);
         public abstract void Emit(BulletEmitParam emitParam, Transform emitter);
         public abstract void Destroy();
         public virtual IBulletController GetController() => Instantiate(this);

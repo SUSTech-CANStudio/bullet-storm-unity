@@ -27,11 +27,10 @@ namespace CANStudio.BulletStorm.BulletSystem.Modules
             }
             var ax = axis;
             var angle = anglePerSecond * Time.deltaTime;
-            controller.ChangeVelocity((oldPosition, oldVelocity) =>
+            controller.ChangeParam(param =>
             {
-                var forward = Vector3.Project(oldVelocity, ax);
-                var projection = Vector3.ProjectOnPlane(oldVelocity, ax);
-                return forward + Quaternion.AngleAxis(angle, ax) * projection;
+                param.rotation = Quaternion.AngleAxis(angle, ax) * param.rotation;
+                return param;
             });
         }
     }

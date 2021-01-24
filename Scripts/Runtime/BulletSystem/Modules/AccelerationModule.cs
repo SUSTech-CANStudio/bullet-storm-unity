@@ -28,12 +28,13 @@ namespace CANStudio.BulletStorm.BulletSystem.Modules
             var acc = acceleration;
             var min = minSpeed;
             var max = maxSpeed;
-            controller.ChangeVelocity((oldPosition, oldVelocity) =>
+            controller.ChangeParam(param =>
             {
-                var speed = oldVelocity.magnitude + acc * deltaTime;
+                var speed = param.speed + acc * deltaTime;
                 if (acc < 0 && speed < min) speed = min;
                 else if (acc > 0 && speed > max) speed = max;
-                return oldVelocity.SafeChangeMagnitude(speed);
+                param.speed = speed;
+                return param;
             });
         }
     }
