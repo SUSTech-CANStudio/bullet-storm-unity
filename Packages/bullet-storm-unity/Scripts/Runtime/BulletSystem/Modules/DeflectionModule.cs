@@ -56,7 +56,11 @@ namespace CANStudio.BulletStorm.BulletSystem.Modules
                     throw new ArgumentOutOfRangeException();
             }
             
-            controller.ChangeVelocity((oldPosition, oldVelocity) => rotation * oldVelocity);
+            controller.ChangeParam(param =>
+            {
+                param.rotation = rotation * param.rotation;
+                return param;
+            });
         }
         
         [Serializable]

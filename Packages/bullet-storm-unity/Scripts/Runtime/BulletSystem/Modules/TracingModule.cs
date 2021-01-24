@@ -41,16 +41,15 @@ namespace CANStudio.BulletStorm.BulletSystem.Modules
             var rate = tracingRate;
             var enableCurve = enableRateCurve;
             var curve = tracingRateCurve;
-            bullet.ChangeVelocity((position, velocity) =>
+            bullet.ChangeParam(param =>
             {
-                var aimDirection = targetPosition - position;
-                var rateValue = enableCurve ? rate * curve.Evaluate(Vector3.Angle(aimDirection, velocity)) : rate;
+                var direction = param.rotation * Vector3.forward;
+                var aimDirection = targetPosition - param.position;
+                var rateValue = enableCurve ? rate * curve.Evaluate(Vector3.Angle(aimDirection, direction)) : rate;
                 if (rateValue < 0) rateValue = 0;
-                return Vector3.RotateTowards(
-                    velocity,
-                    aimDirection,
-                    rateValue * deltaTime * Mathf.Deg2Rad,
-                    0);
+                param.rotation = Quaternion.RotateTowards(param.rotation,
+                    Quaternion.LookRotation(aimDirection, param.rotation * Vector3.up), rateValue * deltaTime);
+                return param;
             });
         }
     }
