@@ -18,10 +18,7 @@ namespace CANStudio.BulletStorm.BulletSystem
             lifetime = time;
         }
 
-        internal void Init(Vector3 position, Vector3 velocity)
-        {
-            Init(position, velocity, Color.clear, Vector3.zero);
-        }
+        internal void Init(Vector3 position, Vector3 velocity) => Init(position, velocity, Color.clear, Vector3.zero);
 
         internal void Init(Vector3 position, Vector3 velocity, Color color, Vector3 size)
         {
@@ -44,7 +41,7 @@ namespace CANStudio.BulletStorm.BulletSystem
             var t = transform;
             t.position += speed * Time.deltaTime * t.forward;
             if (!enableLifetime) return;
-            if (lifetime <= Time.time - StartTime) Destroy(this);
+            if (lifetime <= Time.time - StartTime) Destroy(gameObject);
         }
     }
 }
