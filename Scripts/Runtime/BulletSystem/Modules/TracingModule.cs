@@ -36,18 +36,19 @@ namespace CANStudio.BulletStorm.BulletSystem.Modules
                 return;
             }
 
-            var deltaTime = Time.deltaTime;
             var targetPosition = target.AsTransform.position;
-            var rate = tracingRate;
+            var rate = tracingRate * Time.deltaTime;
             var enableCurve = enableRateCurve;
             var curve = tracingRateCurve;
             bullet.ChangeParam(param =>
             {
-                var aimRotation = Quaternion.LookRotation(targetPosition - param.position);
-                var rateValue = enableCurve ? rate * curve.Evaluate(Quaternion.Angle(param.rotation, aimRotation)) : rate;
-                if (rateValue < 0) rateValue = 0;
-                param.rotation = Quaternion.RotateTowards(param.rotation,
-                    aimRotation, rateValue * deltaTime);
+                var direction = param.rotation * Vector3.forward;
+                var aimDirection = targetPosition - param.position;
+                var axis = Vector3.Cross(direction, aimDirection);
+                var dAngle = enableCurve ? curve.Evaluate(Vector3.Angle(direction, aimDirection)) * rate : rate;
+                if (dAngle < 0)
+                    dAngle = 0;
+                param.rotation = Quaternion.AngleAxis(dAngle, axis) * param.rotation;
                 return param;
             });
         }
