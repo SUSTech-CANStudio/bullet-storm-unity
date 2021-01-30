@@ -145,7 +145,7 @@ namespace CANStudio.BulletStorm.BulletSystem
 				if (ps.particleCount == 0) break;
 				yield return null;
 			}
-			Destroy(this);
+			Destroy(gameObject);
 		}
 
 		/// <summary>

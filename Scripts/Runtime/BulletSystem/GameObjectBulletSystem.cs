@@ -93,7 +93,7 @@ namespace CANStudio.BulletStorm.BulletSystem
                 if (bullets is null || bullets.Count == 0) break;
                 yield return null;
             }
-            Destroy(this);
+            Destroy(gameObject);
         }
 
         /// <summary>
@@ -109,12 +109,6 @@ namespace CANStudio.BulletStorm.BulletSystem
         private void LateUpdate()
         {
             bulletsCleared = false;
-        }
-
-        private void OnDestroy()
-        {
-            ClearDestroyedBullets();
-            foreach (var gameObjectBullet in bullets) Destroy(gameObjectBullet);
         }
     }
 }

@@ -94,7 +94,7 @@ namespace CANStudio.BulletStorm.Emitters
             {
                 coroutine = new ControllableCoroutine(this, StartEmitCoroutine(), () =>
                 {
-                    if (destroyOnFinish) Destroy(this);
+                    if (destroyOnFinish) Destroy(gameObject);
                 });
                 coroutine.Start();
             }
