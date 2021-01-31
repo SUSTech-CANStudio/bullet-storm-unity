@@ -6,17 +6,28 @@ namespace CANStudio.BulletStorm.BulletSystem
 {
     public interface IBulletController
     {
+        Quaternion Rotation { get; set; }
+        
         /// <summary>
         /// Changes all bullets' position in the controller.
         /// </summary>
         /// <param name="operation">Vector3 ChangedPosition(Vector3 oldPosition, Vector3 oldVelocity)</param>
+        [Obsolete("Use ChangeParam() instead")]
         void ChangePosition(Func<Vector3, Vector3, Vector3> operation);
         
         /// <summary>
         /// Changes all bullets' velocity in the controller.
         /// </summary>
         /// <param name="operation">Vector3 ChangedVelocity(Vector3 oldPosition, Vector3 oldVelocity)</param>
+        [Obsolete("Use ChangeParam() instead")]
         void ChangeVelocity(Func<Vector3, Vector3, Vector3> operation);
+
+        /// <summary>
+        /// Changes all bullets' parameters in the controller.
+        /// Notice that the readonly value <see cref="BulletParam.lifetime"/> won't be changed by this function.
+        /// </summary>
+        /// <param name="operation"></param>
+        void ChangeParam(Func<BulletParam, BulletParam> operation);
         
         /// <summary>
         /// Emits a new bullet from the controller.

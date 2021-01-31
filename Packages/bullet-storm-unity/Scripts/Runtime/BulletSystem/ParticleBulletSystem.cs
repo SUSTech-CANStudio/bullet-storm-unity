@@ -62,6 +62,29 @@ namespace CANStudio.BulletStorm.BulletSystem
 			});
 		}
 
+		public override void ChangeParam(Func<BulletParam, BulletParam> operation)
+		{
+			UpdateParticles();
+			var renderMode = psr.renderMode;
+			Parallel.For(0, particleCount, i =>
+			{
+				var oldParam = new BulletParam(Quaternion.LookRotation(particles[i].velocity.Normalized()),
+					particles[i].position,
+					particles[i].velocity.magnitude,
+					particles[i].startLifetime - particles[i].remainingLifetime);
+				var newParam = operation(oldParam);
+				particles[i].velocity = (newParam.rotation * Vector3.forward).SafeChangeMagnitude(newParam.speed);
+				particles[i].position = newParam.position;
+				// also change rotation if particle is mesh
+				if (renderMode == ParticleSystemRenderMode.Mesh)
+				{
+					particles[i].rotation3D =
+						(Quaternion.Inverse(oldParam.rotation) * newParam.rotation *
+						 Quaternion.Euler(particles[i].rotation3D)).eulerAngles;
+				}
+			});
+		}
+
 		public override void ChangePosition(Func<Vector3, Vector3, Vector3> operation)
 		{
 			UpdateParticles();
@@ -122,7 +145,7 @@ namespace CANStudio.BulletStorm.BulletSystem
 				if (ps.particleCount == 0) break;
 				yield return null;
 			}
-			Destroy(this);
+			Destroy(gameObject);
 		}
 
 		/// <summary>

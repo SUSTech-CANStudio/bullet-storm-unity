@@ -7,9 +7,10 @@ namespace CANStudio.BulletStorm.BulletSystem
     [DisallowMultipleComponent]
     public class GameObjectBullet : MonoBehaviour
     {
-        public Vector3 velocity;
+        public float speed;
         public float lifetime;
         private bool enableLifetime;
+        public float StartTime { get; private set; }
 
         public void EnableLifeTime(float time)
         {
@@ -17,28 +18,30 @@ namespace CANStudio.BulletStorm.BulletSystem
             lifetime = time;
         }
 
-        internal void Init(Vector3 position, Vector3 velocity)
-        {
-            Init(position, velocity, Color.clear, Vector3.zero);
-        }
+        internal void Init(Vector3 position, Vector3 velocity) => Init(position, velocity, Color.clear, Vector3.zero);
 
         internal void Init(Vector3 position, Vector3 velocity, Color color, Vector3 size)
         {
             var t = transform;
             t.position = position;
-            this.velocity = velocity;
+            speed = velocity.magnitude;
             t.forward = velocity;
             enableLifetime = false;
             if (color != Color.clear) GetComponent<Renderer>().material.color = color;
             if (size != Vector3.zero) transform.localScale = size;
         }
-        
+
+        private void Start()
+        {
+            StartTime = Time.time;
+        }
+
         private void LateUpdate()
         {
-            transform.position += velocity * Time.deltaTime;
+            var t = transform;
+            t.position += speed * Time.deltaTime * t.forward;
             if (!enableLifetime) return;
-            lifetime -= Time.deltaTime;
-            if (lifetime <= 0) Destroy(this);
+            if (lifetime <= Time.time - StartTime) Destroy(gameObject);
         }
     }
 }

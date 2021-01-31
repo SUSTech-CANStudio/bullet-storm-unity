@@ -69,6 +69,23 @@ namespace CANStudio.BulletStorm.Emitters
         {
             foreach (var copied in bulletSystems.Values) copied.Destroy();
         }
+        
+        /// <summary>
+        ///     Set reference system for a bullet system. After calling this, emitted bullets will take given rotation
+        ///     their reference system. This function won't change reference system of already emitted bullets.
+        /// </summary>
+        /// <param name="bulletSystem"></param>
+        /// <param name="rotation"></param>
+        protected void SetReferenceSystem(IBulletSystem bulletSystem, Quaternion rotation)
+        {
+            if (bulletSystems.TryGetValue(bulletSystem, out var controller))
+            {
+                controller.Destroy();
+            }
+            var newController = bulletSystem.GetController();
+            newController.Rotation = rotation;
+            bulletSystems[bulletSystem] = newController;
+        }
 
         private IBulletController GetBulletController(IBulletSystem bullet)
         {
