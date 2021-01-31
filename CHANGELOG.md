@@ -1,3 +1,15 @@
+# [1.5.0](https://github.com/SUSTech-CANStudio/bullet-storm-unity/compare/v1.4.2...v1.5.0) (2021-01-31)
+
+
+### Bug Fixes
+
+* gameobjects doesn't destroy ([c3993a0](https://github.com/SUSTech-CANStudio/bullet-storm-unity/commit/c3993a073584af84cfe62ebcc255a9be3245330b))
+
+
+### Features
+
+* add reference system for auto shape emitter ([6b75ca3](https://github.com/SUSTech-CANStudio/bullet-storm-unity/commit/6b75ca3b269d624880ac0649809149dbc413b875))
+
 ## [1.4.2](https://github.com/SUSTech-CANStudio/bullet-storm-unity/compare/v1.4.1...v1.4.2) (2020-12-19)
 
 
