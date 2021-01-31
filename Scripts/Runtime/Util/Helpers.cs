@@ -73,24 +73,5 @@ namespace CANStudio.BulletStorm.Util
 
             return maxExp < Accuracy ? vector3.Minimized() : calculated;
         }
-
-        /// <summary>
-        /// Create quaternion from euler angles relative to given space.
-        /// </summary>
-        /// <param name="euler">Euler angles</param>
-        /// <param name="space"></param>
-        /// <returns></returns>
-        public static Quaternion Euler(Vector3 euler, Quaternion space)
-        {
-            var q = Quaternion.identity;
-            var rotationY = Quaternion.AngleAxis(euler.y, space * Vector3.up);
-            q *= rotationY;
-            space *= rotationY;
-            var rotationX = Quaternion.AngleAxis(euler.x, space * Vector3.right);
-            q *= rotationX;
-            space *= rotationX;
-            q *= Quaternion.AngleAxis(euler.z, space * Vector3.forward);
-            return q;
-        }
     }
 }

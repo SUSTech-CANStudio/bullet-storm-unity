@@ -49,6 +49,9 @@ namespace CANStudio.BulletStorm.Emitters
 
                 var repeatTimes = emission.repeat ? emission.repeatTimes : 1;
 
+                if (emission.newReferenceSystem)
+                    SetReferenceSystem(bullet, Emitter.rotation);
+                
                 for (var i = 0; i < repeatTimes; i++)
                 {
                     if (overriden is null)
@@ -113,6 +116,9 @@ namespace CANStudio.BulletStorm.Emitters
             
             [Tooltip("Wait time in second after finish each emission."), MinValue(0), AllowNesting]
             public float wait;
+
+            [Tooltip("Record emitter's current rotation as reference system when this item begins.")]
+            public bool newReferenceSystem;
 
             public IReadOnlyList<BulletEmitParam> OverridenShape
             {
