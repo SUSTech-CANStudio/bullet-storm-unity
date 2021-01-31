@@ -54,6 +54,7 @@ namespace CANStudio.BulletStorm.BulletSystem
         private AroundAxisModule aroundAxis;
         
         public virtual string Name => name;
+        public Quaternion Rotation { get => transform.rotation; set => transform.rotation = value; }
         public abstract void ChangePosition(Func<Vector3, Vector3, Vector3> operation);
         public abstract void ChangeVelocity(Func<Vector3, Vector3, Vector3> operation);
         public abstract void ChangeParam(Func<BulletParam, BulletParam> operation);

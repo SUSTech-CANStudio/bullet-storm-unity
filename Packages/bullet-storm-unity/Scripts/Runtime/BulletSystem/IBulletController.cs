@@ -6,6 +6,8 @@ namespace CANStudio.BulletStorm.BulletSystem
 {
     public interface IBulletController
     {
+        Quaternion Rotation { get; set; }
+        
         /// <summary>
         /// Changes all bullets' position in the controller.
         /// </summary>
