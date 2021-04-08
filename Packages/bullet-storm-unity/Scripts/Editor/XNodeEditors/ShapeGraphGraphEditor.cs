@@ -21,7 +21,7 @@ namespace CANStudio.BulletStorm.Editor.XNodeEditors
         public override void OnCreate()
         {
             base.OnCreate();
-            
+
             shapeGraph = target as ShapeGraph;
             if (shapeGraph is null || !shapeGraph) return;
             window.titleContent = new GUIContent($"{shapeGraph.name}", "The shape graph editor");
@@ -30,7 +30,7 @@ namespace CANStudio.BulletStorm.Editor.XNodeEditors
         public override void OnOpen()
         {
             base.OnOpen();
-            
+
             CreateNode(typeof(Output), Vector2.right * 300);
         }
 
@@ -45,7 +45,10 @@ namespace CANStudio.BulletStorm.Editor.XNodeEditors
             return base.CreateNode(type, pos);
         }
 
-        public override Node CopyNode(Node original) => original is Output ? original : base.CopyNode(original);
+        public override Node CopyNode(Node original)
+        {
+            return original is Output ? original : base.CopyNode(original);
+        }
 
         public override void OnDropObjects(Object[] objects)
         {
@@ -54,7 +57,7 @@ namespace CANStudio.BulletStorm.Editor.XNodeEditors
             var offset = new Vector2(10, 10);
             var add = false;
             Node node = null;
-            
+
             foreach (var @object in objects)
             {
                 switch (@object)
@@ -65,9 +68,7 @@ namespace CANStudio.BulletStorm.Editor.XNodeEditors
                         window.SelectNode(node, add);
                         add = true;
                         if (node is ShapeReference shapeReference)
-                        {
                             shapeReference.shapeAsset = asset;
-                        }
                         else BulletStormLogger.LogError("An unexpected errored occured when creating node.");
                         break;
                     }
@@ -83,7 +84,7 @@ namespace CANStudio.BulletStorm.Editor.XNodeEditors
         public override string GetNodeMenuName(Type type)
         {
             if (!validNodes.IsMatch(type.PrettyName()) || type == typeof(Output)) return null;
-            
+
             return base.GetNodeMenuName(type);
         }
 
@@ -93,7 +94,7 @@ namespace CANStudio.BulletStorm.Editor.XNodeEditors
             {
                 typeColors = new Dictionary<string, Color>
                 {
-                    {typeof(Shape).PrettyName(), new Color(1, .7f, .8f)},
+                    {typeof(Shape).PrettyName(), new Color(1, .7f, .8f)}
                 }
             };
         }

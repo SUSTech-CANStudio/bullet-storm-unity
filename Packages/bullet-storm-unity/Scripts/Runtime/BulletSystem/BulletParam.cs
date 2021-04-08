@@ -3,7 +3,7 @@ using UnityEngine;
 namespace CANStudio.BulletStorm.BulletSystem
 {
     /// <summary>
-    ///     All accessible parameters of a bullet in <see cref="IBulletController"/>.
+    ///     All accessible parameters of a bullet in <see cref="IBulletController" />.
     /// </summary>
     public struct BulletParam
     {
@@ -11,17 +11,17 @@ namespace CANStudio.BulletStorm.BulletSystem
         ///     Rotation is also the speed direction of a bullet.
         /// </summary>
         public Quaternion rotation;
-        
+
         /// <summary>
         ///     Position in world space.
         /// </summary>
         public Vector3 position;
-        
+
         /// <summary>
         ///     Speed of the bullet, negative values represents a velocity towards negative direction.
         /// </summary>
         public float speed;
-        
+
         /// <summary>
         ///     Scaled time from emission.
         /// </summary>

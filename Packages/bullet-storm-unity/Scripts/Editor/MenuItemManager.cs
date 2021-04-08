@@ -1,9 +1,9 @@
-﻿using CANStudio.BulletStorm.BulletSystem;
+﻿using System.IO;
+using CANStudio.BulletStorm.BulletSystem;
 using CANStudio.BulletStorm.Emitters;
 using CANStudio.BulletStorm.Util;
 using UnityEditor;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace CANStudio.BulletStorm.Editor
 {
@@ -12,13 +12,13 @@ namespace CANStudio.BulletStorm.Editor
         [MenuItem("Assets/Create/BulletStorm/ParticleBulletSystem")]
         public static void CreateParticleBulletSystemPrefab()
         {
-            CreatePrefab<ParticleBulletSystem>("NewBulletSystem", GetCurrentAssetDirectory("Assets/Prefabs/BulletStorm"));
+            CreatePrefab<ParticleBullet>("NewBullet", GetCurrentAssetDirectory("Assets/Prefabs/BulletStorm"));
         }
 
         [MenuItem("Assets/Create/BulletStorm/GameObjectBulletSystem")]
         public static void CreateGameObjectBulletSystemPrefab()
         {
-            CreatePrefab<GameObjectBulletSystem>("NewBulletSystem", GetCurrentAssetDirectory("Assets/Prefabs/BulletStorm"));
+            CreatePrefab<GameObjectBullet>("NewBullet", GetCurrentAssetDirectory("Assets/Prefabs/BulletStorm"));
         }
 
         [MenuItem("GameObject/3D Object/BulletStorm/AutoBulletEmitter")]
@@ -26,36 +26,32 @@ namespace CANStudio.BulletStorm.Editor
         {
             CreateGameObject<AutoBulletEmitter>();
         }
-        
+
         [MenuItem("GameObject/3D Object/BulletStorm/AutoShapeEmitter")]
         public static void CreateAutoShapeEmitter()
         {
             CreateGameObject<AutoShapeEmitter>();
         }
-        
+
         /// <summary>
-        /// Create a game object in scene.
+        ///     Create a game object in scene.
         /// </summary>
         /// <typeparam name="T">Script type.</typeparam>
         private static void CreateGameObject<T>() where T : MonoBehaviour
         {
             var transforms = Selection.transforms;
             if (transforms.Length == 0)
-            {
                 _ = new GameObject(typeof(T).Name, typeof(T));
-            }
             else
-            {
                 foreach (var transform in Selection.transforms)
                 {
                     var go = new GameObject(typeof(T).Name, typeof(T));
                     go.transform.SetParent(transform, false);
                 }
-            }
         }
-        
+
         /// <summary>
-        /// Creates a prefab and save to assets.
+        ///     Creates a prefab and save to assets.
         /// </summary>
         /// <param name="name">Prefab name</param>
         /// <param name="path">Asset folder path</param>
@@ -69,9 +65,9 @@ namespace CANStudio.BulletStorm.Editor
             Object.DestroyImmediate(go);
             BulletStormLogger.Log("Created prefab '" + name + "'.\n" + path + "/" + name);
         }
-        
+
         /// <summary>
-        /// Gets asset directory when right click on asset explorer.
+        ///     Gets asset directory when right click on asset explorer.
         /// </summary>
         /// <param name="defaultDirectory">Returns this value if can't get directory.</param>
         /// <returns>For example: "Assets/Folder"</returns>
@@ -83,10 +79,10 @@ namespace CANStudio.BulletStorm.Editor
                 if (string.IsNullOrEmpty(path))
                     continue;
 
-                if (System.IO.Directory.Exists(path))
+                if (Directory.Exists(path))
                     return path;
-                if (System.IO.File.Exists(path))
-                    return System.IO.Path.GetDirectoryName(path);
+                if (File.Exists(path))
+                    return Path.GetDirectoryName(path);
             }
 
             return defaultDirectory;

@@ -10,13 +10,15 @@ namespace CANStudio.BulletStorm.BulletSystem.Modules
     [Serializable]
     internal struct EmissionEffectModule
     {
-        [Tooltip("Particle effect to play when bullets emitted.")]
-        [SerializeField] private ParticleSystem effect;
-        [Tooltip("Where to play the effect.")]
-        [SerializeField] private EffectPosition position;
-        [Tooltip("How to rotate the effect.")]
-        [SerializeField] private EffectRotation rotation;
-        
+        [Tooltip("Particle effect to play when bullets emitted.")] [SerializeField]
+        private ParticleSystem effect;
+
+        [Tooltip("Where to play the effect.")] [SerializeField]
+        private EffectPosition position;
+
+        [Tooltip("How to rotate the effect.")] [SerializeField]
+        private EffectRotation rotation;
+
         public void OnEmit(BulletEmitParam relative, Transform emitter)
         {
             Quaternion lookRotation;
@@ -32,6 +34,7 @@ namespace CANStudio.BulletStorm.BulletSystem.Modules
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
             switch (rotation)
             {
                 case EffectRotation.TowardsParticlePosition:
@@ -46,6 +49,7 @@ namespace CANStudio.BulletStorm.BulletSystem.Modules
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
             var ps = Object.Instantiate(effect, absolutePosition, lookRotation, emitter);
             var psm = ps.main;
             psm.stopAction = ParticleSystemStopAction.Destroy;
@@ -56,16 +60,18 @@ namespace CANStudio.BulletStorm.BulletSystem.Modules
         {
             [Tooltip("Generate effect on emitter")]
             OnEmitter,
+
             [Tooltip("Generate effect on particle")]
             OnParticle
         }
-        
+
         private enum EffectRotation
         {
-            [Tooltip("Don't rotate")]
-            None,
+            [Tooltip("Don't rotate")] None,
+
             [Tooltip("From emitter to particle position")]
             TowardsParticlePosition,
+
             [Tooltip("Same direction as particle velocity")]
             TowardsParticleVelocity
         }

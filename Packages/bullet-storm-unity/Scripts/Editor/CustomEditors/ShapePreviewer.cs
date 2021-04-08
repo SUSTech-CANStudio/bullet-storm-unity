@@ -1,5 +1,4 @@
 using CANStudio.BulletStorm.Emission;
-using CANStudio.BulletStorm.Util;
 using CANStudio.BulletStorm.XNodes;
 using CANStudio.BulletStorm.XNodes.ShapeNodes;
 using UnityEditor;
@@ -11,11 +10,22 @@ namespace CANStudio.BulletStorm.Editor.CustomEditors
 {
     public class ShapePreviewer : UnityEditor.Editor
     {
-        private IShapeContainer shapeContainer;
-        private PreviewRenderUtility previewRenderUtility;
-        private Vector2 viewPos;
         private float cameraDistance;
         private BulletStormEditorUtil.LabelContent labelContent;
+        private PreviewRenderUtility previewRenderUtility;
+        private IShapeContainer shapeContainer;
+        private Vector2 viewPos;
+
+        protected void OnEnable()
+        {
+            ValidateData();
+            shapeContainer = target as IShapeContainer;
+        }
+
+        private void OnDisable()
+        {
+            previewRenderUtility?.Cleanup();
+        }
 
         private void ValidateData()
         {
@@ -48,13 +58,10 @@ namespace CANStudio.BulletStorm.Editor.CustomEditors
             if (EditorGUI.EndChangeCheck()) Preferences.ApplyChanges();
         }
 
-        protected void OnEnable()
+        public override bool HasPreviewGUI()
         {
-            ValidateData();
-            shapeContainer = target as IShapeContainer;
+            return true;
         }
-
-        public override bool HasPreviewGUI() => true;
 
         public override void OnPreviewGUI(Rect r, GUIStyle background)
         {
@@ -73,13 +80,8 @@ namespace CANStudio.BulletStorm.Editor.CustomEditors
 
             previewRenderUtility.EndAndDrawPreview(r);
         }
-
-        private void OnDisable()
-        {
-            previewRenderUtility?.Cleanup();
-        }
     }
-    
+
     [CustomEditor(typeof(ShapeNode), true)]
     internal class ShapeNodeEditor : ShapePreviewer
     {
@@ -104,15 +106,9 @@ namespace CANStudio.BulletStorm.Editor.CustomEditors
         {
             serializedObject.Update();
 
-            if (GUILayout.Button("Edit"))
-            {
-                NodeEditorWindow.Open(shapeGraph);
-            }
+            if (GUILayout.Button("Edit")) NodeEditorWindow.Open(shapeGraph);
 
-            if (GUILayout.Button("Build"))
-            {
-                shapeGraph.Build();
-            }
+            if (GUILayout.Button("Build")) shapeGraph.Build();
 
             if (GUILayout.Button("Create Asset"))
             {

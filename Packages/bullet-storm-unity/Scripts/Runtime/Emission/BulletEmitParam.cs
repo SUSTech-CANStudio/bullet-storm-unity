@@ -8,23 +8,15 @@ namespace CANStudio.BulletStorm.Emission
     {
         [Tooltip("Start position relative to emitter.")]
         public Vector3 position;
-        [Tooltip("Start velocity.")]
-        public Vector3 velocity;
+
+        [Tooltip("Start velocity.")] public Vector3 velocity;
+
         [Tooltip("Color of the bullet, Color.clear (0, 0, 0, 0) will be override by bullet system default settings.")]
         public Color color;
+
         [Tooltip("Size of the bullet, Vector3.zero (0, 0, 0) will be override by bullet system default settings.")]
         public Vector3 size;
 
-        /// <summary>
-        /// Is color a default value?
-        /// </summary>
-        public bool DefaultColor => color == Color.clear;
-
-        /// <summary>
-        /// Is size a default value?
-        /// </summary>
-        public bool DefaultSize => size.x == 0 || size.y == 0 || size.z == 0;
-        
         public BulletEmitParam(Vector3 position)
         {
             this.position = position;
@@ -32,7 +24,7 @@ namespace CANStudio.BulletStorm.Emission
             color = Color.clear;
             size = Vector3.zero;
         }
-        
+
         public BulletEmitParam(Vector3 position, Vector3 velocity)
         {
             this.position = position;
@@ -40,7 +32,7 @@ namespace CANStudio.BulletStorm.Emission
             color = Color.clear;
             size = Vector3.zero;
         }
-        
+
         public BulletEmitParam(Vector3 position, Vector3 velocity, Color color, Vector3 size)
         {
             this.position = position;
@@ -48,9 +40,19 @@ namespace CANStudio.BulletStorm.Emission
             this.color = color;
             this.size = size;
         }
-        
+
         /// <summary>
-        /// Get relative parameters of a transform.
+        ///     Is color a default value?
+        /// </summary>
+        public bool DefaultColor => color == Color.clear;
+
+        /// <summary>
+        ///     Is size a default value?
+        /// </summary>
+        public bool DefaultSize => size.x == 0 || size.y == 0 || size.z == 0;
+
+        /// <summary>
+        ///     Get relative parameters of a transform.
         /// </summary>
         /// <param name="parent">The parent transform.</param>
         public BulletEmitParam RelativeTo(Transform parent)

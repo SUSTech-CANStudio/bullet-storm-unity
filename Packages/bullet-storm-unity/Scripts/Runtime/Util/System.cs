@@ -11,10 +11,12 @@ namespace CANStudio.BulletStorm.Util
             MethodInfo method = null;
             while (method is null)
             {
-                method = type.GetMethod(functionName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                method = type.GetMethod(functionName,
+                    BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
                 type = type.BaseType;
                 if (type is null) return false;
             }
+
             method.Invoke(@object, null);
             return true;
         }

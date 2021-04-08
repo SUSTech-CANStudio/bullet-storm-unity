@@ -3,7 +3,8 @@ using UnityEngine;
 
 namespace CANStudio.BulletStorm.XNodes.ShapeNodes
 {
-    [CreateNodeMenu("BulletStorm/Shape/Generator/Cage"), NodeTint(Utils.ColorShapeGenerator)]
+    [CreateNodeMenu("BulletStorm/Shape/Generator/Cage")]
+    [NodeTint(Utils.ColorShapeGenerator)]
     public class Cage : ShapeNode
     {
         [Input(connectionType = ConnectionType.Override, typeConstraint = TypeConstraint.Inherited)]
@@ -14,7 +15,7 @@ namespace CANStudio.BulletStorm.XNodes.ShapeNodes
 
         [Input(connectionType = ConnectionType.Override, typeConstraint = TypeConstraint.Inherited)]
         public bool edgeOnly;
-        
+
         public override void Generate()
         {
             SetShape(Shape.Cage(

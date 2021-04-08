@@ -9,69 +9,107 @@ using Random = UnityEngine.Random;
 namespace CANStudio.BulletStorm.Emission
 {
     /// <summary>
-    /// Shape is a list of <see cref="BulletEmitParam"/>s.
+    ///     Shape is a list of <see cref="BulletEmitParam" />s.
     /// </summary>
     /// In shoot'em up games, enemy's bullets usually arranged as some beautiful patterns.
     /// This class provides some basic patterns like ring, line, sphere... and provides functions to transform
-    /// them. You can use operator '+' to combine two <see cref="Shape"/>s.
+    /// them. You can use operator '+' to combine two
+    /// <see cref="Shape" />s.
     [Serializable]
     public class Shape : IReadOnlyList<BulletEmitParam>
     {
-        [SerializeField]
-        private List<BulletEmitParam> emitParams;
+        [SerializeField] private List<BulletEmitParam> emitParams;
 
         /// <summary>
-        /// Total bullets count in the shape.
-        /// </summary>
-        public int Count => emitParams?.Count ?? 0;
-
-        /// <summary>
-        /// Creates an empty shape.
+        ///     Creates an empty shape.
         /// </summary>
         /// <param name="num">Number of bullets in the shape.</param>
         public Shape(int num)
         {
             emitParams = new List<BulletEmitParam>(num);
-            for (var i = 0; i < num; i++)
-            {
-                emitParams.Add(new BulletEmitParam(Vector3.zero));
-            }
+            for (var i = 0; i < num; i++) emitParams.Add(new BulletEmitParam(Vector3.zero));
         }
 
         /// <summary>
-        /// Copies a shape.
+        ///     Copies a shape.
         /// </summary>
         /// <param name="shape">The original shape</param>
         private Shape(Shape shape)
         {
             emitParams = new List<BulletEmitParam>(shape);
         }
-        
+
         private Shape([NotNull] List<BulletEmitParam> emitParams)
         {
             this.emitParams = emitParams;
         }
 
         /// <summary>
-        /// Copies this shape.
+        ///     Total bullets count in the shape.
+        /// </summary>
+        public int Count => emitParams?.Count ?? 0;
+
+        public IEnumerator<BulletEmitParam> GetEnumerator()
+        {
+            return emitParams.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable) emitParams).GetEnumerator();
+        }
+
+        public BulletEmitParam this[int index] => emitParams[index];
+
+        /// <summary>
+        ///     Copies this shape.
         /// </summary>
         /// <returns></returns>
-        public Shape Copy() => new Shape(this);
+        public Shape Copy()
+        {
+            return new Shape(this);
+        }
+
+        /// <summary>
+        ///     Sorts bullets in the shape.
+        /// </summary>
+        /// You mainly call this because you want to use some index-dependent functions later.
+        /// <param name="comparer">Sorting method</param>
+        /// <returns></returns>
+        public Shape Sort(ParamComparer comparer)
+        {
+            emitParams.Sort(comparer);
+            return this;
+        }
+
+        /// <summary>
+        ///     Adds two shapes together.
+        /// </summary>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
+        /// <returns></returns>
+        public static Shape operator +(Shape first, Shape second)
+        {
+            var list = new List<BulletEmitParam>(first.emitParams);
+            list.AddRange(second.emitParams);
+            return new Shape(list);
+        }
 
         // Shape generators, static functions that create a basic shape.
+
         #region Generator
 
         /// <summary>
-        /// Use Fibonacci sphere algorithm to generate an roughly equal-distance point sphere.
+        ///     Use Fibonacci sphere algorithm to generate an roughly equal-distance point sphere.
         /// </summary>
         /// <param name="num">Number of bullets</param>
         /// <param name="radius">Radius of the sphere</param>
         public static Shape FibonacciSphere(int num, float radius)
         {
-            const float ga = 2.39996322972865332f;  // golden angle = 2.39996322972865332
-            
+            const float ga = 2.39996322972865332f; // golden angle = 2.39996322972865332
+
             var list = new List<BulletEmitParam>(num);
-            
+
             for (var i = 0; i < num; i++)
             {
                 var lat = Mathf.Asin(-1.0f + 2.0f * i / num);
@@ -84,12 +122,12 @@ namespace CANStudio.BulletStorm.Emission
 
                 list.Add(new BulletEmitParam(point * radius));
             }
-            
+
             return new Shape(list);
         }
 
         /// <summary>
-        /// Use random value to generate a sphere.
+        ///     Use random value to generate a sphere.
         /// </summary>
         /// <param name="num">Number of bullets</param>
         /// <param name="radius">Radius of the sphere</param>
@@ -99,7 +137,7 @@ namespace CANStudio.BulletStorm.Emission
         {
             var lastState = Random.state;
             Random.InitState(seed);
-            
+
             var list = new List<BulletEmitParam>(num);
             for (var i = 0; i < num; i++)
             {
@@ -112,7 +150,7 @@ namespace CANStudio.BulletStorm.Emission
         }
 
         /// <summary>
-        /// A ring on the z-x plane, positive z-axis is the first bullet, and rotates to positive x-axis.
+        ///     A ring on the z-x plane, positive z-axis is the first bullet, and rotates to positive x-axis.
         /// </summary>
         /// <param name="num">Number of bullets</param>
         /// <param name="radius">Radius of the ring</param>
@@ -121,7 +159,7 @@ namespace CANStudio.BulletStorm.Emission
         {
             var list = new List<BulletEmitParam>(num);
             if (num <= 0) return new Shape(list);
-            
+
             var deltaAngle = 2 * Mathf.PI / num;
             for (var i = 0; i < num; i++)
             {
@@ -134,7 +172,7 @@ namespace CANStudio.BulletStorm.Emission
         }
 
         /// <summary>
-        /// A line on x-axis, from left to right, origin is the middle point.
+        ///     A line on x-axis, from left to right, origin is the middle point.
         /// </summary>
         /// <param name="num">Number of bullets</param>
         /// <param name="length">Length of the line</param>
@@ -148,7 +186,7 @@ namespace CANStudio.BulletStorm.Emission
                 list.Add(new BulletEmitParam(Vector3.zero));
                 return new Shape(list);
             }
-            
+
             var deltaLength = 1f / (num - 1);
             for (var i = 0; i < num; i++)
             {
@@ -160,8 +198,8 @@ namespace CANStudio.BulletStorm.Emission
         }
 
         /// <summary>
-        /// A rectangle on xy-plane, from top to down, then from left to right.
-        /// Origin is center of this rectangle.
+        ///     A rectangle on xy-plane, from top to down, then from left to right.
+        ///     Origin is center of this rectangle.
         /// </summary>
         /// <param name="width"></param>
         /// <param name="height"></param>
@@ -174,23 +212,19 @@ namespace CANStudio.BulletStorm.Emission
 
             var wStart = wNum > 1 ? -width / 2 : 0;
             var hStart = hNum > 1 ? -height / 2 : 0;
-            
+
             var dw = wNum > 1 ? width / (wNum - 1) : 0;
             var dh = hNum > 1 ? height / (hNum - 1) : 0;
-            
+
             for (var i = 0; i < hNum; i++)
-            {
-                for (var j = 0; j < wNum; j++)
-                {
-                    list.Add(new BulletEmitParam(new Vector3(wStart + dw * j, hStart + dh * i)));
-                }
-            }
-            
+            for (var j = 0; j < wNum; j++)
+                list.Add(new BulletEmitParam(new Vector3(wStart + dw * j, hStart + dh * i)));
+
             return new Shape(list);
         }
 
         /// <summary>
-        /// A rectangle cage, sorted by z, y, x (all ascending).
+        ///     A rectangle cage, sorted by z, y, x (all ascending).
         /// </summary>
         /// <param name="size">Length of x, y, and z axis</param>
         /// <param name="count">Count of bullets on x, y, and z axis</param>
@@ -218,7 +252,7 @@ namespace CANStudio.BulletStorm.Emission
                 if (j != 0 && j != count.y - 1) freeCnt++;
                 if (k != 0 && k != count.x - 1) freeCnt++;
                 if (freeCnt > (edgeOnly ? 1 : 2)) continue;
-                
+
                 list.Add(new BulletEmitParam(new Vector3(
                     xStart + k * dx,
                     yStart + j * dy,
@@ -229,7 +263,7 @@ namespace CANStudio.BulletStorm.Emission
         }
 
         /// <summary>
-        /// An arc on z-x plane, from left to right, middle point on positive z-axis.
+        ///     An arc on z-x plane, from left to right, middle point on positive z-axis.
         /// </summary>
         /// <param name="num">Number of bullets</param>
         /// <param name="angle">From to angle of the arc in degree</param>
@@ -260,10 +294,11 @@ namespace CANStudio.BulletStorm.Emission
         #endregion
 
         // Operations that modifies bullet positions.
+
         #region Position operations
 
         /// <summary>
-        /// Rotates the whole shape around a point.
+        ///     Rotates the whole shape around a point.
         /// </summary>
         /// <param name="point">Center point of the rotation</param>
         /// <param name="rotation"></param>
@@ -280,25 +315,38 @@ namespace CANStudio.BulletStorm.Emission
             return this;
         }
 
-        public Shape RotateAround(Vector3 point, float angle, Vector3 axis) =>
-            RotateAround(point, Quaternion.AngleAxis(angle, axis));
+        public Shape RotateAround(Vector3 point, float angle, Vector3 axis)
+        {
+            return RotateAround(point, Quaternion.AngleAxis(angle, axis));
+        }
 
         /// <summary>
-        /// Rotates the whole shape.
+        ///     Rotates the whole shape.
         /// </summary>
         /// <param name="rotation"></param>
         /// <returns></returns>
-        public Shape Rotate(Quaternion rotation) => RotateAround(Vector3.zero, rotation);
+        public Shape Rotate(Quaternion rotation)
+        {
+            return RotateAround(Vector3.zero, rotation);
+        }
 
-        public Shape Rotate(float angle, Vector3 axis) => Rotate(Quaternion.AngleAxis(angle, axis));
+        public Shape Rotate(float angle, Vector3 axis)
+        {
+            return Rotate(Quaternion.AngleAxis(angle, axis));
+        }
 
-        public Shape Rotate(Vector3 euler) => Rotate(Quaternion.Euler(euler));
+        public Shape Rotate(Vector3 euler)
+        {
+            return Rotate(Quaternion.Euler(euler));
+        }
 
-        public Shape Rotate(float xAngle, float yAngle, float zAngle) =>
-            Rotate(Quaternion.Euler(xAngle, yAngle, zAngle));
+        public Shape Rotate(float xAngle, float yAngle, float zAngle)
+        {
+            return Rotate(Quaternion.Euler(xAngle, yAngle, zAngle));
+        }
 
         /// <summary>
-        /// Moves the whole shape.
+        ///     Moves the whole shape.
         /// </summary>
         /// <param name="offset"></param>
         /// <returns></returns>
@@ -314,7 +362,7 @@ namespace CANStudio.BulletStorm.Emission
         }
 
         /// <summary>
-        /// Moves the whole shape.
+        ///     Moves the whole shape.
         /// </summary>
         /// <param name="time">Move with current velocity by time.</param>
         /// <returns></returns>
@@ -332,10 +380,11 @@ namespace CANStudio.BulletStorm.Emission
         #endregion
 
         // Operations that modifies bullet velocities.
+
         #region Velocity operations
 
         /// <summary>
-        /// Set velocity to all bullets.
+        ///     Set velocity to all bullets.
         /// </summary>
         /// <param name="velocity">Given velocity.</param>
         /// <returns></returns>
@@ -349,9 +398,9 @@ namespace CANStudio.BulletStorm.Emission
             });
             return this;
         }
-        
+
         /// <summary>
-        /// Add velocity to all bullets.
+        ///     Add velocity to all bullets.
         /// </summary>
         /// <param name="velocity">Velocity increment.</param>
         /// <returns></returns>
@@ -367,10 +416,10 @@ namespace CANStudio.BulletStorm.Emission
         }
 
         /// <summary>
-        /// Set speed to all bullets, direction is original direction.
-        /// <para/>
-        /// This requires bullets to have speed formally, if original speed is 0,
-        /// this function won't change the speed.
+        ///     Set speed to all bullets, direction is original direction.
+        ///     <para />
+        ///     This requires bullets to have speed formally, if original speed is 0,
+        ///     this function won't change the speed.
         /// </summary>
         /// <param name="speed"></param>
         /// <returns></returns>
@@ -380,16 +429,14 @@ namespace CANStudio.BulletStorm.Emission
             {
                 var emitParam = emitParams[i];
                 if (!Mathf.Approximately(emitParam.velocity.magnitude, 0f))
-                {
                     emitParam.velocity = emitParam.velocity.normalized * speed;
-                }
                 emitParams[i] = emitParam;
             });
             return this;
         }
 
         /// <summary>
-        /// Add speed to all bullets, direction is from origin to the bullet.
+        ///     Add speed to all bullets, direction is from origin to the bullet.
         /// </summary>
         /// <param name="speed">Speed increment.</param>
         /// <returns></returns>
@@ -405,7 +452,7 @@ namespace CANStudio.BulletStorm.Emission
         }
 
         /// <summary>
-        /// Add speed to bullets by their indexes, direction is from origin to the bullet.
+        ///     Add speed to bullets by their indexes, direction is from origin to the bullet.
         /// </summary>
         /// <param name="curve">X-axis 0~1 represents all indexes, y-axis is speed.</param>
         /// <param name="multiplier">Multiplier for curve y-axis.</param>
@@ -422,7 +469,7 @@ namespace CANStudio.BulletStorm.Emission
         }
 
         /// <summary>
-        /// Add speed to all bullets, direction is from bullet to target.
+        ///     Add speed to all bullets, direction is from bullet to target.
         /// </summary>
         /// <param name="speed">Speed increment.</param>
         /// <param name="target">Target position.</param>
@@ -437,14 +484,15 @@ namespace CANStudio.BulletStorm.Emission
             });
             return this;
         }
-        
+
         #endregion
 
         // Operations that modifies bullet colors.
+
         #region Color operations
 
         /// <summary>
-        /// Set color for all bullets.
+        ///     Set color for all bullets.
         /// </summary>
         /// <param name="color"></param>
         /// <returns></returns>
@@ -460,7 +508,7 @@ namespace CANStudio.BulletStorm.Emission
         }
 
         /// <summary>
-        /// Set bullet color according to bullet index.
+        ///     Set bullet color according to bullet index.
         /// </summary>
         /// <param name="gradient">Color gradient.</param>
         /// <returns></returns>
@@ -469,7 +517,7 @@ namespace CANStudio.BulletStorm.Emission
             Parallel.For(0, Count, i =>
             {
                 var emitParam = emitParams[i];
-                emitParam.color = gradient.Evaluate((float)i / Count);
+                emitParam.color = gradient.Evaluate((float) i / Count);
                 emitParams[i] = emitParam;
             });
             return this;
@@ -478,10 +526,11 @@ namespace CANStudio.BulletStorm.Emission
         #endregion
 
         // Operations that modifies bullet sizes.
+
         #region Size operations
 
         /// <summary>
-        /// Set size for all bullets.
+        ///     Set size for all bullets.
         /// </summary>
         /// <param name="size">Bullet size.</param>
         /// <returns></returns>
@@ -497,28 +546,35 @@ namespace CANStudio.BulletStorm.Emission
         }
 
         /// <summary>
-        /// Set size for all bullets.
+        ///     Set size for all bullets.
         /// </summary>
         /// <param name="x">X scale.</param>
         /// <param name="y">Y scale.</param>
         /// <param name="z">z scale.</param>
         /// <returns></returns>
-        public Shape SetSize(float x, float y, float z) => SetSize(new Vector3(x, y, z));
+        public Shape SetSize(float x, float y, float z)
+        {
+            return SetSize(new Vector3(x, y, z));
+        }
 
         /// <summary>
-        /// Set size for all bullets.
+        ///     Set size for all bullets.
         /// </summary>
         /// <param name="size">Bullet size.</param>
         /// <returns></returns>
-        public Shape SetSize(float size) => SetSize(Vector3.one * size);
-        
+        public Shape SetSize(float size)
+        {
+            return SetSize(Vector3.one * size);
+        }
+
         #endregion
 
         // Operations that repeat the whole shape for many times.
+
         #region Repeat operations
 
         /// <summary>
-        /// Repeat the shape alone x-axis, from left to right.
+        ///     Repeat the shape alone x-axis, from left to right.
         /// </summary>
         /// <param name="times">Repeat times.</param>
         /// <param name="length">Distance from the left most copy center to the right most one.</param>
@@ -530,23 +586,20 @@ namespace CANStudio.BulletStorm.Emission
                 emitParams.Clear();
                 return this;
             }
-            
+
             var left = times > 1 ? -length / 2 : 0;
             var dx = times > 1 ? length / (times - 1) : 0;
 
             Move(new Vector3(left, 0));
             var copy = Copy();
-            
-            for (var i = 1; i < times; i++)
-            {
-                emitParams.AddRange(copy.Move(new Vector3(dx, 0)));
-            }
+
+            for (var i = 1; i < times; i++) emitParams.AddRange(copy.Move(new Vector3(dx, 0)));
 
             return this;
         }
 
         /// <summary>
-        /// Repeat the shape when rotating around axis.
+        ///     Repeat the shape when rotating around axis.
         /// </summary>
         /// <param name="times">Repeat times.</param>
         /// <param name="angle">Rotation angle.</param>
@@ -559,55 +612,15 @@ namespace CANStudio.BulletStorm.Emission
                 emitParams.Clear();
                 return this;
             }
-            
+
             var copy = Copy();
             var dAngle = times > 1 ? angle / (times - 1) : 0;
-            
-            for (var i = 1; i < times; i++)
-            {
-                emitParams.AddRange(copy.Copy().Rotate(dAngle * i, axis));
-            }
+
+            for (var i = 1; i < times; i++) emitParams.AddRange(copy.Copy().Rotate(dAngle * i, axis));
 
             return this;
         }
 
         #endregion
-        
-        /// <summary>
-        /// Sorts bullets in the shape.
-        /// </summary>
-        /// You mainly call this because you want to use some index-dependent functions later.
-        /// <param name="comparer">Sorting method</param>
-        /// <returns></returns>
-        public Shape Sort(ParamComparer comparer)
-        {
-            emitParams.Sort(comparer);
-            return this;
-        }
-
-        /// <summary>
-        /// Adds two shapes together.
-        /// </summary>
-        /// <param name="first"></param>
-        /// <param name="second"></param>
-        /// <returns></returns>
-        public static Shape operator +(Shape first, Shape second)
-        {
-            var list = new List<BulletEmitParam>(first.emitParams);
-            list.AddRange(second.emitParams);
-            return new Shape(list);
-        }
-
-        public IEnumerator<BulletEmitParam> GetEnumerator()
-        {
-            return emitParams.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return ((IEnumerable) emitParams).GetEnumerator();
-        }
-
-        public BulletEmitParam this[int index] => emitParams[index];
     }
 }

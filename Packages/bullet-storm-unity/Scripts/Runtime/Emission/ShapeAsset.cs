@@ -5,9 +5,11 @@ namespace CANStudio.BulletStorm.Emission
 {
     public class ShapeAsset : ScriptableObject, IShapeContainer
     {
-        [ReorderableList]
-        public Shape shape;
+        [ReorderableList] public Shape shape;
 
-        public Shape GetShape() => shape;
+        public Shape GetShape()
+        {
+            return shape;
+        }
     }
 }

@@ -9,32 +9,47 @@ namespace CANStudio.BulletStorm.XNodes.ShapeNodes
     public abstract class ShapeNode : Node, IShapeContainer
     {
         /// <summary>
-        /// Every shape node contains a shape for output.
+        ///     Every shape node contains a shape for output.
         /// </summary>
-        [SerializeField, Output(typeConstraint = TypeConstraint.Inherited)]
+        [SerializeField] [Output(typeConstraint = TypeConstraint.Inherited)]
         private Shape shape;
-        
-        [SerializeField, HideInInspector]
-        private bool dirty;
-        
+
+        [SerializeField] [HideInInspector] private bool dirty;
+
+        protected virtual void OnValidate()
+        {
+            dirty = true;
+            this.NotifyChange();
+        }
+
+        public Shape GetShape()
+        {
+            return IsShapeCurrent() ? shape : null;
+        }
+
         /// <summary>
-        /// Generates the output shape.
-        /// This function only generates the selected node, even if previous node not generated.
+        ///     Generates the output shape.
+        ///     This function only generates the selected node, even if previous node not generated.
         /// </summary>
         public abstract void Generate();
 
-        public Shape GetShape() => IsShapeCurrent() ? shape : null;
-        public void SetShape(Shape value) => shape = value;
+        public void SetShape(Shape value)
+        {
+            shape = value;
+        }
 
         /// <summary>
-        /// True if shape in this node is generated and latest.
+        ///     True if shape in this node is generated and latest.
         /// </summary>
         /// <returns></returns>
-        public virtual bool IsShapeCurrent() => !dirty;
+        public virtual bool IsShapeCurrent()
+        {
+            return !dirty;
+        }
 
         /// <summary>
-        /// Deal with output <see cref="shape"/>.
-        /// If there are other values, override it.
+        ///     Deal with output <see cref="shape" />.
+        ///     If there are other values, override it.
         /// </summary>
         /// <param name="port"></param>
         /// <returns></returns>
@@ -50,7 +65,7 @@ namespace CANStudio.BulletStorm.XNodes.ShapeNodes
         }
 
         /// <summary>
-        /// Provides a recursive way to generate and refresh shapes in previous nodes.
+        ///     Provides a recursive way to generate and refresh shapes in previous nodes.
         /// </summary>
         public virtual void RecursiveGenerate()
         {
@@ -59,18 +74,15 @@ namespace CANStudio.BulletStorm.XNodes.ShapeNodes
         }
 
         [ContextMenu("Generate", false, 0)]
-        internal void GenerateButton() => RecursiveGenerate();
-
-        protected virtual void OnValidate()
+        internal void GenerateButton()
         {
-            dirty = true;
-            this.NotifyChange();
+            RecursiveGenerate();
         }
 
-        public override void OnCreateConnection(NodePort @from, NodePort to)
+        public override void OnCreateConnection(NodePort from, NodePort to)
         {
             if (to.node.Equals(this)) OnValidate();
-            base.OnCreateConnection(@from, to);
+            base.OnCreateConnection(from, to);
         }
 
         public override void OnRemoveConnection(NodePort port)

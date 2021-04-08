@@ -11,9 +11,16 @@ namespace CANStudio.BulletStorm.Util
         private static readonly HashSet<object> Logged = new HashSet<object>();
 
         private static Logger Logger => Instance.Value;
-        
-        public static void LogWarning(object message) => Log(LogType.Warning, message);
-        public static void LogError(object message) => Log(LogType.Error, message);
+
+        public static void LogWarning(object message)
+        {
+            Log(LogType.Warning, message);
+        }
+
+        public static void LogError(object message)
+        {
+            Log(LogType.Error, message);
+        }
 
         public static void LogOnce(object message)
         {
@@ -29,7 +36,7 @@ namespace CANStudio.BulletStorm.Util
         {
             if (Logged.Add(message)) LogError(message);
         }
-        
+
         private class Handler : ILogHandler
         {
             // ReSharper disable MemberHidesStaticFromOuterClass
@@ -67,7 +74,7 @@ namespace CANStudio.BulletStorm.Util
         }
 
         #region generatedDelegates
-        
+
         public static bool IsLogTypeAllowed(LogType logType)
         {
             return Logger.IsLogTypeAllowed(logType);
@@ -165,6 +172,7 @@ namespace CANStudio.BulletStorm.Util
             get => Logger.filterLogType;
             set => Logger.filterLogType = value;
         }
+
         #endregion
     }
 }

@@ -7,15 +7,10 @@ using Object = UnityEngine.Object;
 namespace CANStudio.BulletStorm.Util
 {
     /// <summary>
-    /// Provides more APIs than Unity standard coroutine.
+    ///     Provides more APIs than Unity standard coroutine.
     /// </summary>
     public sealed class ControllableCoroutine
     {
-        /// <summary>
-        /// Status of the coroutine.
-        /// </summary>
-        public CoroutineStatus Status { get; private set; }
-
         private static readonly Lazy<MonoBehaviour> Daemon =
             new Lazy<MonoBehaviour>(() =>
             {
@@ -24,20 +19,14 @@ namespace CANStudio.BulletStorm.Util
                 Object.DontDestroyOnLoad(daemon);
                 return daemon;
             });
-        private Coroutine coroutine;
+
         private readonly IEnumerator enumerator;
         private readonly MonoBehaviour monoBehaviour;
-        private event Action Finish;
+        private Coroutine coroutine;
 
         /// <summary>
-        /// Returns the <see cref="MonoBehaviour"/> on which coroutine runs.
-        /// </summary>
-        [NotNull]
-        private MonoBehaviour Root => monoBehaviour ? monoBehaviour : Daemon.Value;
-
-        /// <summary>
-        /// Create a coroutine.
-        /// This coroutine will run under a "CoroutineDaemon" GameObject.
+        ///     Create a coroutine.
+        ///     This coroutine will run under a "CoroutineDaemon" GameObject.
         /// </summary>
         /// <param name="coroutine">The coroutine function.</param>
         /// <param name="callback">Callback function on finish.</param>
@@ -49,18 +38,32 @@ namespace CANStudio.BulletStorm.Util
         }
 
         /// <summary>
-        /// Create a coroutine under given MonoBehaviour.
+        ///     Create a coroutine under given MonoBehaviour.
         /// </summary>
         /// <param name="monoBehaviour"></param>
         /// <param name="coroutine"></param>
         /// <param name="callback"></param>
-        public ControllableCoroutine(MonoBehaviour monoBehaviour, IEnumerator coroutine, Action callback = null) : this(coroutine, callback)
+        public ControllableCoroutine(MonoBehaviour monoBehaviour, IEnumerator coroutine, Action callback = null) : this(
+            coroutine, callback)
         {
             this.monoBehaviour = monoBehaviour;
         }
 
         /// <summary>
-        /// Starts or unpause the coroutine.
+        ///     Status of the coroutine.
+        /// </summary>
+        public CoroutineStatus Status { get; private set; }
+
+        /// <summary>
+        ///     Returns the <see cref="MonoBehaviour" /> on which coroutine runs.
+        /// </summary>
+        [NotNull]
+        private MonoBehaviour Root => monoBehaviour ? monoBehaviour : Daemon.Value;
+
+        private event Action Finish;
+
+        /// <summary>
+        ///     Starts or unpause the coroutine.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public void Start()
@@ -73,6 +76,7 @@ namespace CANStudio.BulletStorm.Util
                         BulletStormLogger.LogError("Can't start coroutine in editor.");
                         return;
                     }
+
                     Status = CoroutineStatus.Running;
                     coroutine = Root.StartCoroutine(Wrapper());
                     break;
@@ -91,7 +95,7 @@ namespace CANStudio.BulletStorm.Util
         }
 
         /// <summary>
-        /// Pauses the coroutine.
+        ///     Pauses the coroutine.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public void Pause()
@@ -116,17 +120,23 @@ namespace CANStudio.BulletStorm.Util
         }
 
         /// <summary>
-        /// Stops the coroutine.
+        ///     Stops the coroutine.
         /// </summary>
-        public void Stop() => Stop(true);
+        public void Stop()
+        {
+            Stop(true);
+        }
 
         /// <summary>
-        /// Same as <see cref="Stop"/>, but will not send finish callback.
+        ///     Same as <see cref="Stop" />, but will not send finish callback.
         /// </summary>
-        public void Interrupt() => Stop(false);
-        
+        public void Interrupt()
+        {
+            Stop(false);
+        }
+
         /// <summary>
-        /// Stops the coroutine.
+        ///     Stops the coroutine.
         /// </summary>
         /// <param name="callback">Still send a callback if coroutine finished by this.</param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
@@ -154,26 +164,34 @@ namespace CANStudio.BulletStorm.Util
         private IEnumerator Wrapper()
         {
             while (true)
-            {
                 if (Status == CoroutineStatus.Running)
                 {
                     if (!(enumerator is null) && enumerator.MoveNext()) yield return enumerator.Current;
                     else break;
                 }
-                else if (Status == CoroutineStatus.Paused) yield return null;
-                else throw new ArgumentOutOfRangeException();
-            }
-            
+                else if (Status == CoroutineStatus.Paused)
+                {
+                    yield return null;
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
             Status = CoroutineStatus.Finished;
             OnFinish();
         }
 
-        private void OnFinish() => Finish?.Invoke();
+        private void OnFinish()
+        {
+            Finish?.Invoke();
+        }
     }
 
     [AddComponentMenu("")]
     internal class CoroutineDaemon : MonoBehaviour
-    {}
+    {
+    }
 
     public enum CoroutineStatus
     {

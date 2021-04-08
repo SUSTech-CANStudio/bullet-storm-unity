@@ -1,0 +1,105 @@
+﻿using System;
+using CANStudio.BulletStorm.BulletSystem.Modules;
+using CANStudio.BulletStorm.Emission;
+using NaughtyAttributes;
+using UnityEngine;
+
+#pragma warning disable 0649
+
+namespace CANStudio.BulletStorm.BulletSystem
+{
+    /// <summary>
+    ///     A more convenient base class for <see cref="MonoBehaviour" /> based particle systems.
+    /// </summary>
+    public abstract class BulletBase : MonoBehaviour, IBullet, IBulletController
+    {
+        [Tooltip("Enable playing effect when emitting bullets.")]
+        [Label("Enable")]
+        [SerializeField]
+        [BoxGroup("Emission effect")]
+        private bool enableEmissionEffect;
+
+        [Tooltip("Play particle effect when emitting.")]
+        [Label("Detail")]
+        [SerializeField]
+        [EnableIf(nameof(enableEmissionEffect))]
+        [BoxGroup("Emission effect")]
+        private EmissionEffectModule emissionEffect;
+
+        [Tooltip("Enable bullets tracing some game object.")] [Label("Enable")] [SerializeField] [BoxGroup("Tracing")]
+        private bool enableTracing;
+
+        [Tooltip("Bullets trace a target.")]
+        [Label("Detail")]
+        [SerializeField]
+        [EnableIf(nameof(enableTracing))]
+        [BoxGroup("Tracing")]
+        private TracingModule tracing;
+
+        [Tooltip("Enable bullets accelerate.")] [Label("Enable")] [SerializeField] [BoxGroup("Accelerate")]
+        private bool enableAcceleration;
+
+        [Tooltip("Bullets accelerate during whole lifetime.")]
+        [Label("Detail")]
+        [SerializeField]
+        [EnableIf(nameof(enableAcceleration))]
+        [BoxGroup("Accelerate")]
+        private AccelerationModule acceleration;
+
+        [Tooltip("Enable bullets velocity deflection.")] [Label("Enable")] [SerializeField] [BoxGroup("Deflection")]
+        private bool enableDeflection;
+
+        [Tooltip("Bullets velocity deflection during whole lifetime.")]
+        [Label("Detail")]
+        [SerializeField]
+        [EnableIf(nameof(enableDeflection))]
+        [BoxGroup("Deflection")]
+        private DeflectionModule deflection;
+
+        [Tooltip("Enable bullets rotates around axis.")] [Label("Enable")] [SerializeField] [BoxGroup("Around axis")]
+        private bool enableAroundAxis;
+
+        [Tooltip("Bullets velocity rotates around given axis.")]
+        [Label("Detail")]
+        [SerializeField]
+        [EnableIf(nameof(enableAroundAxis))]
+        [BoxGroup("Around axis")]
+        private AroundAxisModule aroundAxis;
+
+        /// <summary>
+        ///     Executes tracing module.
+        /// </summary>
+        protected virtual void Update()
+        {
+            if (enableTracing) tracing.OnUpdate(this);
+            if (enableAcceleration) acceleration.OnUpdate(this);
+            if (enableDeflection) deflection.OnUpdate(this);
+            if (enableAroundAxis) aroundAxis.OnUpdate(this);
+        }
+
+        public virtual string Name => name;
+
+        public virtual IBulletController GetController()
+        {
+            return Instantiate(this);
+        }
+
+        public Quaternion Rotation
+        {
+            get => transform.rotation;
+            set => transform.rotation = value;
+        }
+
+        public abstract void ChangeParam(Func<BulletParam, BulletParam> operation);
+        public abstract void Emit(BulletEmitParam emitParam, Transform emitter);
+        public abstract void Destroy();
+
+        /// <summary>
+        ///     Plays the emission effect. Call this when emitting a bullet.
+        /// </summary>
+        protected void PlayEmissionEffect(BulletEmitParam emitParam, Transform emitter)
+        {
+            if (enableEmissionEffect) emissionEffect.OnEmit(emitParam, emitter);
+        }
+    }
+}

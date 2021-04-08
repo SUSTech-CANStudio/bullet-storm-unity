@@ -9,9 +9,9 @@ namespace CANStudio.BulletStorm.Editor.CustomEditors
     [CustomEditor(typeof(BulletPool))]
     internal class BulletPoolEditor : UnityEditor.Editor
     {
-        private BulletPool self;
         private string bullets;
         private string inheritedBullets;
+        private BulletPool self;
 
         private void OnEnable()
         {
@@ -21,7 +21,10 @@ namespace CANStudio.BulletStorm.Editor.CustomEditors
             inheritedBullets = InheritedBulletsToString(self);
         }
 
-        protected override bool ShouldHideOpenButton() => true;
+        protected override bool ShouldHideOpenButton()
+        {
+            return true;
+        }
 
         public override void OnInspectorGUI()
         {
@@ -60,14 +63,12 @@ namespace CANStudio.BulletStorm.Editor.CustomEditors
                 if (prefab is null) continue;
                 var type = PrefabUtility.GetPrefabAssetType(prefab);
                 if (type != PrefabAssetType.Regular && type != PrefabAssetType.Variant) continue;
-                if (prefab.TryGetComponent(out IBulletSystem bulletSystem))
-                {
+                if (prefab.TryGetComponent(out IBullet bulletSystem))
                     bulletPool.bullets.Add(bulletSystem.Name, bulletSystem);
-                }
             }
         }
 
-        private static string BulletsToString(IReadOnlyDictionary<string, IBulletSystem> bulletSystems)
+        private static string BulletsToString(IReadOnlyDictionary<string, IBullet> bulletSystems)
         {
             var names = new List<string>(bulletSystems.Keys);
             if (names.Count == 0) return "";
@@ -88,9 +89,7 @@ namespace CANStudio.BulletStorm.Editor.CustomEditors
         {
             var result = new HashSet<string>(bulletPool.bullets.Keys);
             if (bulletPool.parentPool && bulletPool.parentPool != bulletPool)
-            {
                 result.UnionWith(AllBulletNames(bulletPool.parentPool));
-            }
 
             return result;
         }

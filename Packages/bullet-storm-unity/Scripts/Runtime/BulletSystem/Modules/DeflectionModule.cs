@@ -1,5 +1,4 @@
 using System;
-using CANStudio.BulletStorm.Util;
 using UnityEngine;
 
 #pragma warning disable 0649
@@ -9,7 +8,7 @@ namespace CANStudio.BulletStorm.BulletSystem.Modules
     [Serializable]
     public struct DeflectionModule
     {
-        [Tooltip("Velocity deflection angle per second."), SerializeField]
+        [Tooltip("Velocity deflection angle per second.")] [SerializeField]
         private Vector2 deflection;
 
         public void OnUpdate(IBulletController controller)

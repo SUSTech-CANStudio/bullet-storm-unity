@@ -6,10 +6,10 @@ using UnityEngine;
 namespace CANStudio.BulletStorm.Emission
 {
     /// <summary>
-    /// Item to be compared.
+    ///     Item to be compared.
     /// </summary>
     /// Axises are raw values of the bullet positions.
-    /// <para/>
+    /// <para />
     /// Angles are the euler angles from origin to bullet position, between 0 and 360.
     [Serializable]
     public enum ParamCompareItem
@@ -32,37 +32,19 @@ namespace CANStudio.BulletStorm.Emission
     [Serializable]
     public class ParamComparer : IComparer<BulletEmitParam>
     {
-        [Serializable]
-        public struct CompareInfo
-        {
-            [Tooltip("Select which item to compare.")]
-            public ParamCompareItem compareItem;
-            public ParamCompareOrder order;
-            [Tooltip("Difference smaller than this will be ignored."), MinValue(0), AllowNesting]
-            public float equalRange;
-
-            public CompareInfo(ParamCompareItem compareItem, ParamCompareOrder order, float equalRange)
-            {
-                this.compareItem = compareItem;
-                this.order = order;
-                this.equalRange = equalRange;
-            }
-        }
-
-        [SerializeField, HideInInspector]
-        private List<CompareInfo> infos;
+        [SerializeField] [HideInInspector] private List<CompareInfo> infos;
 
         /// <summary>
-        /// Create a comparer for <see cref="BulletEmitParam"/>. You can use operator '+' to add two comparer,
-        /// then you get a new comparer that does the first comparision, and if the first comparision result is equal,
-        /// will continue on the second comparision.
+        ///     Create a comparer for <see cref="BulletEmitParam" />. You can use operator '+' to add two comparer,
+        ///     then you get a new comparer that does the first comparision, and if the first comparision result is equal,
+        ///     will continue on the second comparision.
         /// </summary>
-        /// <param name="compareItem">Value in the <see cref="BulletEmitParam"/> to compare</param>
+        /// <param name="compareItem">Value in the <see cref="BulletEmitParam" /> to compare</param>
         /// <param name="order">Sorting order</param>
         /// <param name="equalRange">Difference less or equal than this will be recognized as same</param>
         public ParamComparer(ParamCompareItem compareItem, ParamCompareOrder order, float equalRange = 0)
         {
-            infos = new List<CompareInfo>{new CompareInfo(compareItem, order, equalRange)};
+            infos = new List<CompareInfo> {new CompareInfo(compareItem, order, equalRange)};
         }
 
         internal ParamComparer(List<CompareInfo> infos)
@@ -135,6 +117,25 @@ namespace CANStudio.BulletStorm.Emission
             var infos = new List<CompareInfo>(first.infos);
             infos.AddRange(second.infos);
             return new ParamComparer(infos);
+        }
+
+        [Serializable]
+        public struct CompareInfo
+        {
+            [Tooltip("Select which item to compare.")]
+            public ParamCompareItem compareItem;
+
+            public ParamCompareOrder order;
+
+            [Tooltip("Difference smaller than this will be ignored.")] [MinValue(0)] [AllowNesting]
+            public float equalRange;
+
+            public CompareInfo(ParamCompareItem compareItem, ParamCompareOrder order, float equalRange)
+            {
+                this.compareItem = compareItem;
+                this.order = order;
+                this.equalRange = equalRange;
+            }
         }
     }
 }

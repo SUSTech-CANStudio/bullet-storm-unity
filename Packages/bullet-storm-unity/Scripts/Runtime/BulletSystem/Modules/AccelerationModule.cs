@@ -1,5 +1,4 @@
 using System;
-using CANStudio.BulletStorm.Util;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -10,15 +9,23 @@ namespace CANStudio.BulletStorm.BulletSystem.Modules
     [Serializable]
     internal struct AccelerationModule
     {
-        [Tooltip("Speed change per second."), SerializeField]
+        [Tooltip("Speed change per second.")] [SerializeField]
         private float acceleration;
 
-        [Tooltip("Stop acceleration if speed lower than this."), SerializeField, ShowIf(nameof(ShowMinSpeed)), MinValue(0), AllowNesting]
+        [Tooltip("Stop acceleration if speed lower than this.")]
+        [SerializeField]
+        [ShowIf(nameof(ShowMinSpeed))]
+        [MinValue(0)]
+        [AllowNesting]
         private float minSpeed;
 
-        [Tooltip("Stop acceleration if speed higher than this."), SerializeField, ShowIf(nameof(ShowMaxSpeed)), MinValue(0), AllowNesting]
+        [Tooltip("Stop acceleration if speed higher than this.")]
+        [SerializeField]
+        [ShowIf(nameof(ShowMaxSpeed))]
+        [MinValue(0)]
+        [AllowNesting]
         private float maxSpeed;
-        
+
         private bool ShowMinSpeed => acceleration < 0;
         private bool ShowMaxSpeed => acceleration > 0;
 

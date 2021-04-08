@@ -11,10 +11,18 @@ namespace CANStudio.BulletStorm.Editor
 {
     internal static class BulletStormEditorUtil
     {
+        public enum LabelContent
+        {
+            None,
+            Index,
+            Speed,
+            Position
+        }
+
         private static readonly int ColorIndex = Shader.PropertyToID("_Color");
-        
+
         /// <summary>
-        /// Draw shape preview meshes and gizmos.
+        ///     Draw shape preview meshes and gizmos.
         /// </summary>
         /// <param name="shape">The shape to draw.</param>
         /// <param name="camera"></param>
@@ -41,7 +49,7 @@ namespace CANStudio.BulletStorm.Editor
 
                 Graphics.DrawMesh(Preferences._.shapePreviewMesh, Matrix4x4.TRS(position, lookRotation, size),
                     Preferences._.shapePreviewMaterial, 0, camera, 0, block);
-                
+
                 prs.Add(new Tuple<Vector3, Quaternion, float>(position, lookRotation, speed));
             }
 
@@ -59,7 +67,7 @@ namespace CANStudio.BulletStorm.Editor
                 Handles.zTest = CompareFunction.LessEqual;
                 Handles.color = Color.green;
                 Handles.ArrowHandleCap(0, position1, rotation, speed1 / 4, EventType.Repaint);
-                
+
                 Handles.zTest = CompareFunction.Always;
                 string text;
                 switch (content)
@@ -79,22 +87,15 @@ namespace CANStudio.BulletStorm.Editor
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
+
                 Handles.Label(position1, text);
-                
+
                 index++;
             }
         }
 
-        public enum LabelContent
-        {
-            None,
-            Index,
-            Speed,
-            Position
-        }
-
         /// <summary>
-        /// Receives mouse input in given rectangle.
+        ///     Receives mouse input in given rectangle.
         /// </summary>
         /// <param name="position">Rectangle range to receive input.</param>
         /// <param name="distance">Camera distance, controlled by scroll wheel.</param>
@@ -113,6 +114,7 @@ namespace CANStudio.BulletStorm.Editor
                         current.Use();
                         GUI.changed = true;
                     }
+
                     break;
                 case EventType.MouseDown:
                     if (position.Contains(current.mousePosition) && position.width > 50f)
@@ -121,12 +123,10 @@ namespace CANStudio.BulletStorm.Editor
                         current.Use();
                         EditorGUIUtility.SetWantsMouseJumping(1);
                     }
+
                     break;
                 case EventType.MouseUp:
-                    if (GUIUtility.hotControl == controlID)
-                    {
-                        GUIUtility.hotControl = 0;
-                    }
+                    if (GUIUtility.hotControl == controlID) GUIUtility.hotControl = 0;
                     EditorGUIUtility.SetWantsMouseJumping(0);
                     break;
                 case EventType.MouseDrag:
@@ -137,6 +137,7 @@ namespace CANStudio.BulletStorm.Editor
                         current.Use();
                         GUI.changed = true;
                     }
+
                     break;
             }
         }

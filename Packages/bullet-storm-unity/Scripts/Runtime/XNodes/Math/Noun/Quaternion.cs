@@ -7,37 +7,21 @@ using XNode;
 
 namespace CANStudio.BulletStorm.XNodes.Math.Noun
 {
-    [CreateNodeMenu("BulletStorm/Math/Noun/Quaternion"), NodeTint(Utils.ColorMathNoun)]
+    [CreateNodeMenu("BulletStorm/Math/Noun/Quaternion")]
+    [NodeTint(Utils.ColorMathNoun)]
     public class Quaternion : Node
     {
-        [Output]
-        public UnityEngine.Quaternion value;
+        [Output] public UnityEngine.Quaternion value;
 
-        [SerializeField, NodeEnum]
-        private Type type;
-        
-        [Tooltip("Define upward direction.")]
-        public bool setUpward;
-        
-        [Input(connectionType = ConnectionType.Override), Label(""), AllowNesting]
+        [SerializeField] [NodeEnum] private Type type;
+
+        [Tooltip("Define upward direction.")] public bool setUpward;
+
+        [Input(connectionType = ConnectionType.Override)] [Label("")] [AllowNesting]
         public UnityEngine.Vector3 vector0;
 
-        [Input(connectionType = ConnectionType.Override), Label(""), AllowNesting]
+        [Input(connectionType = ConnectionType.Override)] [Label("")] [AllowNesting]
         public UnityEngine.Vector3 vector1;
-
-        #region reflection use only
-        // ReSharper disable UnusedMember.Local
-        private bool ShowEuler => type == Type.Euler;
-        private bool ShowForward => type == Type.LookRotation;
-        private bool ShowFromToDirection => type == Type.FromToRotation;
-        // ReSharper restore UnusedMember.Local
-        #endregion
-
-        public override object GetValue(NodePort port)
-        {
-            if (port.fieldName == nameof(value)) return value;
-            return null;
-        }
 
         private void OnValidate()
         {
@@ -60,15 +44,33 @@ namespace CANStudio.BulletStorm.XNodes.Math.Noun
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
             this.NotifyChange();
         }
-        
+
+        public override object GetValue(NodePort port)
+        {
+            if (port.fieldName == nameof(value)) return value;
+            return null;
+        }
+
         [Serializable]
         private enum Type
         {
             Euler = 0,
             LookRotation = 1,
-            FromToRotation = 2,
+            FromToRotation = 2
         }
+
+        #region reflection use only
+
+        // ReSharper disable UnusedMember.Local
+        private bool ShowEuler => type == Type.Euler;
+        private bool ShowForward => type == Type.LookRotation;
+
+        private bool ShowFromToDirection => type == Type.FromToRotation;
+        // ReSharper restore UnusedMember.Local
+
+        #endregion
     }
 }

@@ -3,24 +3,27 @@
 namespace CANStudio.BulletStorm.Util
 {
     /// <summary>
-    /// Stores a single value of any type.
+    ///     Stores a single value of any type.
     /// </summary>
     [Serializable]
     public class Variable
     {
+        private object objectValue;
+
         /// <summary>
-        /// Type of the stored value.
+        ///     Type of the stored value.
         /// </summary>
         public Type Type { get; private set; }
 
         public bool IsEmpty => Type is null;
-        
-        private object objectValue;
-        
-        public bool HasValue<T>() => typeof(T).IsAssignableFrom(Type);
+
+        public bool HasValue<T>()
+        {
+            return typeof(T).IsAssignableFrom(Type);
+        }
 
         /// <summary>
-        /// Try to get stored value.
+        ///     Try to get stored value.
         /// </summary>
         /// <param name="value">Stored value.</param>
         /// <typeparam name="T">Value type.</typeparam>
@@ -32,12 +35,13 @@ namespace CANStudio.BulletStorm.Util
                 value = (T) objectValue;
                 return true;
             }
+
             value = default;
             return false;
         }
-        
+
         /// <summary>
-        /// Get stored value. Log error if value conflicts with given type.
+        ///     Get stored value. Log error if value conflicts with given type.
         /// </summary>
         /// <typeparam name="T">Value type.</typeparam>
         /// <returns></returns>
@@ -50,7 +54,7 @@ namespace CANStudio.BulletStorm.Util
         }
 
         /// <summary>
-        /// Set value of the variable. Log error if stored value conflicts with new value.
+        ///     Set value of the variable. Log error if stored value conflicts with new value.
         /// </summary>
         /// <param name="value">Any value.</param>
         /// <typeparam name="T">Value type.</typeparam>
@@ -61,11 +65,14 @@ namespace CANStudio.BulletStorm.Util
                 Type = typeof(T);
                 objectValue = value;
             }
-            else BulletStormLogger.LogError("Can't convert " + typeof(T) + " to " + Type);
+            else
+            {
+                BulletStormLogger.LogError("Can't convert " + typeof(T) + " to " + Type);
+            }
         }
 
         /// <summary>
-        /// Reset the variable to empty.
+        ///     Reset the variable to empty.
         /// </summary>
         public void Reset()
         {

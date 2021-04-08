@@ -6,17 +6,17 @@ namespace CANStudio.BulletStorm.Util
     internal static class Helpers
     {
         private const int Accuracy = 8;
-        
+
         /// <summary>
         ///     Returns an approximate zero vector, but contains the original direction.
-        ///     To recover the vector for calculation, call <see cref="Normalized"/>
+        ///     To recover the vector for calculation, call <see cref="Normalized" />
         /// </summary>
         /// <param name="vector3"></param>
         /// <returns></returns>
         public static Vector3 Minimized(this in Vector3 vector3)
         {
             var values = new IeeeFloat[] {vector3.x, vector3.y, vector3.z};
-            
+
             var maxExp = byte.MinValue;
             var minExp = byte.MaxValue;
             for (var i = 0; i < 3; i++)
@@ -25,12 +25,10 @@ namespace CANStudio.BulletStorm.Util
                 if (exp > maxExp) maxExp = exp;
                 if (exp < minExp && exp >= maxExp - Accuracy) minExp = exp;
             }
-            
+
             for (var i = 0; i < 3; i++)
-            {
                 if (values[i].Exponent < minExp) values[i] = 0;
                 else values[i].Exponent -= minExp;
-            }
             return new Vector3(values[0], values[1], values[2]);
         }
 
@@ -48,8 +46,9 @@ namespace CANStudio.BulletStorm.Util
             for (var i = 0; i < 3; i++)
             {
                 if (values[i].Equals(IeeeFloat.Zero)) continue;
-                values[i].Exponent += (byte)grow;
+                values[i].Exponent += (byte) grow;
             }
+
             return new Vector3(values[0], values[1], values[2]).normalized;
         }
 
@@ -58,12 +57,15 @@ namespace CANStudio.BulletStorm.Util
         ///     even if magnitude is set to zero.
         /// </summary>
         /// <param name="vector3"></param>
-        /// <param name="value">The magnitude (negative magnitude will still inverse the direction, so please avoid using negative magnitude if you don't want).</param>
+        /// <param name="value">
+        ///     The magnitude (negative magnitude will still inverse the direction, so please avoid using negative
+        ///     magnitude if you don't want).
+        /// </param>
         /// <returns></returns>
         public static Vector3 SafeChangeMagnitude(this in Vector3 vector3, float value)
         {
             var calculated = vector3.Normalized() * value;
-            
+
             var maxExp = byte.MinValue;
             foreach (var f in new IeeeFloat[] {calculated.x, calculated.y, calculated.z})
             {

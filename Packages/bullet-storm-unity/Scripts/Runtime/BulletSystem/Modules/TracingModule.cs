@@ -10,22 +10,23 @@ namespace CANStudio.BulletStorm.BulletSystem.Modules
     [Serializable]
     internal struct TracingModule
     {
-        [Tooltip("Tracing target.")]
-        [SerializeField] private Target target;
+        [Tooltip("Tracing target.")] [SerializeField]
+        private Target target;
 
-        [Tooltip("Max rotating angle per second.")]
-        [MinValue(0), AllowNesting]
-        [SerializeField] private float tracingRate;
+        [Tooltip("Max rotating angle per second.")] [MinValue(0)] [AllowNesting] [SerializeField]
+        private float tracingRate;
 
-        [SerializeField]
-        private bool enableRateCurve;
-        
+        [SerializeField] private bool enableRateCurve;
+
         [Tooltip("x-axis is the angle between bullet's velocity, y-axis is the tracing rate multiplier")]
-        [CurveRange(0, 0, 180, 1), SerializeField, ShowIf(nameof(enableRateCurve)), AllowNesting]
+        [CurveRange(0, 0, 180, 1)]
+        [SerializeField]
+        [ShowIf(nameof(enableRateCurve))]
+        [AllowNesting]
         private AnimationCurve tracingRateCurve;
 
         /// <summary>
-        /// Call this on every update.
+        ///     Call this on every update.
         /// </summary>
         /// <param name="bullet"></param>
         public void OnUpdate(IBulletController bullet)

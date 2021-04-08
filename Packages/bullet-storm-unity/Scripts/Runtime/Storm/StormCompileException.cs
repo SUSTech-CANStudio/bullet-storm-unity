@@ -8,13 +8,13 @@ namespace CANStudio.BulletStorm.Storm
         private readonly Type eventType;
         private readonly string message;
 
-        public override string Message => eventType.Name + " at index " + eventIndex + ": " + message;
-
         public StormCompileException(int eventIndex, Type eventType, string message)
         {
             this.eventIndex = eventIndex;
             this.eventType = eventType;
             this.message = message;
         }
+
+        public override string Message => eventType.Name + " at index " + eventIndex + ": " + message;
     }
 }

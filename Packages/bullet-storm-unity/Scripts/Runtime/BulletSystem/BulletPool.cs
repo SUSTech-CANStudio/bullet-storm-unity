@@ -8,11 +8,15 @@ using Object = UnityEngine.Object;
 namespace CANStudio.BulletStorm.BulletSystem
 {
     /// <summary>
-    /// A useful tool to manage bullets.
+    ///     A useful tool to manage bullets.
     /// </summary>
-    /// Put this <see cref="ScriptableObject"/> into the folder you store your bullet system prefabs,
+    /// Put this
+    /// <see cref="ScriptableObject" />
+    /// into the folder you store your bullet system prefabs,
     /// and it can auto register all bullet systems in the folder and sub folders.
-    /// Then you can use <see cref="Find"/> to get a bullet.
+    /// Then you can use
+    /// <see cref="Find" />
+    /// to get a bullet.
     [CreateAssetMenu(menuName = "BulletStorm/BulletPool")]
     public sealed class BulletPool : ScriptableObject, ISerializationCallbackReceiver
     {
@@ -22,21 +26,8 @@ namespace CANStudio.BulletStorm.BulletSystem
         [SerializeField] [HideInInspector] private List<string> keys;
         [SerializeField] [HideInInspector] private List<Object> values;
 
-        [NonSerialized]
-        public readonly Dictionary<string, IBulletSystem> bullets = new Dictionary<string, IBulletSystem>();
+        [NonSerialized] public readonly Dictionary<string, IBullet> bullets = new Dictionary<string, IBullet>();
 
-        /// <summary>
-        /// Finds a bullet system in this pool, will also find in parent pools.
-        /// </summary>
-        /// <param name="bulletName">Name of the bullet (bullet system prefab name)</param>
-        /// <returns>Null if not found</returns>
-        public IBulletSystem Find(string bulletName)
-        {
-            if (bullets.TryGetValue(bulletName, out var bullet)) return bullet;
-            if (parentPool && parentPool != this) return parentPool.Find(bulletName);
-            return null;
-        }
-        
         public void OnBeforeSerialize()
         {
             if (keys is null) keys = new List<string>();
@@ -53,10 +44,19 @@ namespace CANStudio.BulletStorm.BulletSystem
         public void OnAfterDeserialize()
         {
             bullets.Clear();
-            for (var i = 0; i < keys.Count && i < values.Count; i++)
-            {
-                bullets.Add(keys[i], values[i] as IBulletSystem);
-            }
+            for (var i = 0; i < keys.Count && i < values.Count; i++) bullets.Add(keys[i], values[i] as IBullet);
+        }
+
+        /// <summary>
+        ///     Finds a bullet system in this pool, will also find in parent pools.
+        /// </summary>
+        /// <param name="bulletName">Name of the bullet (bullet system prefab name)</param>
+        /// <returns>Null if not found</returns>
+        public IBullet Find(string bulletName)
+        {
+            if (bullets.TryGetValue(bulletName, out var bullet)) return bullet;
+            if (parentPool && parentPool != this) return parentPool.Find(bulletName);
+            return null;
         }
     }
 }

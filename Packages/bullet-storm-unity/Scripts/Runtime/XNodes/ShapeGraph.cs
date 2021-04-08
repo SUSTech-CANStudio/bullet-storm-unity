@@ -13,9 +13,12 @@ namespace CANStudio.BulletStorm.XNodes
         public Shape shape;
 
         private Output outputNode;
-        
-        public Shape GetShape() => shape;
-        
+
+        public Shape GetShape()
+        {
+            return shape;
+        }
+
         public bool CheckOutputNode()
         {
             if (!(outputNode is null) && outputNode && outputNode.graph == this) return true;
@@ -33,7 +36,7 @@ namespace CANStudio.BulletStorm.XNodes
             if (CheckOutputNode()) outputNode.Build();
             else BulletStormLogger.LogError("Output node not found.");
         }
-        
+
         public override Node AddNode(Type type)
         {
             if (type != typeof(Output) || !CheckOutputNode()) return base.AddNode(type);

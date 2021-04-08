@@ -9,13 +9,13 @@ namespace CANStudio.BulletStorm.BulletSystem.Modules
     [Serializable]
     public struct AroundAxisModule
     {
-        [Tooltip("Rotates around this axis."), SerializeField]
+        [Tooltip("Rotates around this axis.")] [SerializeField]
         private Vector3 axis;
 
-        [Tooltip("If select 'self', use reference system set in emitter."), SerializeField]
+        [Tooltip("If select 'self', use reference system set in emitter.")] [SerializeField]
         private Space space;
 
-        [Tooltip("Per second rotation angle in degree."), SerializeField]
+        [Tooltip("Per second rotation angle in degree.")] [SerializeField]
         private float anglePerSecond;
 
         public void OnUpdate(IBulletController controller)
@@ -38,6 +38,7 @@ namespace CANStudio.BulletStorm.BulletSystem.Modules
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
             var angle = anglePerSecond * Time.deltaTime;
             controller.ChangeParam(param =>
             {

@@ -13,13 +13,13 @@ namespace CANStudio.BulletStorm.Storm.Events
         [SerializeField] private int loopCount;
 
         #region Compile time
-        
+
         [NonSerialized] private int outScopeIndex;
-        
+
         #endregion
-        
+
         /// <summary>
-        /// Create a finite loop.
+        ///     Create a finite loop.
         /// </summary>
         /// <param name="loopCount">How many times should loop.</param>
         public BeginLoop(int loopCount)
@@ -49,32 +49,40 @@ namespace CANStudio.BulletStorm.Storm.Events
                         variable.Reset();
                         executor.JumpTo(outScopeIndex);
                     }
+
                     break;
-                
+
                 case LoopType.Conditional:
                     // TODO: Condition expression
                     break;
-                
+
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
             yield break;
         }
 
         /// <summary>
-        /// Set index for this to jump out of scope.
+        ///     Set index for this to jump out of scope.
         /// </summary>
-        /// This function should only be called in <see cref="EndLoop"/>.
-        /// <param name="index">The next event index of <see cref="EndLoop"/> event.</param>
-        internal void SetOutScopeIndex(int index) => outScopeIndex = index;
+        /// This function should only be called in
+        /// <see cref="EndLoop" />
+        /// .
+        /// <param name="index">The next event index of <see cref="EndLoop" /> event.</param>
+        internal void SetOutScopeIndex(int index)
+        {
+            outScopeIndex = index;
+        }
 
         [Serializable]
         private enum LoopType
         {
             [Tooltip("Finite loop with a given loop count.")]
             Finite,
+
             [Tooltip("Loop when condition expresion returns true.")]
-            Conditional,
+            Conditional
         }
     }
 }

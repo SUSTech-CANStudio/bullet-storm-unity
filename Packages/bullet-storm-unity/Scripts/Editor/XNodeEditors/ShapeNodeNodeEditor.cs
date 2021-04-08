@@ -9,20 +9,21 @@ namespace CANStudio.BulletStorm.Editor.XNodeEditors
     public class ShapeNodeNodeEditor : NodeEditor
     {
         private ShapeNode shapeNode;
-        
+
         public override void OnCreate()
         {
             base.OnCreate();
             shapeNode = target as ShapeNode;
         }
-        
+
         public override void OnBodyGUI()
         {
             base.OnBodyGUI();
             serializedObject.Update();
             try
             {
-                if (!shapeNode.IsShapeCurrent() && GUILayout.Button("Generate")) shapeNode.RecursiveGenerate();            }
+                if (!shapeNode.IsShapeCurrent() && GUILayout.Button("Generate")) shapeNode.RecursiveGenerate();
+            }
             catch (ArgumentException)
             {
                 // ignored

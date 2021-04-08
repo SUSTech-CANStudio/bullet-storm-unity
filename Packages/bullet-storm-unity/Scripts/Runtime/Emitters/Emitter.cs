@@ -7,87 +7,96 @@ using UnityEngine;
 namespace CANStudio.BulletStorm.Emitters
 {
     /// <summary>
-    /// The basic emitter, all other emitters inherit this.
-    /// This emitter doesn't have graphical interface, you have to call emit functions to emit bullets or storms.
+    ///     The basic emitter, all other emitters inherit this.
+    ///     This emitter doesn't have graphical interface, you have to call emit functions to emit bullets or storms.
     /// </summary>
     [AddComponentMenu("BulletStorm/Emitter")]
     public class Emitter : MonoBehaviour
     {
-        private readonly Dictionary<IBulletSystem, IBulletController> bulletSystems =
-            new Dictionary<IBulletSystem, IBulletController>();
+        private readonly Dictionary<IBullet, IBulletController> bulletSystems =
+            new Dictionary<IBullet, IBulletController>();
+
+        protected virtual void OnDestroy()
+        {
+            foreach (var copied in bulletSystems.Values) copied.Destroy();
+        }
 
         /// <summary>
-        /// Emits a storm from this emitter.
+        ///     Emits a storm from this emitter.
         /// </summary>
         /// <param name="storm">The storm.</param>
-        public virtual void Emit(StormInfo storm) => Emit(storm, transform);
-        
+        public virtual void Emit(StormInfo storm)
+        {
+            Emit(storm, transform);
+        }
+
         /// <summary>
-        /// Emits a storm.
+        ///     Emits a storm.
         /// </summary>
         /// <param name="storm">The storm.</param>
         /// <param name="emitter">Bullets will be emitted relative to it.</param>
-        public void Emit(StormInfo storm, Transform emitter) => StartCoroutine(storm.Execute(emitter));
+        public void Emit(StormInfo storm, Transform emitter)
+        {
+            StartCoroutine(storm.Execute(emitter));
+        }
 
         /// <summary>
-        /// Emits bullets use given parameters from this emitter.
+        ///     Emits bullets use given parameters from this emitter.
         /// </summary>
         /// <param name="shape">Bullet parameters</param>
         /// <param name="bullet">The bullet type to emit</param>
-        public virtual void Emit(IEnumerable<BulletEmitParam> shape, IBulletSystem bullet) =>
+        public virtual void Emit(IEnumerable<BulletEmitParam> shape, IBullet bullet)
+        {
             Emit(shape, bullet, transform);
+        }
 
         /// <summary>
-        /// Emits bullets use given parameters.
+        ///     Emits bullets use given parameters.
         /// </summary>
         /// <param name="shape">Bullet parameters</param>
         /// <param name="bullet">The bullet type to emit</param>
         /// <param name="emitter">Bullets will be emitted relative to it</param>
-        public void Emit(IEnumerable<BulletEmitParam> shape, IBulletSystem bullet, Transform emitter)
+        public void Emit(IEnumerable<BulletEmitParam> shape, IBullet bullet, Transform emitter)
         {
             foreach (var emitParam in shape) Emit(emitParam, bullet, emitter);
         }
 
         /// <summary>
-        /// Emits a single bullet from this emitter.
+        ///     Emits a single bullet from this emitter.
         /// </summary>
         /// <param name="emitParam">Parameters of the bullet</param>
         /// <param name="bullet">The bullet type to emit</param>
-        public virtual void Emit(BulletEmitParam emitParam, IBulletSystem bullet) =>
+        public virtual void Emit(BulletEmitParam emitParam, IBullet bullet)
+        {
             Emit(emitParam, bullet, transform);
+        }
 
         /// <summary>
-        /// Emits a single bullet.
+        ///     Emits a single bullet.
         /// </summary>
         /// <param name="emitParam">Parameters of the bullet</param>
         /// <param name="bullet">The bullet type to emit</param>
         /// <param name="emitter">Bullet will be emitted relative to it</param>
-        public void Emit(BulletEmitParam emitParam, IBulletSystem bullet, Transform emitter) =>
-            GetBulletController(bullet).Emit(emitParam, emitter);
-        
-        protected virtual void OnDestroy()
+        public void Emit(BulletEmitParam emitParam, IBullet bullet, Transform emitter)
         {
-            foreach (var copied in bulletSystems.Values) copied.Destroy();
+            GetBulletController(bullet).Emit(emitParam, emitter);
         }
-        
+
         /// <summary>
         ///     Set reference system for a bullet system. After calling this, emitted bullets will take given rotation
         ///     their reference system. This function won't change reference system of already emitted bullets.
         /// </summary>
         /// <param name="bulletSystem"></param>
         /// <param name="rotation"></param>
-        protected void SetReferenceSystem(IBulletSystem bulletSystem, Quaternion rotation)
+        protected void SetReferenceSystem(IBullet bullet, Quaternion rotation)
         {
-            if (bulletSystems.TryGetValue(bulletSystem, out var controller))
-            {
-                controller.Destroy();
-            }
-            var newController = bulletSystem.GetController();
+            if (bulletSystems.TryGetValue(bullet, out var controller)) controller.Destroy();
+            var newController = bullet.GetController();
             newController.Rotation = rotation;
-            bulletSystems[bulletSystem] = newController;
+            bulletSystems[bullet] = newController;
         }
 
-        private IBulletController GetBulletController(IBulletSystem bullet)
+        private IBulletController GetBulletController(IBullet bullet)
         {
             if (bulletSystems.TryGetValue(bullet, out var result)) return result;
             result = bullet.GetController();

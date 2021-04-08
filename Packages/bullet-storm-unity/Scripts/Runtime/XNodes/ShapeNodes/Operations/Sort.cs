@@ -6,11 +6,11 @@ using UnityEngine;
 
 namespace CANStudio.BulletStorm.XNodes.ShapeNodes.Operations
 {
-    [CreateNodeMenu("BulletStorm/Shape/Operation/Sort", Utils.OrderSpecialOperation), NodeTint(Utils.ColorShapeOperationSpecial)]
+    [CreateNodeMenu("BulletStorm/Shape/Operation/Sort", Utils.OrderSpecialOperation)]
+    [NodeTint(Utils.ColorShapeOperationSpecial)]
     public class Sort : ShapeOperationNode
     {
-        [SerializeField]
-        private List<ParamComparer.CompareInfo> comparers;
+        [SerializeField] private List<ParamComparer.CompareInfo> comparers;
 
         public override void Generate()
         {

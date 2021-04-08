@@ -1,9 +1,8 @@
 using CANStudio.BulletStorm.Util;
+using CANStudio.BulletStorm.XNodes.Math.Noun;
 using UnityEditor;
-using UnityEngine;
 using XNode;
 using XNodeEditor;
-using Quaternion = CANStudio.BulletStorm.XNodes.Math.Noun.Quaternion;
 
 namespace CANStudio.BulletStorm.Editor.XNodeEditors
 {
@@ -11,16 +10,16 @@ namespace CANStudio.BulletStorm.Editor.XNodeEditors
     public class QuaternionNodeEditor : NodeEditor
     {
         private Quaternion quaternion;
-        private NodePort value;
-        private SerializedProperty type;
         private SerializedProperty setUpward;
+        private SerializedProperty type;
+        private NodePort value;
         private SerializedProperty vector0;
         private SerializedProperty vector1;
 
         public override void OnCreate()
         {
             base.OnCreate();
-            
+
             quaternion = target as Quaternion;
             if (quaternion is null || !quaternion)
             {
@@ -56,6 +55,7 @@ namespace CANStudio.BulletStorm.Editor.XNodeEditors
                         EditorGUILayout.PrefixLabel("Upward Direction");
                         NodeEditorGUILayout.PropertyField(vector1, quaternion.GetInputPort(nameof(vector1)));
                     }
+
                     break;
                 case 2: // FromToRotation
                     EditorGUILayout.PrefixLabel("From Direction");
@@ -64,7 +64,7 @@ namespace CANStudio.BulletStorm.Editor.XNodeEditors
                     NodeEditorGUILayout.PropertyField(vector1, quaternion.GetInputPort(nameof(vector1)));
                     break;
             }
-            
+
             serializedObject.ApplyModifiedProperties();
         }
     }

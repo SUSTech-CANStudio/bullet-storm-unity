@@ -7,14 +7,17 @@ namespace CANStudio.BulletStorm.XNodes.ShapeNodes.Operations
 {
     public abstract class ShapeOperationNode : ShapeNode
     {
-        [SerializeField, Input(ShowBackingValue.Never, ConnectionType.Override, TypeConstraint.Inherited)]
+        [SerializeField] [Input(ShowBackingValue.Never, ConnectionType.Override, TypeConstraint.Inherited)]
         private Shape inputShape;
 
         /// <summary>
-        /// Convenient method to copy input shape.
+        ///     Convenient method to copy input shape.
         /// </summary>
         /// <returns></returns>
-        protected Shape CopyInputShape() => GetInputValue(nameof(inputShape), inputShape).Copy();
+        protected Shape CopyInputShape()
+        {
+            return GetInputValue(nameof(inputShape), inputShape).Copy();
+        }
 
         public override void RecursiveGenerate()
         {

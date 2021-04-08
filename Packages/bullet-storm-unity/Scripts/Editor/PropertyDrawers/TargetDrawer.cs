@@ -8,21 +8,21 @@ namespace CANStudio.BulletStorm.Editor.PropertyDrawers
     public class TargetDrawer : PropertyDrawer
     {
         private int last;
-        
+
         public override void OnGUI(Rect position, SerializedProperty property,
             GUIContent label)
         {
             label = EditorGUI.BeginProperty(position, label, property);
-            
+
             position = EditorGUI.PrefixLabel(position, label);
-            
-            var left = new Rect(position){width = position.width * 0.35f};
-            var right = new Rect(position){xMin = left.x + left.width};
+
+            var left = new Rect(position) {width = position.width * 0.35f};
+            var right = new Rect(position) {xMin = left.x + left.width};
             var findByProp = property.FindPropertyRelative("findBy");
 
             var save = EditorGUI.indentLevel;
             EditorGUI.indentLevel = 0;
-            
+
             EditorGUI.PropertyField(left, findByProp, GUIContent.none);
             switch (findByProp.enumValueIndex)
             {

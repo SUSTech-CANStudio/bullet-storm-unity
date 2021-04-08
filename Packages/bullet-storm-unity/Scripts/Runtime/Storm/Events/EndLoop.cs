@@ -13,12 +13,7 @@ namespace CANStudio.BulletStorm.Storm.Events
         [NonSerialized] private int beginLoopIndex;
 
         #endregion
-        
-        /// <summary>
-        /// Creates an end loop event.
-        /// </summary>
-        public EndLoop() {}
-        
+
         public void Compile(StormInfo info, Stack<int> scopes, int index)
         {
             try
@@ -29,8 +24,11 @@ namespace CANStudio.BulletStorm.Storm.Events
                     beginLoopEvent.SetOutScopeIndex(index + 1);
                     beginLoopIndex = lastScopeBegin;
                 }
-                else throw new StormCompileException(index, GetType(),
-                    "Event at index " + lastScopeBegin + " is not a begin loop event.");
+                else
+                {
+                    throw new StormCompileException(index, GetType(),
+                        "Event at index " + lastScopeBegin + " is not a begin loop event.");
+                }
             }
             catch (InvalidOperationException)
             {
