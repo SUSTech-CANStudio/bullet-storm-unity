@@ -50,13 +50,11 @@ namespace BulletStorm.Core
         private void Simulate(float deltaTime)
         {
             if (_modules.Length == 0 && _actions.Count == 0) return;
-
-            var bullets = _bulletSystem.Bullets;
-
-            Parallel.For(0, bullets.Length, i =>
+            
+            Parallel.For(0, _bulletSystem.BulletCount, i =>
             {
-                foreach (var module in _modules) module.UpdateBullet(ref bullets[i], deltaTime);
-                foreach (var action in _actions) action.action.UpdateBullet(ref bullets[i], deltaTime);
+                foreach (var module in _modules) module.UpdateBullet(ref _bulletSystem.Bullet(i), deltaTime);
+                foreach (var action in _actions) action.action.UpdateBullet(ref _bulletSystem.Bullet(i), deltaTime);
             });
 
             // clear finished actions
@@ -69,8 +67,6 @@ namespace BulletStorm.Core
                 current = current.Next;
                 if (time <= 0) _actions.Remove(temp);
             }
-
-            _bulletSystem.Bullets = bullets;
         }
 
         private struct TimedAction

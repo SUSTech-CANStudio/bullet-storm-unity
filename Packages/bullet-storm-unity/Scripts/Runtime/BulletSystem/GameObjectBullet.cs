@@ -17,7 +17,7 @@ namespace CANStudio.BulletStorm.BulletSystem
     ///     <see cref="CANStudio.BulletStorm.BulletSystem.BulletComponent.speed" /> and
     ///     <see cref="CANStudio.BulletStorm.BulletSystem.BulletComponent.lifetime" />.
     ///     <para />
-    ///     This bullet system is much more inefficient than <see cref="ParticleBullet" />, but
+    ///     This bullet system is much more inefficient than <see cref="ParticleBulletSystem" />, but
     ///     useful when you need more flexibility. For example, if you need an enemy bullet which is
     ///     breakable by player's bullet, unfortunately unity's particle system can't detect collision
     ///     between two particles. A game object can be useful to deal with this situation.

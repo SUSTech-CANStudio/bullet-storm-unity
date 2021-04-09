@@ -75,5 +75,16 @@ namespace CANStudio.BulletStorm.Util
 
             return maxExp < Accuracy ? vector3.Minimized() : calculated;
         }
+
+        public static Vector3 ToUnity(this global::System.Numerics.Vector3 v) => new Vector3(v.X, v.Y, v.Z);
+
+        public static global::System.Numerics.Vector3 ToSystem(this Vector3 v) =>
+            new global::System.Numerics.Vector3(v.x, v.y, v.z);
+
+        public static Quaternion ToUnity(this global::System.Numerics.Quaternion q) =>
+            new Quaternion(q.X, q.Y, q.Z, q.W);
+
+        public static global::System.Numerics.Quaternion ToSystem(this Quaternion q) =>
+            new global::System.Numerics.Quaternion(q.x, q.y, q.z, q.w);
     }
 }

@@ -12,7 +12,7 @@ namespace CANStudio.BulletStorm.Editor
         [MenuItem("Assets/Create/BulletStorm/ParticleBulletSystem")]
         public static void CreateParticleBulletSystemPrefab()
         {
-            CreatePrefab<ParticleBullet>("NewBullet", GetCurrentAssetDirectory("Assets/Prefabs/BulletStorm"));
+            CreatePrefab<ParticleBulletSystem>("NewBullet", GetCurrentAssetDirectory("Assets/Prefabs/BulletStorm"));
         }
 
         [MenuItem("Assets/Create/BulletStorm/GameObjectBulletSystem")]

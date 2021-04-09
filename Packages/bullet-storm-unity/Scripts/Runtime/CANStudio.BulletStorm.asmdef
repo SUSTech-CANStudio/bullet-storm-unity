@@ -3,7 +3,8 @@
     "rootNamespace": "CANStudio.BulletStorm",
     "references": [
         "NaughtyAttributes.Core",
-        "XNode"
+        "XNode",
+        "BulletStorm.Core"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
