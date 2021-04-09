@@ -1,50 +1,78 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using BulletStorm.Core;
+using CANStudio.BulletStorm.Util;
 using UnityEngine;
 
 namespace CANStudio.BulletStorm.BulletSystem
 {
-    [SuppressMessage("ReSharper", "ParameterHidesMember")]
+    /// <summary>
+    ///     This component manages the game object's position, rotation and lifetime.
+    ///     Once this component attached, modifying transform will be useless.
+    /// </summary>
     [DisallowMultipleComponent]
     public class BulletComponent : MonoBehaviour
     {
-        public float speed;
-        public float lifetime;
-        private bool _enableLifetime;
-        public float StartTime { get; private set; }
+        internal BulletParams bulletParams;
 
-        private void Start()
+        public Vector3 Position
         {
-            StartTime = Time.time;
+            get => bulletParams.position.ToUnity();
+            set => bulletParams.position = value.ToSystem();
         }
 
-        private void LateUpdate()
+        public Quaternion Rotation
+        {
+            get => bulletParams.rotation.ToUnity();
+            set => bulletParams.rotation = value.ToSystem();
+        }
+
+        public float Speed
+        {
+            get => bulletParams.speed;
+            set => bulletParams.speed = value;
+        }
+
+        /// <summary>
+        ///     How long has this bullet existed.
+        /// </summary>
+        public float Lifetime => bulletParams.lifetime;
+        
+        private float _startLifetime;
+
+        internal static BulletComponent Create(GameObject prototype, EmitParams emitParams, float startLifetime)
+        {
+            var go = Instantiate(prototype, null);
+            go.hideFlags = HideFlags.HideAndDontSave;
+            if (!go.TryGetComponent(out BulletComponent self)) self = go.AddComponent<BulletComponent>();
+            self.bulletParams = new BulletParams(emitParams.position,
+                Quaternion.LookRotation(emitParams.velocity.ToUnity()).ToSystem(),
+                emitParams.velocity.Length(),
+                0);
+            self._startLifetime = startLifetime;
+            self.GetComponent<Renderer>().material.color = new Color(emitParams.color.X, emitParams.color.Y,
+                emitParams.color.Z, emitParams.color.W);
+            return self;
+        }
+
+        /// <summary>
+        ///     Set transform of game object with <see cref="Position"/> and <see cref="Rotation"/>.
+        ///     This will be invoked automatically in every <see cref="Update"/>, you can also manually call
+        ///     it to sync transform if need.
+        /// </summary>
+        // ReSharper disable once MemberCanBePrivate.Global
+        public void SyncTransform()
         {
             var t = transform;
-            t.position += speed * Time.deltaTime * t.forward;
-            if (!_enableLifetime) return;
-            if (lifetime <= Time.time - StartTime) Destroy(gameObject);
+            t.position = Position;
+            t.rotation = Rotation;
         }
-
-        public void EnableLifeTime(float time)
+        
+        private void Update()
         {
-            _enableLifetime = true;
-            lifetime = time;
-        }
-
-        internal void Init(Vector3 position, Vector3 velocity)
-        {
-            Init(position, velocity, Color.clear, Vector3.zero);
-        }
-
-        internal void Init(Vector3 position, Vector3 velocity, Color color, Vector3 size)
-        {
-            var t = transform;
-            t.position = position;
-            speed = velocity.magnitude;
-            t.forward = velocity;
-            _enableLifetime = false;
-            if (color != Color.clear) GetComponent<Renderer>().material.color = color;
-            if (size != Vector3.zero) transform.localScale = size;
+            bulletParams = new BulletParams(bulletParams.position, bulletParams.rotation, bulletParams.speed,
+                bulletParams.lifetime + Time.deltaTime);
+            if (Lifetime >= _startLifetime) Destroy(gameObject);
+            Position += Rotation * Vector3.forward * (Speed * Time.deltaTime);
+            SyncTransform();
         }
     }
 }

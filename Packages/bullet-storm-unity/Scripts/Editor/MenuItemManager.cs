@@ -18,7 +18,7 @@ namespace CANStudio.BulletStorm.Editor
         [MenuItem("Assets/Create/BulletStorm/GameObjectBulletSystem")]
         public static void CreateGameObjectBulletSystemPrefab()
         {
-            CreatePrefab<GameObjectBullet>("NewBullet", GetCurrentAssetDirectory("Assets/Prefabs/BulletStorm"));
+            CreatePrefab<GameObjectBulletSystem>("NewBullet", GetCurrentAssetDirectory("Assets/Prefabs/BulletStorm"));
         }
 
         [MenuItem("GameObject/3D Object/BulletStorm/AutoBulletEmitter")]

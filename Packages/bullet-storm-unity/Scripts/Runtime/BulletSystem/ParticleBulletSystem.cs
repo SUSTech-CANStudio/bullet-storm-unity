@@ -20,7 +20,7 @@ namespace CANStudio.BulletStorm.BulletSystem
         private ParticleSystemRenderer _psr;
 
         private ParticleSystem.Particle[] _particles;
-        private BulletParams[] _bullets = new BulletParams[8];
+        private readonly RefList<BulletParams> _bullets = new RefList<BulletParams>();
         private readonly List<EmitParams> _emittingBullets = new List<EmitParams>();
 
         public int BulletCount { get; private set; }
@@ -44,10 +44,7 @@ namespace CANStudio.BulletStorm.BulletSystem
         public void Emit(EmitParams emitParams) => _emittingBullets.Add(emitParams);
         public void Emit(IEnumerable<EmitParams> emitParams) => _emittingBullets.AddRange(emitParams);
 
-        public void Abandon()
-        {
-            if (this) StartCoroutine(WaitForDestroy());
-        }
+        public void Abandon() => StartCoroutine(WaitForDestroy());
 
         private void Start()
         {
@@ -98,23 +95,13 @@ namespace CANStudio.BulletStorm.BulletSystem
             BulletCount = _ps.GetParticles(_particles);
             
             // read bullets
-            if (_bullets.Length < BulletCount)
-            {
-                // get the nearest power of 2 larger then `BulletCount`
-                var size = (uint)BulletCount - 1;
-                size |= size >> 1;
-                size |= size >> 2;
-                size |= size >> 4;
-                size |= size >> 8;
-                size |= size >> 16;
-                _bullets = new BulletParams[size + 1];
-            }
+            _bullets.Clear();
             for (var i = 0; i < BulletCount; i++)
             {
-                _bullets[i] = new BulletParams(_particles[i].position.ToSystem(),
+                _bullets.Add(new BulletParams(_particles[i].position.ToSystem(),
                     Quaternion.LookRotation(_particles[i].velocity.Normalized()).ToSystem(),
                     _particles[i].velocity.magnitude,
-                    _particles[i].startLifetime - _particles[i].remainingLifetime);
+                    _particles[i].startLifetime - _particles[i].remainingLifetime));
             }
         }
 
