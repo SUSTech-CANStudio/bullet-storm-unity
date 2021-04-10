@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BulletStorm.Core
+namespace CANStudio.BulletStorm.Core
 {
     /// <summary>
     ///     Runtime controller of bullets.

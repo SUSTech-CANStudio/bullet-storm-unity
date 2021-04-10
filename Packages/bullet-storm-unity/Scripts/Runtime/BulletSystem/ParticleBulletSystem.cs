@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using BulletStorm.Core;
+using CANStudio.BulletStorm.Core;
 using CANStudio.BulletStorm.Util;
 using UnityEngine;
 

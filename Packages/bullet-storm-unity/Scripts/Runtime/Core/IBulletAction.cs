@@ -1,4 +1,4 @@
-﻿namespace BulletStorm.Core
+﻿namespace CANStudio.BulletStorm.Core
 {
     public interface IBulletAction
     {

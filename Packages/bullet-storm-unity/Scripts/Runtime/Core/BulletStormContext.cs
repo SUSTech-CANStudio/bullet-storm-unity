@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BulletStorm.Core
+namespace CANStudio.BulletStorm.Core
 {
     public class BulletStormContext
     {

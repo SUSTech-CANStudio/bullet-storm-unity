@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BulletStorm.Core
+namespace CANStudio.BulletStorm.Core
 {
     /// <summary>
     ///     Implementation of a bullet system, should be implemented by particle system or other methods

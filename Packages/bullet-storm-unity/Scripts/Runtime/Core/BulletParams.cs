@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace BulletStorm.Core
+namespace CANStudio.BulletStorm.Core
 {
     public struct BulletParams
     {

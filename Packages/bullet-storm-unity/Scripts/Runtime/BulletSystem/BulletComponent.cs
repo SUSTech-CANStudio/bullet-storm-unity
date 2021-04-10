@@ -1,4 +1,4 @@
-﻿using BulletStorm.Core;
+﻿using CANStudio.BulletStorm.Core;
 using CANStudio.BulletStorm.Util;
 using UnityEngine;
 

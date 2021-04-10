@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using BulletStorm.Core;
+using CANStudio.BulletStorm.Core;
 using UnityEngine;
 
 namespace CANStudio.BulletStorm.BulletSystem
