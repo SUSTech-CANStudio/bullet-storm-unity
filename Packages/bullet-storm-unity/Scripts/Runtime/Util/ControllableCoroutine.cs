@@ -46,7 +46,7 @@ namespace CANStudio.BulletStorm.Util
         public ControllableCoroutine(MonoBehaviour monoBehaviour, IEnumerator coroutine, Action callback = null) : this(
             coroutine, callback)
         {
-            this._monoBehaviour = monoBehaviour;
+            _monoBehaviour = monoBehaviour;
         }
 
         /// <summary>

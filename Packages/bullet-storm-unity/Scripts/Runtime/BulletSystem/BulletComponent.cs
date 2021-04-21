@@ -11,6 +11,7 @@ namespace CANStudio.BulletStorm.BulletSystem
     [DisallowMultipleComponent]
     public class BulletComponent : MonoBehaviour
     {
+        private float _startLifetime;
         internal BulletParams bulletParams;
 
         public Vector3 Position
@@ -35,8 +36,15 @@ namespace CANStudio.BulletStorm.BulletSystem
         ///     How long has this bullet existed.
         /// </summary>
         public float Lifetime => bulletParams.lifetime;
-        
-        private float _startLifetime;
+
+        private void Update()
+        {
+            bulletParams = new BulletParams(bulletParams.position, bulletParams.rotation, bulletParams.speed,
+                bulletParams.lifetime + Time.deltaTime);
+            if (Lifetime >= _startLifetime) Destroy(gameObject);
+            Position += Rotation * Vector3.forward * (Speed * Time.deltaTime);
+            SyncTransform();
+        }
 
         internal static BulletComponent Create(GameObject prototype, EmitParams emitParams, float startLifetime)
         {
@@ -54,8 +62,8 @@ namespace CANStudio.BulletStorm.BulletSystem
         }
 
         /// <summary>
-        ///     Set transform of game object with <see cref="Position"/> and <see cref="Rotation"/>.
-        ///     This will be invoked automatically in every <see cref="Update"/>, you can also manually call
+        ///     Set transform of game object with <see cref="Position" /> and <see cref="Rotation" />.
+        ///     This will be invoked automatically in every <see cref="Update" />, you can also manually call
         ///     it to sync transform if need.
         /// </summary>
         // ReSharper disable once MemberCanBePrivate.Global
@@ -64,15 +72,6 @@ namespace CANStudio.BulletStorm.BulletSystem
             var t = transform;
             t.position = Position;
             t.rotation = Rotation;
-        }
-        
-        private void Update()
-        {
-            bulletParams = new BulletParams(bulletParams.position, bulletParams.rotation, bulletParams.speed,
-                bulletParams.lifetime + Time.deltaTime);
-            if (Lifetime >= _startLifetime) Destroy(gameObject);
-            Position += Rotation * Vector3.forward * (Speed * Time.deltaTime);
-            SyncTransform();
         }
     }
 }

@@ -23,16 +23,40 @@ namespace CANStudio.BulletStorm.BulletSystem
     [AddComponentMenu("")]
     internal class GameObjectBulletSystem : MonoBehaviour, IBulletSystemImplementation
     {
+        private static readonly Lazy<GameObject> Daemon =
+            new Lazy<GameObject>(() => new GameObject {hideFlags = HideFlags.HideAndDontSave});
+
+        private List<BulletComponent> _bulletComponents = new List<BulletComponent>();
         private GameObject _bulletPrototype;
         private float _startLifetime;
 
-        private List<BulletComponent> _bulletComponents = new List<BulletComponent>();
+        private void LateUpdate()
+        {
+            _bulletComponents = _bulletComponents.Where(gameObjectBullet => gameObjectBullet).ToList();
+        }
 
-        private static readonly Lazy<GameObject> Daemon =
-            new Lazy<GameObject>(() => new GameObject {hideFlags = HideFlags.HideAndDontSave});
-        
         public int BulletCount => _bulletComponents.Count;
-        
+
+        public ref BulletParams Bullet(int index)
+        {
+            return ref _bulletComponents[index].bulletParams;
+        }
+
+        public void Emit(EmitParams emitParams)
+        {
+            _bulletComponents.Add(BulletComponent.Create(_bulletPrototype, emitParams, _startLifetime));
+        }
+
+        public void Emit(IEnumerable<EmitParams> emitParams)
+        {
+            foreach (var e in emitParams) Emit(e);
+        }
+
+        public void Abandon()
+        {
+            StartCoroutine(WaitForDestroy());
+        }
+
         /// <summary>
         ///     Create a game object bullet system with parameters.
         /// </summary>
@@ -45,23 +69,6 @@ namespace CANStudio.BulletStorm.BulletSystem
             self._bulletPrototype = prototype;
             self._startLifetime = startLifetime;
             return self;
-        }
-
-        public ref BulletParams Bullet(int index) => ref _bulletComponents[index].bulletParams;
-
-        public void Emit(EmitParams emitParams) =>
-            _bulletComponents.Add(BulletComponent.Create(_bulletPrototype, emitParams, _startLifetime));
-
-        public void Emit(IEnumerable<EmitParams> emitParams)
-        {
-            foreach (var e in emitParams) Emit(e);
-        }
-
-        public void Abandon() => StartCoroutine(WaitForDestroy());
-
-        private void LateUpdate()
-        {
-            _bulletComponents = _bulletComponents.Where(gameObjectBullet => gameObjectBullet).ToList();
         }
 
         private IEnumerator WaitForDestroy()

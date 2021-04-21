@@ -11,10 +11,10 @@ namespace CANStudio.BulletStorm
     [CreateAssetMenu(fileName = "BulletStorm/Bullet")]
     public class Bullet : ScriptableObject
     {
-        [Header("Implementation")]
-        public BulletSystemType implementation;
-        
-        [ShowIf(nameof(UseParticleBulletSystem)), Required]
+        [Header("Implementation")] public BulletSystemType implementation;
+
+        [ShowIf(nameof(UseParticleBulletSystem))]
+        [Required]
         [Tooltip("Use particles in this particle system as bullets.")]
         public ParticleSystem particleSystem;
 
@@ -25,25 +25,15 @@ namespace CANStudio.BulletStorm
         [ShowIf(nameof(UseParticleBulletSystem))]
         [Tooltip("True to use color parameters in shape, false to use default color in particle system.")]
         public bool overrideColor;
-        
-        [ShowIf(nameof(UseGameObjectBulletSystem)), Required]
-        [Tooltip("Use this game object as every bullet.")]
+
+        [ShowIf(nameof(UseGameObjectBulletSystem))] [Required] [Tooltip("Use this game object as every bullet.")]
         public GameObject gameObject;
 
-        [ShowIf(nameof(UseGameObjectBulletSystem))]
-        [Tooltip("Lifetime of bullets.")]
+        [ShowIf(nameof(UseGameObjectBulletSystem))] [Tooltip("Lifetime of bullets.")]
         public float bulletLifetime;
-        
-        [Header("Settings")]
-        [SerializeReference]
+
+        [Header("Settings")] [SerializeReference]
         public IBulletAction[] modules;
-
-        #region Reflection use only
-
-        private bool UseGameObjectBulletSystem => implementation == BulletSystemType.GameObjectBulletSystem;
-        private bool UseParticleBulletSystem => implementation == BulletSystemType.ParticleBulletSystem;
-
-        #endregion
 
         internal IBulletSystemImplementation GetBulletSystem()
         {
@@ -64,5 +54,12 @@ namespace CANStudio.BulletStorm
         {
             throw new NotImplementedException();
         }
+
+        #region Reflection use only
+
+        private bool UseGameObjectBulletSystem => implementation == BulletSystemType.GameObjectBulletSystem;
+        private bool UseParticleBulletSystem => implementation == BulletSystemType.ParticleBulletSystem;
+
+        #endregion
     }
 }

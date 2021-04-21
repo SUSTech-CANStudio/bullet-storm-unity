@@ -6,47 +6,22 @@ using UnityEngine;
 
 namespace CANStudio.BulletStorm.BulletSystem
 {
-	/// <summary>
-	///     A bullet system implemented using Unity <see cref="ParticleSystem" />.
-	/// </summary>
+    /// <summary>
+    ///     A bullet system implemented using Unity <see cref="ParticleSystem" />.
+    /// </summary>
     [AddComponentMenu("")]
     [DisallowMultipleComponent]
     internal class ParticleBulletSystem : MonoBehaviour, IBulletSystemImplementation
     {
+        private readonly RefList<BulletParams> _bullets = new RefList<BulletParams>();
+        private readonly List<EmitParams> _emittingBullets = new List<EmitParams>();
         private bool _overrideColor, _overrideSize;
-        
+
+        private ParticleSystem.Particle[] _particles;
+
         private ParticleSystem _ps;
         private ParticleSystem.MainModule _psm;
         private ParticleSystemRenderer _psr;
-
-        private ParticleSystem.Particle[] _particles;
-        private readonly RefList<BulletParams> _bullets = new RefList<BulletParams>();
-        private readonly List<EmitParams> _emittingBullets = new List<EmitParams>();
-
-        public int BulletCount { get; private set; }
-        public ref BulletParams Bullet(int index) => ref _bullets[index];
-
-        /// <summary>
-        ///     Creates a particle bullet system with parameters.
-        /// </summary>
-        /// <param name="prototype"></param>
-        /// <param name="overrideColor">If true, use color in `Shape` instead of default color in particle system.</param>
-        /// <param name="overrideSize">If true, use size in `Shape` instead of default size in particle system.</param>
-        /// <returns></returns>
-        public static ParticleBulletSystem Create(ParticleSystem prototype, bool overrideColor, bool overrideSize)
-        {
-            var go = Instantiate(prototype.gameObject);
-            go.hideFlags = HideFlags.HideAndDontSave;
-            var self = go.AddComponent<ParticleBulletSystem>();
-            self._overrideColor = overrideColor;
-            self._overrideSize = overrideSize;
-            return self;
-        }
-        
-        public void Emit(EmitParams emitParams) => _emittingBullets.Add(emitParams);
-        public void Emit(IEnumerable<EmitParams> emitParams) => _emittingBullets.AddRange(emitParams);
-
-        public void Abandon() => StartCoroutine(WaitForDestroy());
 
         private void Start()
         {
@@ -69,6 +44,45 @@ namespace CANStudio.BulletStorm.BulletSystem
             EmitBullets();
             _ps.Simulate(Time.deltaTime);
             ReadBullets();
+        }
+
+        public int BulletCount { get; private set; }
+
+        public ref BulletParams Bullet(int index)
+        {
+            return ref _bullets[index];
+        }
+
+        public void Emit(EmitParams emitParams)
+        {
+            _emittingBullets.Add(emitParams);
+        }
+
+        public void Emit(IEnumerable<EmitParams> emitParams)
+        {
+            _emittingBullets.AddRange(emitParams);
+        }
+
+        public void Abandon()
+        {
+            StartCoroutine(WaitForDestroy());
+        }
+
+        /// <summary>
+        ///     Creates a particle bullet system with parameters.
+        /// </summary>
+        /// <param name="prototype"></param>
+        /// <param name="overrideColor">If true, use color in `Shape` instead of default color in particle system.</param>
+        /// <param name="overrideSize">If true, use size in `Shape` instead of default size in particle system.</param>
+        /// <returns></returns>
+        public static ParticleBulletSystem Create(ParticleSystem prototype, bool overrideColor, bool overrideSize)
+        {
+            var go = Instantiate(prototype.gameObject);
+            go.hideFlags = HideFlags.HideAndDontSave;
+            var self = go.AddComponent<ParticleBulletSystem>();
+            self._overrideColor = overrideColor;
+            self._overrideSize = overrideSize;
+            return self;
         }
 
         /// <summary>
@@ -95,16 +109,14 @@ namespace CANStudio.BulletStorm.BulletSystem
             if (_particles is null || _particles.Length < _psm.maxParticles)
                 _particles = new ParticleSystem.Particle[_psm.maxParticles];
             BulletCount = _ps.GetParticles(_particles);
-            
+
             // read bullets
             _bullets.Clear();
             for (var i = 0; i < BulletCount; i++)
-            {
                 _bullets.Add(new BulletParams(_particles[i].position.ToSystem(),
                     Quaternion.LookRotation(_particles[i].velocity.Normalized()).ToSystem(),
                     _particles[i].velocity.magnitude,
                     _particles[i].startLifetime - _particles[i].remainingLifetime));
-            }
         }
 
         /// <summary>
@@ -119,17 +131,17 @@ namespace CANStudio.BulletStorm.BulletSystem
                     (_bullets[i].rotation.ToUnity() * Vector3.forward).SafeChangeMagnitude(_bullets[i].speed);
                 _particles[i].position = _bullets[i].position.ToUnity();
             }
-            
+
             // also change rotation if particle is mesh
             if (_psr.renderMode == ParticleSystemRenderMode.Mesh)
                 for (var i = 0; i < BulletCount; i++)
                     _particles[i].rotation3D = Quaternion.LookRotation(_particles[i].velocity).eulerAngles;
-            
+
             _ps.SetParticles(_particles, BulletCount);
         }
 
         /// <summary>
-        ///     Emit bullets in <see cref="_emittingBullets"/>.
+        ///     Emit bullets in <see cref="_emittingBullets" />.
         /// </summary>
         private void EmitBullets()
         {
@@ -145,6 +157,7 @@ namespace CANStudio.BulletStorm.BulletSystem
                 if (_overrideSize) ep.startSize3D = bullet.size.ToUnity();
                 _ps.Emit(ep, 1);
             }
+
             _emittingBullets.Clear();
         }
     }

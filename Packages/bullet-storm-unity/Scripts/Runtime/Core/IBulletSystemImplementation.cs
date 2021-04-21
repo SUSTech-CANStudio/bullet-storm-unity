@@ -17,15 +17,15 @@ namespace CANStudio.BulletStorm.Core
         /// <param name="index">0 to (BulletCount - 1)</param>
         /// <returns>Value can be changed by caller.</returns>
         ref BulletParams Bullet(int index);
-        
+
         /// <summary>
         ///     Emit with parameters in world space.
         /// </summary>
         /// <param name="emitParams"></param>
         void Emit(EmitParams emitParams);
-        
+
         void Emit(IEnumerable<EmitParams> emitParams);
-        
+
         /// <summary>
         ///     This is called when the instance no longer needed.
         /// </summary>

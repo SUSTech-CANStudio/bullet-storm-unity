@@ -14,7 +14,8 @@ namespace CANStudio.BulletStorm.Emission
     /// In shoot'em up games, enemy's bullets usually arranged as some beautiful patterns.
     /// This class provides some basic patterns like ring, line, sphere... and provides functions to transform
     /// them. You can use operator '+' to combine two
-    /// <see cref="Shape" />s.
+    /// <see cref="Shape" />
+    /// s.
     [Serializable]
     public class Shape : IReadOnlyList<BulletEmitParam>
     {

@@ -8,20 +8,26 @@ namespace CANStudio.BulletStorm.Util
         private T[] _items;
 
         public ref T this[int i] => ref _items[i];
-        
+
         public int Count { get; private set; }
 
         public void Add(T item)
         {
             if (Count == _items.Length)
-                EnsureCapacity(Count+ 1);
+                EnsureCapacity(Count + 1);
             _items[Count++] = item;
         }
-        
-        public void AddRange(IEnumerable<T> collection) => InsertRange(Count, collection);
 
-        public void Clear() => Count = 0;
-        
+        public void AddRange(IEnumerable<T> collection)
+        {
+            InsertRange(Count, collection);
+        }
+
+        public void Clear()
+        {
+            Count = 0;
+        }
+
         public void Insert(int index, T item)
         {
             if ((uint) index > (uint) Count)
@@ -33,7 +39,7 @@ namespace CANStudio.BulletStorm.Util
             _items[index] = item;
             ++Count;
         }
-        
+
         public void InsertRange(int index, IEnumerable<T> collection)
         {
             if (collection == null)
@@ -58,7 +64,7 @@ namespace CANStudio.BulletStorm.Util
                     Insert(index++, obj);
             }
         }
-        
+
         private void EnsureCapacity(int min)
         {
             if (_items.Length >= min)

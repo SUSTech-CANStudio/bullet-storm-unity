@@ -14,13 +14,31 @@ namespace CANStudio.BulletStorm.Util
 
         private static Logger Logger => Instance.Value;
 
-        public static void Log(object message, Object context) => Log(LogType.Log, message, context);
+        public static bool LogEnabled
+        {
+            get => Logger.logEnabled;
+            set => Logger.logEnabled = value;
+        }
 
-        public static void LogWarning(object message) => Log(LogType.Warning, message);
+        public static void Log(object message, Object context)
+        {
+            Log(LogType.Log, message, context);
+        }
 
-        public static void LogWarning(object message, Object context) => Log(LogType.Warning, message, context);
+        public static void LogWarning(object message)
+        {
+            Log(LogType.Warning, message);
+        }
 
-        public static void LogError(object message, Object context) => Log(LogType.Error, message, context);
+        public static void LogWarning(object message, Object context)
+        {
+            Log(LogType.Warning, message, context);
+        }
+
+        public static void LogError(object message, Object context)
+        {
+            Log(LogType.Error, message, context);
+        }
 
         public static void LogOnce(object message, Object context)
         {
@@ -42,7 +60,7 @@ namespace CANStudio.BulletStorm.Util
             if (Logged.Add(message)) Log(LogType.Error, message, context);
 #endif
         }
-        
+
         private static bool IsLogTypeAllowed(LogType logType)
         {
             return Logger.IsLogTypeAllowed(logType);
@@ -81,12 +99,6 @@ namespace CANStudio.BulletStorm.Util
         public static void LogException(Exception exception, Object context)
         {
             Logger.LogException(exception, context);
-        }
-
-        public static bool LogEnabled
-        {
-            get => Logger.logEnabled;
-            set => Logger.logEnabled = value;
         }
 
         private class Handler : ILogHandler

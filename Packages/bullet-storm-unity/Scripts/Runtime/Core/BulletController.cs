@@ -19,13 +19,14 @@ namespace CANStudio.BulletStorm.Core
         /// <summary>
         ///     Permanent actions.
         /// </summary>
-        private readonly IBulletAction[] _modules;
+        private readonly List<IBulletAction> _modules;
 
         public BulletController(IBulletSystemImplementation bulletSystem, BulletStormContext context,
-            IBulletAction[] modules)
+            List<IBulletAction> modules)
         {
             _bulletSystem = bulletSystem;
             _context = context;
+            foreach (var action in modules) action.SetContext(context);
             _modules = modules;
             _actions = new LinkedList<TimedAction>();
             context.simulate += Simulate;
@@ -37,20 +38,27 @@ namespace CANStudio.BulletStorm.Core
             _context.simulate -= Simulate;
         }
 
+        public void ApplyAction(IBulletAction action)
+        {
+            action.SetContext(_context);
+            _modules.Add(action);
+        }
+
         /// <summary>
-        ///     Applies an action to this controller time limitation.
+        ///     Applies an action to this controller with time limitation.
         /// </summary>
         /// <param name="action"></param>
         /// <param name="duration"></param>
         public void ApplyAction(IBulletAction action, float duration)
         {
+            action.SetContext(_context);
             _actions.AddLast(new TimedAction {action = action, time = duration});
         }
 
         private void Simulate(float deltaTime)
         {
-            if (_modules.Length == 0 && _actions.Count == 0) return;
-            
+            if (_modules.Count == 0 && _actions.Count == 0) return;
+
             Parallel.For(0, _bulletSystem.BulletCount, i =>
             {
                 foreach (var module in _modules) module.UpdateBullet(ref _bulletSystem.Bullet(i), deltaTime);
