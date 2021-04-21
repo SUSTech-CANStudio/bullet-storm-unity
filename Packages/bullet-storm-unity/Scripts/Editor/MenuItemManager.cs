@@ -1,6 +1,4 @@
 ﻿using System.IO;
-using CANStudio.BulletStorm.BulletSystem;
-using CANStudio.BulletStorm.Emitters;
 using CANStudio.BulletStorm.Util;
 using UnityEditor;
 using UnityEngine;
@@ -9,30 +7,6 @@ namespace CANStudio.BulletStorm.Editor
 {
     internal static class MenuItemManager
     {
-        [MenuItem("Assets/Create/BulletStorm/ParticleBulletSystem")]
-        public static void CreateParticleBulletSystemPrefab()
-        {
-            CreatePrefab<ParticleBulletSystem>("NewBullet", GetCurrentAssetDirectory("Assets/Prefabs/BulletStorm"));
-        }
-
-        [MenuItem("Assets/Create/BulletStorm/GameObjectBulletSystem")]
-        public static void CreateGameObjectBulletSystemPrefab()
-        {
-            CreatePrefab<GameObjectBulletSystem>("NewBullet", GetCurrentAssetDirectory("Assets/Prefabs/BulletStorm"));
-        }
-
-        [MenuItem("GameObject/3D Object/BulletStorm/AutoBulletEmitter")]
-        public static void CreateAutoBulletEmitter()
-        {
-            CreateGameObject<AutoBulletEmitter>();
-        }
-
-        [MenuItem("GameObject/3D Object/BulletStorm/AutoShapeEmitter")]
-        public static void CreateAutoShapeEmitter()
-        {
-            CreateGameObject<AutoShapeEmitter>();
-        }
-
         /// <summary>
         ///     Create a game object in scene.
         /// </summary>

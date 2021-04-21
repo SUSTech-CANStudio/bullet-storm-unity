@@ -17,14 +17,16 @@ namespace CANStudio.BulletStorm.XNodes.ShapeNodes
             var port = GetInputPort(nameof(shape));
             if (!port.IsConnected)
             {
-                BulletStormLogger.LogWarning("The output node has no input value, check if you forget to connect it.");
+                BulletStormLogger.LogWarning("The output node has no input value, check if you forget to connect it.",
+                    this);
                 return;
             }
 
             if (!(port.Connection.node is ShapeNode lastNode) || !lastNode)
             {
                 BulletStormLogger.LogError(
-                    $"Unknown output type {port.Connection.node.GetType().FullName}, expected {typeof(ShapeNode).FullName}");
+                    $"Unknown output type {port.Connection.node.GetType().FullName}, expected {typeof(ShapeNode).FullName}",
+                    this);
                 return;
             }
 
@@ -32,7 +34,8 @@ namespace CANStudio.BulletStorm.XNodes.ShapeNodes
             if (!(graph is ShapeGraph shapeGraph) || !shapeGraph)
             {
                 BulletStormLogger.LogError(
-                    $"Unknown graph type {graph.GetType().FullName}, this node is output node for {typeof(ShapeAsset).FullName}");
+                    $"Unknown graph type {graph.GetType().FullName}, this node is output node for {typeof(ShapeAsset).FullName}",
+                    this);
                 return;
             }
 

@@ -46,7 +46,7 @@ namespace CANStudio.BulletStorm.XNodes
             var port = shapeNode.GetInputPort(inputPortName);
             if (port is null)
             {
-                BulletStormLogger.LogError($"Node {shapeNode}: port 'inputShape' not found.");
+                BulletStormLogger.LogError($"Node {shapeNode}: port 'inputShape' not found.", shapeNode);
                 return default;
             }
 
@@ -54,7 +54,7 @@ namespace CANStudio.BulletStorm.XNodes
 
             if (port.Connection.node is ShapeNode last) return last;
 
-            BulletStormLogger.LogError($"Node {shapeNode}: unknown input {port.node}.");
+            BulletStormLogger.LogError($"Node {shapeNode}: unknown input {port.node}.", shapeNode);
             return default;
         }
 

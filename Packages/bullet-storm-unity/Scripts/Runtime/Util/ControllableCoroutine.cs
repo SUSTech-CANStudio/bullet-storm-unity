@@ -20,9 +20,9 @@ namespace CANStudio.BulletStorm.Util
                 return daemon;
             });
 
-        private readonly IEnumerator enumerator;
-        private readonly MonoBehaviour monoBehaviour;
-        private Coroutine coroutine;
+        private readonly IEnumerator _enumerator;
+        private readonly MonoBehaviour _monoBehaviour;
+        private Coroutine _coroutine;
 
         /// <summary>
         ///     Create a coroutine.
@@ -33,8 +33,8 @@ namespace CANStudio.BulletStorm.Util
         public ControllableCoroutine(IEnumerator coroutine, Action callback = null)
         {
             Status = CoroutineStatus.NotStarted;
-            enumerator = coroutine;
-            Finish = callback;
+            _enumerator = coroutine;
+            finish = callback;
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace CANStudio.BulletStorm.Util
         public ControllableCoroutine(MonoBehaviour monoBehaviour, IEnumerator coroutine, Action callback = null) : this(
             coroutine, callback)
         {
-            this.monoBehaviour = monoBehaviour;
+            this._monoBehaviour = monoBehaviour;
         }
 
         /// <summary>
@@ -58,9 +58,9 @@ namespace CANStudio.BulletStorm.Util
         ///     Returns the <see cref="MonoBehaviour" /> on which coroutine runs.
         /// </summary>
         [NotNull]
-        private MonoBehaviour Root => monoBehaviour ? monoBehaviour : Daemon.Value;
+        private MonoBehaviour Root => _monoBehaviour ? _monoBehaviour : Daemon.Value;
 
-        private event Action Finish;
+        private event Action finish;
 
         /// <summary>
         ///     Starts or unpause the coroutine.
@@ -72,13 +72,10 @@ namespace CANStudio.BulletStorm.Util
             {
                 case CoroutineStatus.NotStarted:
                     if (!Application.isPlaying)
-                    {
-                        BulletStormLogger.LogError("Can't start coroutine in editor.");
-                        return;
-                    }
+                        throw new InvalidOperationException("Can't start coroutine in editor.");
 
                     Status = CoroutineStatus.Running;
-                    coroutine = Root.StartCoroutine(Wrapper());
+                    _coroutine = Root.StartCoroutine(Wrapper());
                     break;
                 case CoroutineStatus.Paused:
                     Status = CoroutineStatus.Running;
@@ -87,8 +84,8 @@ namespace CANStudio.BulletStorm.Util
                     BulletStormLogger.Log("Coroutine already started.");
                     break;
                 case CoroutineStatus.Finished:
-                    BulletStormLogger.LogError("Coroutine is finished. Call 'Restart' if you want to start it again.");
-                    break;
+                    throw new InvalidOperationException(
+                        "Coroutine is finished. Call 'Restart' if you want to start it again.");
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -146,7 +143,7 @@ namespace CANStudio.BulletStorm.Util
             {
                 case CoroutineStatus.Running:
                 case CoroutineStatus.Paused:
-                    Root.StopCoroutine(coroutine);
+                    Root.StopCoroutine(_coroutine);
                     Status = CoroutineStatus.Finished;
                     if (callback) OnFinish();
                     break;
@@ -166,7 +163,7 @@ namespace CANStudio.BulletStorm.Util
             while (true)
                 if (Status == CoroutineStatus.Running)
                 {
-                    if (!(enumerator is null) && enumerator.MoveNext()) yield return enumerator.Current;
+                    if (!(_enumerator is null) && _enumerator.MoveNext()) yield return _enumerator.Current;
                     else break;
                 }
                 else if (Status == CoroutineStatus.Paused)
@@ -184,7 +181,7 @@ namespace CANStudio.BulletStorm.Util
 
         private void OnFinish()
         {
-            Finish?.Invoke();
+            finish?.Invoke();
         }
     }
 

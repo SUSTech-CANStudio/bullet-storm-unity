@@ -23,7 +23,7 @@ namespace CANStudio.BulletStorm.Editor.XNodeEditors
             quaternion = target as Quaternion;
             if (quaternion is null || !quaternion)
             {
-                BulletStormLogger.LogError("Failed to initiate editor.");
+                BulletStormLogger.LogError("Failed to initiate editor.", target);
                 return;
             }
 

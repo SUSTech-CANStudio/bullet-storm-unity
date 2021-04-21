@@ -6,9 +6,8 @@ namespace CANStudio.BulletStorm.Core
     {
         internal event Action<float> simulate;
 
-        public void Simulate(float deltaTime)
-        {
-            simulate?.Invoke(deltaTime);
-        }
+        public VariableTable Variables { get; } = new VariableTable();
+
+        public void Simulate(float deltaTime) => simulate?.Invoke(deltaTime);
     }
 }

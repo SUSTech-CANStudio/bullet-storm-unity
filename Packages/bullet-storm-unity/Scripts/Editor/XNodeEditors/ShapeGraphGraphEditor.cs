@@ -69,7 +69,7 @@ namespace CANStudio.BulletStorm.Editor.XNodeEditors
                         add = true;
                         if (node is ShapeReference shapeReference)
                             shapeReference.shapeAsset = asset;
-                        else BulletStormLogger.LogError("An unexpected errored occured when creating node.");
+                        else BulletStormLogger.LogError("An unexpected errored occured when creating node.", node);
                         break;
                     }
                     default:

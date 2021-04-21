@@ -11,7 +11,7 @@ namespace CANStudio.BulletStorm.BulletSystem
 	/// </summary>
     [AddComponentMenu("")]
     [DisallowMultipleComponent]
-    public class ParticleBulletSystem : MonoBehaviour, IBulletSystemImplementation
+    internal class ParticleBulletSystem : MonoBehaviour, IBulletSystemImplementation
     {
         private bool _overrideColor, _overrideSize;
         
@@ -29,13 +29,15 @@ namespace CANStudio.BulletStorm.BulletSystem
         /// <summary>
         ///     Creates a particle bullet system with parameters.
         /// </summary>
+        /// <param name="prototype"></param>
         /// <param name="overrideColor">If true, use color in `Shape` instead of default color in particle system.</param>
         /// <param name="overrideSize">If true, use size in `Shape` instead of default size in particle system.</param>
         /// <returns></returns>
-        public static ParticleBulletSystem Create(bool overrideColor, bool overrideSize)
+        public static ParticleBulletSystem Create(ParticleSystem prototype, bool overrideColor, bool overrideSize)
         {
-            var self = new GameObject(null, typeof(ParticleSystem)) {hideFlags = HideFlags.HideAndDontSave}
-                .AddComponent<ParticleBulletSystem>();
+            var go = Instantiate(prototype.gameObject);
+            go.hideFlags = HideFlags.HideAndDontSave;
+            var self = go.AddComponent<ParticleBulletSystem>();
             self._overrideColor = overrideColor;
             self._overrideSize = overrideSize;
             return self;

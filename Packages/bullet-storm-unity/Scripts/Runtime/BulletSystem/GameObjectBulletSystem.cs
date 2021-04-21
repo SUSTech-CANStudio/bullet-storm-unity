@@ -21,7 +21,7 @@ namespace CANStudio.BulletStorm.BulletSystem
     ///     between two particles. A game object can be useful to deal with this situation.
     /// </summary>
     [AddComponentMenu("")]
-    public class GameObjectBulletSystem : MonoBehaviour, IBulletSystemImplementation
+    internal class GameObjectBulletSystem : MonoBehaviour, IBulletSystemImplementation
     {
         private GameObject _bulletPrototype;
         private float _startLifetime;
